@@ -32,11 +32,11 @@ ${tg('art','El artículo cuenta','Hay que escribir el artículo: «la farmacia»
 /* ---------- views ---------- */
 function curAct(v){const bs=v.blocks||[];return bs.includes(ACT[v.id])?ACT[v.id]:bs[0]}
 function renderView(id){const v=VIEWDEF().find(x=>x.id==id)||VIEWDEF()[0];const box=$('#v-'+v.id);
- if(v.id=='inicio'){box.innerHTML=home();DIRTY.delete(v.id);return}
- if(v.id=='unidades'){box.innerHTML=`<h2 class="ptitle">📚 Unidades</h2>${unitGrid()}`;DIRTY.delete(v.id);return}
- if(v.id=='practicar'){box.innerHTML=`<h2 class="ptitle">🎯 Practicar</h2>${practiceGrid()}`;DIRTY.delete(v.id);return}
+ if(v.id=='inicio'){box.innerHTML=`<div class="phead end">${enBtn()}</div>`+home();DIRTY.delete(v.id);return}
+ if(v.id=='unidades'){box.innerHTML=`<div class="phead"><h2 class="ptitle">📚 Unidades</h2>${enBtn()}</div>${unitGrid()}`;DIRTY.delete(v.id);return}
+ if(v.id=='practicar'){box.innerHTML=`<div class="phead"><h2 class="ptitle">🎯 Practicar</h2>${enBtn()}</div>${practiceGrid()}`;DIRTY.delete(v.id);return}
  const a=curAct(v);const multi=(v.blocks||[]).length>1;const n=v.u?ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl).length:0;
- box.innerHTML=(multi||v.u?`<header class="vhead"><span class="vi" aria-hidden="true">${v.ic}</span><div><h2>${v.t}</h2><p>${showEn()?`<span class="en">${v.en}</span> · `:''}${v.u?`${LV[S.lvl]} · ${n} palabras${v.desc?' · '+v.desc:''}`:(v.desc||'')}</p></div></header>`:'')+`
+ box.innerHTML=(multi||v.u?`<header class="vhead"><span class="vi" aria-hidden="true">${v.ic}</span><div><h2>${v.t}</h2><p><span class="en">${v.en} · </span>${v.u?`${LV[S.lvl]} · ${n} palabras${v.desc?' · '+v.desc:''}`:(v.desc||'')}</p></div></header>`:'')+`
  ${multi?`<div class="acts" role="tablist">${v.blocks.map(b=>`<button role="tab" data-act="${b}" data-v="${v.id}" aria-selected="${a==b}"><span>${TABIC[b]||''}</span>${BL[b].label||b}</button>`).join('')}</div>`:''}
  <div class="actbox">${blockHTML(a)}</div>`;
  post(a);DIRTY.delete(v.id)}
@@ -49,12 +49,14 @@ function go(id,push=true){if(!VIEWDEF().some(v=>v.id==id))id='inicio';CUR=id;$$(
 function dueBadges(){const n=dueList().length;$$('[data-due]').forEach(b=>{b.textContent=n||'';b.hidden=!n})}
 function rerenderAll(){VIEWDEF().forEach(v=>DIRTY.add(v.id));renderView(CUR);$('#side').innerHTML=sideHTML();$('#mtop').innerHTML=mtopHTML();go(CUR,false)}
 function applyS(){document.body.dataset.pal=S.pal;document.documentElement.style.setProperty('--fs',S.fs);document.body.classList.toggle('noen',!showEn());
- $$('[data-set]').forEach(b=>b.setAttribute('aria-pressed',String(S[b.dataset.set])==b.dataset.v));$$('[data-tog]').forEach(b=>b.setAttribute('aria-pressed',!!S[b.dataset.tog]))}
+ $$('[data-set]').forEach(b=>b.setAttribute('aria-pressed',String(S[b.dataset.set])==b.dataset.v));$$('[data-tog]').forEach(b=>b.setAttribute('aria-pressed',!!S[b.dataset.tog]));
+ const on=showEn();$$('[data-entog]').forEach(b=>{b.setAttribute('aria-pressed',on);const l=$('.enl',b);if(l)l.textContent=on?'Inglés: sí':'Inglés: no'});
+ $$('input[data-en]').forEach(i=>{i.placeholder=i.dataset.ph0+(on?' · '+i.dataset.en:'')})}
 /* ---------- home and hubs ---------- */
 const unitPct=v=>{const ws=ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl);return ws.length?Math.round(ws.filter(mastered).length/ws.length*100):0};
-function unitGrid(){return `<div class="ugrid">${VIEWS.map(v=>{const p=unitPct(v);return `<button class="ucard" data-view="${v.id}"><span class="ui" aria-hidden="true">${v.ic}</span><b>${v.t}</b><small>${showEn()?v.en+' · ':''}${v.desc||''}</small><span class="pbar sm"><span class="pm" style="width:${p}%"></span></span><small>${p}% dominado ${tEn('mastered')}</small></button>`}).join('')}</div>`}
+function unitGrid(){return `<div class="ugrid">${VIEWS.map(v=>{const p=unitPct(v);return `<button class="ucard" data-view="${v.id}"><span class="ui" aria-hidden="true">${v.ic}</span><b>${v.t}</b><small><span class="en">${v.en} · </span>${v.desc||''}</small><span class="pbar sm"><span class="pm" style="width:${p}%"></span></span><small>${p}% dominado ${tEn('mastered')}</small></button>`}).join('')}</div>`}
 function practiceGrid(){const it=[['rev-today','🔁','Repaso de hoy',"Today's review"],['rev-new','✨','Palabras nuevas','New words'],['rev-listen','🎧','¿Qué oyes?','Listening'],['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
- return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b>${showEn()?`<small>${e}</small>`:''}</button>`).join('')}</div>`}
+ return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b><small class="en">${e}</small></button>`).join('')}</div>`}
 function home(){const nm=S.name?`, ${esc(S.name)}`:'';const due=dueList().length,st=streak();
 return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p class="hsub">${st?`🔥 ${st} ${st==1?'día':'días'} seguidos · `:''}⭐ <span class="starsn">${+store.get('stars')||0}</span> estrellas · Nivel ${LV[S.lvl]}</p>
 <div class="ctas"><button class="cta pri" data-sess><span>⏱️</span><b>Mi sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas y escuchar</small></button><button class="cta" data-act-go="rev-today"><span>🔁</span><b>Repaso de hoy</b><small>${due?`${due} palabras te esperan`:'¡Todo repasado!'}</small></button></div></div>
@@ -66,12 +68,13 @@ function boot(){
 document.body.insertAdjacentHTML('afterbegin',`<div class="app"><aside class="side" id="side">${sideHTML()}</aside><div class="mainw"><header class="mtop" id="mtop">${mtopHTML()}</header><main id="main">${VIEWDEF().map(v=>`<div class="view" id="v-${v.id}" hidden></div>`).join('')}</main></div></div><nav class="bnav" id="bnav" aria-label="Menú">${bnavHTML()}</nav><div id="sessbar" class="sessbar" hidden></div><div class="modal" id="cfg" hidden></div>`);
 applyS();
 const openCfg=()=>{const m=$('#cfg');m.innerHTML=cfgHTML();m.hidden=false;applyS();const b=m.querySelector('[data-cfgclose]');if(b)b.focus()};
-document.addEventListener('click',e=>{const t=e.target.closest('[data-set],[data-tog],[data-view],[data-cfg],[data-cfgclose],[data-act],[data-act-go],#cfg');if(!t)return;
+document.addEventListener('click',e=>{const t=e.target.closest('[data-entog],[data-set],[data-tog],[data-view],[data-cfg],[data-cfgclose],[data-act],[data-act-go],#cfg');if(!t)return;
  if(t.id=='cfg'){if(e.target.id=='cfg')$('#cfg').hidden=true;else return}
  if(t.dataset.cfg!=null){openCfg();return}if(t.dataset.cfgclose!=null){$('#cfg').hidden=true;return}
  if(t.dataset.actGo){const b=t.dataset.actGo,v=viewOfBlock(b);ACT[v]=b;saveAct();DIRTY.add(v);go(v);window.scrollTo({top:0});return}
  if(t.dataset.act&&t.dataset.v){switchAct(t.dataset.v,t.dataset.act);return}
  if(t.dataset.view){go(t.dataset.view);window.scrollTo({top:0});return}
+ if(t.dataset.entog!=null){S.enMode=showEn()?'off':'on';saveS();applyS();if($('#cfg')&&!$('#cfg').hidden){$('#cfg').innerHTML=cfgHTML();applyS()}return}
  if(t.dataset.set){const k=t.dataset.set;let v=t.dataset.v;if(k=='lvl'||k=='fs')v=+v;S[k]=v;saveS();applyS();if(['lvl','dev','av','enMode'].includes(k)){FC.deck=[];rerenderAll()}if(!$('#cfg').hidden&&k=='lvl'){$('#cfg').innerHTML=cfgHTML();applyS()}return}
  if(t.dataset.tog){const k=t.dataset.tog;S[k]=!S[k];saveS();applyS();if(k=='bank')Object.keys(RUN).forEach(id=>{if($('#b-'+id))bank(id)});if(k=='art')rerenderAll();return}});
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&!$('#cfg').hidden)$('#cfg').hidden=true});

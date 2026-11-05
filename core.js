@@ -60,16 +60,17 @@ function miss(a,unit){const c=entry(a,unit);if(c)srsUpd(c,false)}
 const addM=c=>srsUpd(c,false),delM=c=>{setM(jget('miss',[]).filter(k=>k!=key(c)));srsUpd(c,true)};
 
 /* ---------- inputs ---------- */
-function inp(a,o={}){return `<input type="text" class="ans${o.cls?' '+o.cls:''}" autocomplete="off" autocapitalize="off" spellcheck="false" data-a="${esc(a)}"${o.pin!=null?` data-pin="${o.pin}"`:''}${o.ph!=null?` placeholder="${esc(o.ph)}"`:''}${o.style?` style="${o.style}"`:''}${o.noinst?' data-noinst="1"':''} aria-label="${esc(o.label||'Respuesta (answer)')}">`}
+function inp(a,o={}){return `<input type="text" class="ans${o.cls?' '+o.cls:''}" autocomplete="off" autocapitalize="off" spellcheck="false" data-a="${esc(a)}"${o.pin!=null?` data-pin="${o.pin}"`:''}${o.phen?` data-ph0="${esc(o.ph0)}" data-en="${esc(o.phen)}"`:''}${o.ph!=null?` placeholder="${esc(o.ph)}"`:''}${o.style?` style="${o.style}"`:''}${o.noinst?' data-noinst="1"':''} aria-label="${esc(o.label||'Respuesta (answer)')}">`}
 function ginp(w,g,o={}){return `<input type="text" class="ans" autocomplete="off" autocapitalize="off" spellcheck="false" data-w="${esc(w)}" data-g="${g}"${o.ph?` placeholder="${esc(o.ph)}"`:''} aria-label="Palabra (word)">`}
-const tEn=t=>showEn()&&t?`<span class="en">(${esc(t)})</span>`:'';
+const tEn=t=>t?`<span class="en">(${esc(t)})</span>`:'';
+const enBtn=()=>`<button class="btn ghost entog" data-entog="1" aria-pressed="${showEn()}" title="Ayuda en inglés (English help)"><span class="eni">🇬🇧</span> <span class="enl">${showEn()?'Inglés: sí':'Inglés: no'}</span></button>`;
 
 /* ---------- blocks ---------- */
 const BL={},RUN={},LAST={};
 function blockHTML(id){const b=BL[id];let o;try{o=b.render()}catch(e){console.error(id,e);o={t:'Error',en:'',body:`<p class="sub">${esc(e.message)}</p>`,noCheck:1}}
 RUN[id]={aw:0,shown:false,o,unit:b.unit};
-return `<section class="blk${o.wide?' wide':''}" id="b-${id}" data-b="${id}"><header class="bh"><div class="bt"><span class="bi" aria-hidden="true">${o.icon||'✏️'}</span><div class="btt"><h3>${o.t}</h3>${showEn()?`<p class="ten">${esc(o.en)}</p>`:''}</div></div>
-<div class="bact"><span class="pill" id="sc-${id}" hidden></span>${o.noCheck?'':`<button class="btn pri" data-do="check" data-b="${id}">✓ Comprobar<small>Check</small></button><button class="btn ghost" data-do="show" data-b="${id}">Ver respuestas<small>Show answers</small></button>`}${o.noNew?'':`<button class="btn ghost" data-do="new" data-b="${id}" title="Nuevo (new)">↻ Nuevo<small>New</small></button>`}</div></header>
+return `<section class="blk${o.wide?' wide':''}" id="b-${id}" data-b="${id}"><header class="bh"><div class="bt"><span class="bi" aria-hidden="true">${o.icon||'✏️'}</span><div class="btt"><h3>${o.t}</h3><p class="ten">${esc(o.en)}</p></div></div>
+<div class="bact">${enBtn()}<span class="pill" id="sc-${id}" hidden></span>${o.noCheck?'':`<button class="btn pri" data-do="check" data-b="${id}">✓ Comprobar<small>Check</small></button><button class="btn ghost" data-do="show" data-b="${id}">Ver respuestas<small>Show answers</small></button>`}${o.noNew?'':`<button class="btn ghost" data-do="new" data-b="${id}" title="Nuevo (new)">↻ Nuevo<small>New</small></button>`}</div></header>
 ${o.tools?`<div class="tools">${o.tools}</div>`:''}${o.sub?`<p class="sub">${o.sub}${o.subEn?` ${tEn(o.subEn)}`:''}</p>`:''}<div class="bank" id="bk-${id}" hidden></div><div class="bb">${o.body}</div><p class="fb" id="fb-${id}" aria-live="polite"></p><p class="best" id="bs-${id}"></p></section>`}
 function mount(id){const el=$('#b-'+id);if(!el)return;el.outerHTML=blockHTML(id);post(id)}
 function post(id){bank(id);stats(id);const el=$('#b-'+id);if(el)requestAnimationFrame(()=>$$('.pan',el).forEach(p=>{if(p.id!='cmpan'){p.scrollLeft=(p.scrollWidth-p.clientWidth)/2;p.scrollTop=(p.scrollHeight-p.clientHeight)*.4}}));try{BL[id].after&&BL[id].after(el)}catch(e){console.error(id,e)}}
@@ -162,10 +163,10 @@ function dgm(o){const id=o.id,W=o.W,H=o.H,ph=isPhone()||o.list,r=isPhone()?Math.
 let lead='',ov='';
 if(!ph){const bw=o.bw||W*.135,bh=o.bh||Math.max(bw*.26,H*.032);const bx=placeLabels(o.marks,W,H,bw,bh,r);
  lead=bx.map((b,i)=>{const m=o.marks[i];if(m.nolead)return '';return `<line class="lead" x1="${m.x}" y1="${m.y}" x2="${b.cx}" y2="${b.cy}" stroke-width="${r/6}"/>`}).join('');
- ov=`<div class="ov">${o.marks.map((m,i)=>inp(m.a,{pin:i,ph:(i+1)+(en&&m.en?' · '+m.en:''),label:`${i+1}`,style:`left:${(bx[i].cx/W*100).toFixed(2)}%;top:${(bx[i].cy/H*100).toFixed(2)}%;width:${(bw/W*100).toFixed(2)}%;height:${(bh/H*100).toFixed(2)}%`})).join('')}</div>`}
+ ov=`<div class="ov">${o.marks.map((m,i)=>inp(m.a,{pin:i,ph:(i+1)+(en&&m.en?' · '+m.en:''),ph0:String(i+1),phen:m.en||'',label:`${i+1}`,style:`left:${(bx[i].cx/W*100).toFixed(2)}%;top:${(bx[i].cy/H*100).toFixed(2)}%;width:${(bw/W*100).toFixed(2)}%;height:${(bh/H*100).toFixed(2)}%`})).join('')}</div>`}
 const pins=o.marks.map((m,i)=>`<g class="pin" id="pin-${id}-${i}"><circle cx="${m.x}" cy="${m.y}" r="${r}"/><text x="${m.x}" y="${m.y+r*.38}" font-size="${r*1.08}" text-anchor="middle">${i+1}</text></g>`).join('');
 const svg=`<svg viewBox="0 0 ${W} ${H}" class="dgs" role="img" aria-label="${esc(o.label||'Diagrama')}">${o.art}<g class="leads">${lead}</g>${pins}${o.extra||''}</svg>`;
-const list=ph?`<div class="dl${o.marks.some(m=>m.more)?' wide3':''}">${o.marks.map((m,i)=>`<label class="dli"><b class="num">${i+1}</b><span class="dlf">${m.lab?`<b class="dlab">${esc(m.lab)}</b>`:''}<span class="dlrow">${inp(m.a,{pin:i,label:`${i+1}`,ph:m.more?'prenda (item)':null})}${(m.more||[]).map(([a,ph])=>inp(a,{ph,label:ph})).join('')}</span>${m.en&&en?`<small class="en">${esc(m.en)}</small>`:''}</span></label>`).join('')}</div>`:'';
+const list=ph?`<div class="dl${o.marks.some(m=>m.more)?' wide3':''}">${o.marks.map((m,i)=>`<label class="dli"><b class="num">${i+1}</b><span class="dlf">${m.lab?`<b class="dlab">${esc(m.lab)}</b>`:''}<span class="dlrow">${inp(m.a,{pin:i,label:`${i+1}`,ph:m.more?'prenda (item)':null})}${(m.more||[]).map(([a,ph])=>inp(a,{ph,label:ph})).join('')}</span>${m.en?`<small class="en">${esc(m.en)}</small>`:''}</span></label>`).join('')}</div>`:'';
 const phw=isPhone()&&W>700&&!o.pan?(W>1150?220:170):0;
 const inner=`<div class="dgw${ph?' ph':''}" style="aspect-ratio:${W}/${H}${o.pan?`;width:${o.pan}px`:phw?`;width:${phw}%`:''}">${svg}${ov}</div>`;
 let desc='';if(o.desc&&o.marks.length>=3){const ws=o.marks.map(m=>m.a);const ex=shuf(o.marks).slice(0,3).map(m=>indefOf(artForm(m.a,RUN[id]&&RUN[id].unit||null)));const model=`${o.desc} ${ex.slice(0,2).join(', ')} y ${ex[2]}.`;

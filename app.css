@@ -18,7 +18,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 h1,h2,h3,h4{font-family:var(--f-disp);line-height:1.15;text-wrap:balance;margin:0}
 button{font:inherit;color:inherit}
 .en,.enx{color:var(--mut);font-weight:600;font-size:.86em}
-body.noen .en{display:none}
+body.noen .en,body.noen .ten{display:none}
+.entog{padding:6px 10px;font-weight:800}.entog .eni{font-size:1.05rem}.entog[aria-pressed="true"]{background:var(--surface2);border-color:var(--pri);color:var(--pri)}.entog[aria-pressed="false"]{opacity:.8}
 body.noen .btn small,body.noen .seg button small,body.noen .cta small{display:none}
 /* ---------- app frame ---------- */
 .app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
@@ -257,3 +258,5 @@ body.insess main{padding-bottom:140px}
 #toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top,0px));transform:translate(-50%,-160%);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:16px;font-weight:800;z-index:80;transition:transform .25s;max-width:min(92vw,520px);text-align:center}
 #toast.on{transform:translate(-50%,0)}
 @media (max-width:720px){.vhead .vi{width:52px;height:52px;font-size:2rem}.vhead h2{font-size:1.55rem}.blk{padding:14px 12px;border-radius:20px}.bt h3{font-size:1.2rem}.bi{width:40px;height:40px;font-size:1.4rem}.lr{grid-template-columns:1fr auto}.lr .en{grid-column:1;text-align:left}.qs{grid-template-columns:1fr}}
+
+.phead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 2px 8px}.phead .ptitle{margin:4px 2px 6px}.phead.end{justify-content:flex-end}

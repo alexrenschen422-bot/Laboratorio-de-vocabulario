@@ -55,7 +55,7 @@ return{W,H,art,marks,people}}
 BL['rop-scene']={unit:'Ropa',label:'¿Qué llevan?',render(){const L=S.lvl;const sel=this.occ||'rand';const occ=sel=='rand'?pick(OCC):OCC.find(o=>o.k==sel);
 const sc=outfitScene(occ,occ.k=='boda'||Math.random()<.45?2:1);
 const all=sc.marks;const n=Math.min(all.length,L==1?8:10);const chosen=shuf(pool(all,m=>gl(m.k),n)).slice(0,n);
-const col=S.color;const marks=chosen.map(m=>({x:m.x,y:m.y,a:m.a,prefs:m.prefs,en:showEn()?gEn(m.k):'',more:col?[[colAns(m.c),'color'],...(G[m.k].pat?[[patAns(m.p),'estampado (pattern)']]:[])]:null}));
+const col=S.color;const marks=chosen.map(m=>({x:m.x,y:m.y,a:m.a,prefs:m.prefs,en:gEn(m.k),more:col?[[colAns(m.c),'color'],...(G[m.k].pat?[[patAns(m.p),'estampado (pattern)']]:[])]:null}));
 return {t:'¿Qué llevan?',en:'What are they wearing?',icon:'👗',wide:1,
 tools:`<label>Ocasión <span class="en">(occasion)</span> <select data-occ>${[['rand','🎲 Aleatoria (random)'],...OCC.map(o=>[o.k,o.t])].map(([k,t])=>`<option value="${k}" ${k==sel?'selected':''}>${esc(t)}</option>`).join('')}</select></label><button class="tog" data-ropcol aria-pressed="${col}"><span class="sw"></span><span>Colores y estampados<small>Also write color + pattern</small></span></button>`,
 sub:`<b>${esc(occ.t)}</b>. Escribe el nombre de cada prenda${col?', su color y su estampado':''}.`,subEn:`${occ.en}. Write the name of each item${col?', its color and its pattern':''}.`,

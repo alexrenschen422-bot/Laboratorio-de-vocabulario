@@ -25,7 +25,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 h1,h2,h3,h4{font-family:var(--f-disp);line-height:1.15;text-wrap:balance;margin:0}
 button{font:inherit;color:inherit}
 .en,.enx{color:var(--mut);font-weight:600;font-size:.86em}
-body.noen .en{display:none}
+body.noen .en,body.noen .ten{display:none}
+.entog{padding:6px 10px;font-weight:800}.entog .eni{font-size:1.05rem}.entog[aria-pressed="true"]{background:var(--surface2);border-color:var(--pri);color:var(--pri)}.entog[aria-pressed="false"]{opacity:.8}
 body.noen .btn small,body.noen .seg button small,body.noen .cta small{display:none}
 /* ---------- app frame ---------- */
 .app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
@@ -264,6 +265,8 @@ body.insess main{padding-bottom:140px}
 #toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top,0px));transform:translate(-50%,-160%);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:16px;font-weight:800;z-index:80;transition:transform .25s;max-width:min(92vw,520px);text-align:center}
 #toast.on{transform:translate(-50%,0)}
 @media (max-width:720px){.vhead .vi{width:52px;height:52px;font-size:2rem}.vhead h2{font-size:1.55rem}.blk{padding:14px 12px;border-radius:20px}.bt h3{font-size:1.2rem}.bi{width:40px;height:40px;font-size:1.4rem}.lr{grid-template-columns:1fr auto}.lr .en{grid-column:1;text-align:left}.qs{grid-template-columns:1fr}}
+
+.phead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 2px 8px}.phead .ptitle{margin:4px 2px 6px}.phead.end{justify-content:flex-end}
 
 </style>
 </head><body>
@@ -672,16 +675,17 @@ function miss(a,unit){const c=entry(a,unit);if(c)srsUpd(c,false)}
 const addM=c=>srsUpd(c,false),delM=c=>{setM(jget('miss',[]).filter(k=>k!=key(c)));srsUpd(c,true)};
 
 /* ---------- inputs ---------- */
-function inp(a,o={}){return `<input type="text" class="ans${o.cls?' '+o.cls:''}" autocomplete="off" autocapitalize="off" spellcheck="false" data-a="${esc(a)}"${o.pin!=null?` data-pin="${o.pin}"`:''}${o.ph!=null?` placeholder="${esc(o.ph)}"`:''}${o.style?` style="${o.style}"`:''}${o.noinst?' data-noinst="1"':''} aria-label="${esc(o.label||'Respuesta (answer)')}">`}
+function inp(a,o={}){return `<input type="text" class="ans${o.cls?' '+o.cls:''}" autocomplete="off" autocapitalize="off" spellcheck="false" data-a="${esc(a)}"${o.pin!=null?` data-pin="${o.pin}"`:''}${o.phen?` data-ph0="${esc(o.ph0)}" data-en="${esc(o.phen)}"`:''}${o.ph!=null?` placeholder="${esc(o.ph)}"`:''}${o.style?` style="${o.style}"`:''}${o.noinst?' data-noinst="1"':''} aria-label="${esc(o.label||'Respuesta (answer)')}">`}
 function ginp(w,g,o={}){return `<input type="text" class="ans" autocomplete="off" autocapitalize="off" spellcheck="false" data-w="${esc(w)}" data-g="${g}"${o.ph?` placeholder="${esc(o.ph)}"`:''} aria-label="Palabra (word)">`}
-const tEn=t=>showEn()&&t?`<span class="en">(${esc(t)})</span>`:'';
+const tEn=t=>t?`<span class="en">(${esc(t)})</span>`:'';
+const enBtn=()=>`<button class="btn ghost entog" data-entog="1" aria-pressed="${showEn()}" title="Ayuda en inglés (English help)"><span class="eni">🇬🇧</span> <span class="enl">${showEn()?'Inglés: sí':'Inglés: no'}</span></button>`;
 
 /* ---------- blocks ---------- */
 const BL={},RUN={},LAST={};
 function blockHTML(id){const b=BL[id];let o;try{o=b.render()}catch(e){console.error(id,e);o={t:'Error',en:'',body:`<p class="sub">${esc(e.message)}</p>`,noCheck:1}}
 RUN[id]={aw:0,shown:false,o,unit:b.unit};
-return `<section class="blk${o.wide?' wide':''}" id="b-${id}" data-b="${id}"><header class="bh"><div class="bt"><span class="bi" aria-hidden="true">${o.icon||'✏️'}</span><div class="btt"><h3>${o.t}</h3>${showEn()?`<p class="ten">${esc(o.en)}</p>`:''}</div></div>
-<div class="bact"><span class="pill" id="sc-${id}" hidden></span>${o.noCheck?'':`<button class="btn pri" data-do="check" data-b="${id}">✓ Comprobar<small>Check</small></button><button class="btn ghost" data-do="show" data-b="${id}">Ver respuestas<small>Show answers</small></button>`}${o.noNew?'':`<button class="btn ghost" data-do="new" data-b="${id}" title="Nuevo (new)">↻ Nuevo<small>New</small></button>`}</div></header>
+return `<section class="blk${o.wide?' wide':''}" id="b-${id}" data-b="${id}"><header class="bh"><div class="bt"><span class="bi" aria-hidden="true">${o.icon||'✏️'}</span><div class="btt"><h3>${o.t}</h3><p class="ten">${esc(o.en)}</p></div></div>
+<div class="bact">${enBtn()}<span class="pill" id="sc-${id}" hidden></span>${o.noCheck?'':`<button class="btn pri" data-do="check" data-b="${id}">✓ Comprobar<small>Check</small></button><button class="btn ghost" data-do="show" data-b="${id}">Ver respuestas<small>Show answers</small></button>`}${o.noNew?'':`<button class="btn ghost" data-do="new" data-b="${id}" title="Nuevo (new)">↻ Nuevo<small>New</small></button>`}</div></header>
 ${o.tools?`<div class="tools">${o.tools}</div>`:''}${o.sub?`<p class="sub">${o.sub}${o.subEn?` ${tEn(o.subEn)}`:''}</p>`:''}<div class="bank" id="bk-${id}" hidden></div><div class="bb">${o.body}</div><p class="fb" id="fb-${id}" aria-live="polite"></p><p class="best" id="bs-${id}"></p></section>`}
 function mount(id){const el=$('#b-'+id);if(!el)return;el.outerHTML=blockHTML(id);post(id)}
 function post(id){bank(id);stats(id);const el=$('#b-'+id);if(el)requestAnimationFrame(()=>$$('.pan',el).forEach(p=>{if(p.id!='cmpan'){p.scrollLeft=(p.scrollWidth-p.clientWidth)/2;p.scrollTop=(p.scrollHeight-p.clientHeight)*.4}}));try{BL[id].after&&BL[id].after(el)}catch(e){console.error(id,e)}}
@@ -774,10 +778,10 @@ function dgm(o){const id=o.id,W=o.W,H=o.H,ph=isPhone()||o.list,r=isPhone()?Math.
 let lead='',ov='';
 if(!ph){const bw=o.bw||W*.135,bh=o.bh||Math.max(bw*.26,H*.032);const bx=placeLabels(o.marks,W,H,bw,bh,r);
  lead=bx.map((b,i)=>{const m=o.marks[i];if(m.nolead)return '';return `<line class="lead" x1="${m.x}" y1="${m.y}" x2="${b.cx}" y2="${b.cy}" stroke-width="${r/6}"/>`}).join('');
- ov=`<div class="ov">${o.marks.map((m,i)=>inp(m.a,{pin:i,ph:(i+1)+(en&&m.en?' · '+m.en:''),label:`${i+1}`,style:`left:${(bx[i].cx/W*100).toFixed(2)}%;top:${(bx[i].cy/H*100).toFixed(2)}%;width:${(bw/W*100).toFixed(2)}%;height:${(bh/H*100).toFixed(2)}%`})).join('')}</div>`}
+ ov=`<div class="ov">${o.marks.map((m,i)=>inp(m.a,{pin:i,ph:(i+1)+(en&&m.en?' · '+m.en:''),ph0:String(i+1),phen:m.en||'',label:`${i+1}`,style:`left:${(bx[i].cx/W*100).toFixed(2)}%;top:${(bx[i].cy/H*100).toFixed(2)}%;width:${(bw/W*100).toFixed(2)}%;height:${(bh/H*100).toFixed(2)}%`})).join('')}</div>`}
 const pins=o.marks.map((m,i)=>`<g class="pin" id="pin-${id}-${i}"><circle cx="${m.x}" cy="${m.y}" r="${r}"/><text x="${m.x}" y="${m.y+r*.38}" font-size="${r*1.08}" text-anchor="middle">${i+1}</text></g>`).join('');
 const svg=`<svg viewBox="0 0 ${W} ${H}" class="dgs" role="img" aria-label="${esc(o.label||'Diagrama')}">${o.art}<g class="leads">${lead}</g>${pins}${o.extra||''}</svg>`;
-const list=ph?`<div class="dl${o.marks.some(m=>m.more)?' wide3':''}">${o.marks.map((m,i)=>`<label class="dli"><b class="num">${i+1}</b><span class="dlf">${m.lab?`<b class="dlab">${esc(m.lab)}</b>`:''}<span class="dlrow">${inp(m.a,{pin:i,label:`${i+1}`,ph:m.more?'prenda (item)':null})}${(m.more||[]).map(([a,ph])=>inp(a,{ph,label:ph})).join('')}</span>${m.en&&en?`<small class="en">${esc(m.en)}</small>`:''}</span></label>`).join('')}</div>`:'';
+const list=ph?`<div class="dl${o.marks.some(m=>m.more)?' wide3':''}">${o.marks.map((m,i)=>`<label class="dli"><b class="num">${i+1}</b><span class="dlf">${m.lab?`<b class="dlab">${esc(m.lab)}</b>`:''}<span class="dlrow">${inp(m.a,{pin:i,label:`${i+1}`,ph:m.more?'prenda (item)':null})}${(m.more||[]).map(([a,ph])=>inp(a,{ph,label:ph})).join('')}</span>${m.en?`<small class="en">${esc(m.en)}</small>`:''}</span></label>`).join('')}</div>`:'';
 const phw=isPhone()&&W>700&&!o.pan?(W>1150?220:170):0;
 const inner=`<div class="dgw${ph?' ph':''}" style="aspect-ratio:${W}/${H}${o.pan?`;width:${o.pan}px`:phw?`;width:${phw}%`:''}">${svg}${ov}</div>`;
 let desc='';if(o.desc&&o.marks.length>=3){const ws=o.marks.map(m=>m.a);const ex=shuf(o.marks).slice(0,3).map(m=>indefOf(artForm(m.a,RUN[id]&&RUN[id].unit||null)));const model=`${o.desc} ${ex.slice(0,2).join(', ')} y ${ex[2]}.`;
@@ -1239,7 +1243,7 @@ return{W,H,art,marks,people}}
 BL['rop-scene']={unit:'Ropa',label:'¿Qué llevan?',render(){const L=S.lvl;const sel=this.occ||'rand';const occ=sel=='rand'?pick(OCC):OCC.find(o=>o.k==sel);
 const sc=outfitScene(occ,occ.k=='boda'||Math.random()<.45?2:1);
 const all=sc.marks;const n=Math.min(all.length,L==1?8:10);const chosen=shuf(pool(all,m=>gl(m.k),n)).slice(0,n);
-const col=S.color;const marks=chosen.map(m=>({x:m.x,y:m.y,a:m.a,prefs:m.prefs,en:showEn()?gEn(m.k):'',more:col?[[colAns(m.c),'color'],...(G[m.k].pat?[[patAns(m.p),'estampado (pattern)']]:[])]:null}));
+const col=S.color;const marks=chosen.map(m=>({x:m.x,y:m.y,a:m.a,prefs:m.prefs,en:gEn(m.k),more:col?[[colAns(m.c),'color'],...(G[m.k].pat?[[patAns(m.p),'estampado (pattern)']]:[])]:null}));
 return {t:'¿Qué llevan?',en:'What are they wearing?',icon:'👗',wide:1,
 tools:`<label>Ocasión <span class="en">(occasion)</span> <select data-occ>${[['rand','🎲 Aleatoria (random)'],...OCC.map(o=>[o.k,o.t])].map(([k,t])=>`<option value="${k}" ${k==sel?'selected':''}>${esc(t)}</option>`).join('')}</select></label><button class="tog" data-ropcol aria-pressed="${col}"><span class="sw"></span><span>Colores y estampados<small>Also write color + pattern</small></span></button>`,
 sub:`<b>${esc(occ.t)}</b>. Escribe el nombre de cada prenda${col?', su color y su estampado':''}.`,subEn:`${occ.en}. Write the name of each item${col?', its color and its pattern':''}.`,
@@ -2210,11 +2214,11 @@ ${tg('art','El artículo cuenta','Hay que escribir el artículo: «la farmacia»
 /* ---------- views ---------- */
 function curAct(v){const bs=v.blocks||[];return bs.includes(ACT[v.id])?ACT[v.id]:bs[0]}
 function renderView(id){const v=VIEWDEF().find(x=>x.id==id)||VIEWDEF()[0];const box=$('#v-'+v.id);
- if(v.id=='inicio'){box.innerHTML=home();DIRTY.delete(v.id);return}
- if(v.id=='unidades'){box.innerHTML=`<h2 class="ptitle">📚 Unidades</h2>${unitGrid()}`;DIRTY.delete(v.id);return}
- if(v.id=='practicar'){box.innerHTML=`<h2 class="ptitle">🎯 Practicar</h2>${practiceGrid()}`;DIRTY.delete(v.id);return}
+ if(v.id=='inicio'){box.innerHTML=`<div class="phead end">${enBtn()}</div>`+home();DIRTY.delete(v.id);return}
+ if(v.id=='unidades'){box.innerHTML=`<div class="phead"><h2 class="ptitle">📚 Unidades</h2>${enBtn()}</div>${unitGrid()}`;DIRTY.delete(v.id);return}
+ if(v.id=='practicar'){box.innerHTML=`<div class="phead"><h2 class="ptitle">🎯 Practicar</h2>${enBtn()}</div>${practiceGrid()}`;DIRTY.delete(v.id);return}
  const a=curAct(v);const multi=(v.blocks||[]).length>1;const n=v.u?ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl).length:0;
- box.innerHTML=(multi||v.u?`<header class="vhead"><span class="vi" aria-hidden="true">${v.ic}</span><div><h2>${v.t}</h2><p>${showEn()?`<span class="en">${v.en}</span> · `:''}${v.u?`${LV[S.lvl]} · ${n} palabras${v.desc?' · '+v.desc:''}`:(v.desc||'')}</p></div></header>`:'')+`
+ box.innerHTML=(multi||v.u?`<header class="vhead"><span class="vi" aria-hidden="true">${v.ic}</span><div><h2>${v.t}</h2><p><span class="en">${v.en} · </span>${v.u?`${LV[S.lvl]} · ${n} palabras${v.desc?' · '+v.desc:''}`:(v.desc||'')}</p></div></header>`:'')+`
  ${multi?`<div class="acts" role="tablist">${v.blocks.map(b=>`<button role="tab" data-act="${b}" data-v="${v.id}" aria-selected="${a==b}"><span>${TABIC[b]||''}</span>${BL[b].label||b}</button>`).join('')}</div>`:''}
  <div class="actbox">${blockHTML(a)}</div>`;
  post(a);DIRTY.delete(v.id)}
@@ -2227,12 +2231,14 @@ function go(id,push=true){if(!VIEWDEF().some(v=>v.id==id))id='inicio';CUR=id;$$(
 function dueBadges(){const n=dueList().length;$$('[data-due]').forEach(b=>{b.textContent=n||'';b.hidden=!n})}
 function rerenderAll(){VIEWDEF().forEach(v=>DIRTY.add(v.id));renderView(CUR);$('#side').innerHTML=sideHTML();$('#mtop').innerHTML=mtopHTML();go(CUR,false)}
 function applyS(){document.body.dataset.pal=S.pal;document.documentElement.style.setProperty('--fs',S.fs);document.body.classList.toggle('noen',!showEn());
- $$('[data-set]').forEach(b=>b.setAttribute('aria-pressed',String(S[b.dataset.set])==b.dataset.v));$$('[data-tog]').forEach(b=>b.setAttribute('aria-pressed',!!S[b.dataset.tog]))}
+ $$('[data-set]').forEach(b=>b.setAttribute('aria-pressed',String(S[b.dataset.set])==b.dataset.v));$$('[data-tog]').forEach(b=>b.setAttribute('aria-pressed',!!S[b.dataset.tog]));
+ const on=showEn();$$('[data-entog]').forEach(b=>{b.setAttribute('aria-pressed',on);const l=$('.enl',b);if(l)l.textContent=on?'Inglés: sí':'Inglés: no'});
+ $$('input[data-en]').forEach(i=>{i.placeholder=i.dataset.ph0+(on?' · '+i.dataset.en:'')})}
 /* ---------- home and hubs ---------- */
 const unitPct=v=>{const ws=ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl);return ws.length?Math.round(ws.filter(mastered).length/ws.length*100):0};
-function unitGrid(){return `<div class="ugrid">${VIEWS.map(v=>{const p=unitPct(v);return `<button class="ucard" data-view="${v.id}"><span class="ui" aria-hidden="true">${v.ic}</span><b>${v.t}</b><small>${showEn()?v.en+' · ':''}${v.desc||''}</small><span class="pbar sm"><span class="pm" style="width:${p}%"></span></span><small>${p}% dominado ${tEn('mastered')}</small></button>`}).join('')}</div>`}
+function unitGrid(){return `<div class="ugrid">${VIEWS.map(v=>{const p=unitPct(v);return `<button class="ucard" data-view="${v.id}"><span class="ui" aria-hidden="true">${v.ic}</span><b>${v.t}</b><small><span class="en">${v.en} · </span>${v.desc||''}</small><span class="pbar sm"><span class="pm" style="width:${p}%"></span></span><small>${p}% dominado ${tEn('mastered')}</small></button>`}).join('')}</div>`}
 function practiceGrid(){const it=[['rev-today','🔁','Repaso de hoy',"Today's review"],['rev-new','✨','Palabras nuevas','New words'],['rev-listen','🎧','¿Qué oyes?','Listening'],['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
- return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b>${showEn()?`<small>${e}</small>`:''}</button>`).join('')}</div>`}
+ return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b><small class="en">${e}</small></button>`).join('')}</div>`}
 function home(){const nm=S.name?`, ${esc(S.name)}`:'';const due=dueList().length,st=streak();
 return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p class="hsub">${st?`🔥 ${st} ${st==1?'día':'días'} seguidos · `:''}⭐ <span class="starsn">${+store.get('stars')||0}</span> estrellas · Nivel ${LV[S.lvl]}</p>
 <div class="ctas"><button class="cta pri" data-sess><span>⏱️</span><b>Mi sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas y escuchar</small></button><button class="cta" data-act-go="rev-today"><span>🔁</span><b>Repaso de hoy</b><small>${due?`${due} palabras te esperan`:'¡Todo repasado!'}</small></button></div></div>
@@ -2244,12 +2250,13 @@ function boot(){
 document.body.insertAdjacentHTML('afterbegin',`<div class="app"><aside class="side" id="side">${sideHTML()}</aside><div class="mainw"><header class="mtop" id="mtop">${mtopHTML()}</header><main id="main">${VIEWDEF().map(v=>`<div class="view" id="v-${v.id}" hidden></div>`).join('')}</main></div></div><nav class="bnav" id="bnav" aria-label="Menú">${bnavHTML()}</nav><div id="sessbar" class="sessbar" hidden></div><div class="modal" id="cfg" hidden></div>`);
 applyS();
 const openCfg=()=>{const m=$('#cfg');m.innerHTML=cfgHTML();m.hidden=false;applyS();const b=m.querySelector('[data-cfgclose]');if(b)b.focus()};
-document.addEventListener('click',e=>{const t=e.target.closest('[data-set],[data-tog],[data-view],[data-cfg],[data-cfgclose],[data-act],[data-act-go],#cfg');if(!t)return;
+document.addEventListener('click',e=>{const t=e.target.closest('[data-entog],[data-set],[data-tog],[data-view],[data-cfg],[data-cfgclose],[data-act],[data-act-go],#cfg');if(!t)return;
  if(t.id=='cfg'){if(e.target.id=='cfg')$('#cfg').hidden=true;else return}
  if(t.dataset.cfg!=null){openCfg();return}if(t.dataset.cfgclose!=null){$('#cfg').hidden=true;return}
  if(t.dataset.actGo){const b=t.dataset.actGo,v=viewOfBlock(b);ACT[v]=b;saveAct();DIRTY.add(v);go(v);window.scrollTo({top:0});return}
  if(t.dataset.act&&t.dataset.v){switchAct(t.dataset.v,t.dataset.act);return}
  if(t.dataset.view){go(t.dataset.view);window.scrollTo({top:0});return}
+ if(t.dataset.entog!=null){S.enMode=showEn()?'off':'on';saveS();applyS();if($('#cfg')&&!$('#cfg').hidden){$('#cfg').innerHTML=cfgHTML();applyS()}return}
  if(t.dataset.set){const k=t.dataset.set;let v=t.dataset.v;if(k=='lvl'||k=='fs')v=+v;S[k]=v;saveS();applyS();if(['lvl','dev','av','enMode'].includes(k)){FC.deck=[];rerenderAll()}if(!$('#cfg').hidden&&k=='lvl'){$('#cfg').innerHTML=cfgHTML();applyS()}return}
  if(t.dataset.tog){const k=t.dataset.tog;S[k]=!S[k];saveS();applyS();if(k=='bank')Object.keys(RUN).forEach(id=>{if($('#b-'+id))bank(id)});if(k=='art')rerenderAll();return}});
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&!$('#cfg').hidden)$('#cfg').hidden=true});
