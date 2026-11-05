@@ -309,6 +309,65 @@ input.almost,textarea.almost,input.try,textarea.try{box-shadow:0 0 0 2px var(--a
 .dlwords{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin-top:12px}
 .dlwords span{background:var(--surface2);border-radius:10px;padding:6px 10px}.dlwords small{color:var(--mut)}
 @media (max-width:720px){.dlrate{grid-template-columns:1fr 1fr}.dltext{font-size:1.02rem}.dlsteps li{padding:5px 9px;font-size:.85rem}.dlsteps li small{display:none}}
+/* ===== Gramática ===== */
+.th-gram{--pri:#7A4FB5;--priInk:#fff;--surface2:#F4EFFB}
+.th-vlist{--pri:#B26B12;--priInk:#fff;--surface2:#FBF3E6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .th-gram{--pri:#BDA3EE;--priInk:#1D1430;--surface2:#2A2340}:root:not([data-theme="light"]) .th-vlist{--pri:#F0B867;--priInk:#2A1A05;--surface2:#33291B}}
+:root[data-theme="dark"] .th-gram{--pri:#BDA3EE;--priInk:#1D1430;--surface2:#2A2340}:root[data-theme="dark"] .th-vlist{--pri:#F0B867;--priInk:#2A1A05;--surface2:#33291B}
+.side .gramh{display:flex;justify-content:space-between;align-items:center;width:100%;border:0;cursor:pointer;margin:14px 0 2px;padding:7px 10px;border-radius:10px;background:linear-gradient(90deg,#7A4FB5,#9A6FD0);color:#fff!important;font:inherit;font-weight:900;letter-spacing:.06em;font-size:.78rem;text-transform:uppercase}
+.side .gside{border-left:3px solid #9A6FD0;margin:4px 0 0 6px;padding-left:4px}
+.side .nv.gram .ni{filter:none}.side .nv.gram[aria-current="page"]{background:#EDE4F9;color:#5B3592}
+.side .nv.vlist{background:#FBF1E1;color:#8A5208;margin-top:4px}.side .nv.vlist[aria-current="page"]{background:#F6E2BF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .side .nv.gram[aria-current="page"]{background:#3A2E57;color:#E4D8FA}:root:not([data-theme="light"]) .side .nv.vlist{background:#3A2E1B;color:#F3C987}}
+.back{border:0;background:none;color:var(--pri);font:inherit;font-weight:800;cursor:pointer;padding:4px 2px}
+.ghero{background:linear-gradient(135deg,#7A4FB5,#A57BDB);color:#fff;border-radius:22px;padding:20px 22px;margin:0 0 14px;box-shadow:var(--sh)}
+.ghero h2{margin:2px 0 6px;font-size:1.7rem;color:#fff}.ghero p{margin:0;max-width:62ch}.ghero .en{color:#EFE6FB}
+.ghero.sm{padding:14px 18px}.ghero.sm h2{font-size:1.35rem}
+.gtag{display:inline-block;background:#FFD66B;color:#4A2C00;font-weight:900;border-radius:999px;padding:2px 10px;font-size:.8rem;margin-bottom:4px!important}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:14px}
+.gcard{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;border-radius:18px;padding:16px;cursor:pointer;font:inherit;border:2px solid;background:var(--surface);color:var(--ink)}
+.gcard>span{font-size:1.8rem}.gcard b{font-size:1.15rem}.gcard small{color:var(--mut)}
+.gcard.verb,.gcard.prac{border-color:#9A6FD0;background:linear-gradient(180deg,#F6F0FD,var(--surface))}
+.gcard.list{border-color:#E0A04A;background:linear-gradient(180deg,#FDF4E6,var(--surface))}
+.gcard.wide1{width:100%;margin-top:14px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .gcard.verb,:root:not([data-theme="light"]) .gcard.prac{background:#2A2340}:root:not([data-theme="light"]) .gcard.list{background:#33291B}}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.tcard{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:2px solid var(--line);border-radius:16px;padding:12px 14px;background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+.tcard:hover{border-color:var(--pri)}.tcard>span{font-size:1.5rem}.tcard b{font-size:1.02rem}.tcard small{color:var(--mut)}.tcard i{font-style:normal;color:var(--pri);font-weight:800;margin-top:2px}
+.tinfo h4{margin:14px 0 6px;color:var(--pri)}.tinfo ul{margin:0;padding-left:20px}.tinfo li{margin:3px 0}
+.tcols{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media (max-width:720px){.tcols{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-weight:700;font-size:.9rem}
+.exs{list-style:none;padding:0!important}.exs li{background:var(--surface2);border-radius:12px;padding:8px 12px;margin:6px 0!important}
+.cjt{border-collapse:collapse;font-size:.95rem}.cjt td,.cjt th{padding:4px 10px;border-bottom:1px solid var(--line);text-align:left}.cjt td:first-child{color:var(--mut);font-weight:700}
+.cjt.big th{color:var(--pri)}.cjt.big td{font-weight:700}.cjt.big td:first-child{font-weight:700}
+.tscroll{overflow-x:auto}
+.note{background:var(--almbg);border-radius:12px;padding:10px 12px;margin:10px 0}
+.irrgrid,.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.irrgrid>div,.vgrid>div{background:var(--surface2);border-radius:12px;padding:8px}
+.ivh{font-weight:900;margin:0 0 4px}
+.cjrow .fld{max-width:240px}
+.gxq{text-align:center}.gxv{font-size:1.7rem;margin:4px 0}.gxp{font-size:1.15rem;font-weight:800;color:var(--pri);margin:2px 0 10px}
+.gxs{font-size:1.25rem;line-height:1.6;margin:6px 0}
+.gblank{display:inline-block;min-width:3.5em;border-bottom:3px solid var(--pri);color:var(--pri);font-weight:900;text-align:center}
+.gx .gxi{display:block;margin:6px auto;max-width:380px;width:100%;text-align:center;font-size:1.2rem}
+.accbar{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:6px 0}.accbar .btn{min-width:40px;padding:5px 8px;font-size:1.05rem}
+.grule{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:10px 16px;margin-bottom:12px}
+.grule summary{cursor:pointer;font-weight:900;color:var(--pri)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media (max-width:720px){.g2{grid-template-columns:1fr}}
+.g2 h5{margin:8px 0 4px;color:var(--pri);font-size:1rem}.grule ul{padding-left:20px;margin:4px 0}
+.gtab{border-collapse:collapse;margin:8px 0}.gtab td,.gtab th{border:1px solid var(--line);padding:4px 10px}
+.gmq{font-size:1.3rem;line-height:1.6;text-align:center;margin:6px 0 12px}
+.gmopts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.gmo{min-width:110px;font-size:1.1rem;padding:10px 16px}.gmo.dim{opacity:.5}
+.vlbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}.vlbar .fld{flex:1;min-width:200px}
+.vlist{display:flex;flex-direction:column;gap:4px}
+.vrow{border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.vrow summary{display:flex;gap:10px;align-items:center;padding:8px 12px;cursor:pointer;flex-wrap:wrap}
+.vrow summary b{min-width:120px}.ven{color:var(--mut);flex:1;min-width:140px}
+.vtags{display:flex;gap:4px}.vt{font-size:.72rem;font-weight:800;border-radius:999px;padding:2px 8px;background:var(--surface2)}
+.vt.virr{background:var(--badbg);color:var(--bad)}.vt.vreg{background:var(--okbg);color:var(--ok)}.vt.vsc,.vt.vorto{background:var(--almbg);color:var(--alm)}.vt.vcom{background:#FBEFD9;color:#8A5208}.vt.vvoc{background:#E7F3F1;color:#2A7166}
+.vconj{padding:0 12px 12px}
+@media (max-width:720px){.gxv{font-size:1.4rem}.gxs,.gmq{font-size:1.1rem}.gmo{min-width:90px}}
+.side .gside .nv{width:100%;display:flex}
 
 </style>
 </head><body>
@@ -2445,18 +2504,18 @@ document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.targe
 /* shell.js: layout (sidebar / bottom bar), views with one activity at a time, home, settings, boot */
 const ACT=jget('act',{});
 const TABIC={'rev-today':'📅','rev-srs':'🧠','fam-tree':'🌳','fam-yo':'🧒','fam-what':'🤔','rop-scene':'👗','rop-dress':'🧥','rop-bag':'🧳','rop-swatch':'🎨','rop-parts':'🚪','rop-words':'✍️','com-market':'🛒','com-class':'🧺','com-cats':'🧠','com-words':'✍️','cue-out':'🧍','cue-in':'🫀','cue-words':'✍️','ciu-map':'🗺️','ciu-street':'🚦','ciu-defs':'🔎','ciu-words':'✍️','viv-plan':'🏠','viv-room':'🛋️','viv-defs':'🔎','viv-words':'✍️','rev-new':'✨','rev-listen':'🎧','rev-gender':'⚖️'};const saveAct=()=>store.set('act',JSON.stringify(ACT));
-const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Repaso',en:'Review',ic:'🔁',g:'hoy',blocks:S.nolisten?['rev-today','rev-srs','rev-new','rev-gender']:['rev-today','rev-srs','rev-new','rev-listen','rev-gender'],desc:S.nolisten?'Tu memoria: repasa y aprende':'Tu memoria: repasa, aprende y escucha'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
+const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Repaso',en:'Review',ic:'🔁',g:'hoy',blocks:S.nolisten?['rev-today','rev-srs','rev-new']:['rev-today','rev-srs','rev-new','rev-listen'],desc:S.nolisten?'Tu memoria: repasa y aprende':'Tu memoria: repasa, aprende y escucha'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
  ...VIEWS.map(v=>({...v,g:'uni'})),{id:'unidades',t:'Unidades',en:'Units',ic:'📚',g:'hub'},{id:'practicar',t:'Practicar',en:'Practice',ic:'🎯',g:'hub'},
- {id:'expresiones',t:'Expresiones',en:'Idioms',ic:'💬',g:'pra',blocks:['expr']},{id:'examen',t:'Examen',en:'Practice test',ic:'📝',g:'pra',blocks:['exam']},{id:'tarjetas',t:'Tarjetas',en:'Flashcards',ic:'🃏',g:'pra',blocks:['fcards']},{id:'lista',t:'Lista de palabras',en:'Word list',ic:'📖',g:'pra',blocks:['wlist']}];
+ {id:'expresiones',t:'Expresiones',en:'Idioms',ic:'💬',g:'pra',blocks:['expr']},{id:'examen',t:'Examen',en:'Practice test',ic:'📝',g:'pra',blocks:['exam']},{id:'tarjetas',t:'Tarjetas',en:'Flashcards',ic:'🃏',g:'pra',blocks:['fcards']},{id:'lista',t:'Lista de palabras',en:'Word list',ic:'📖',g:'pra',blocks:['wlist']},...GVIEWS()];
 let CUR='inicio';const DIRTY=new Set();
 const lvlSeg=()=>`<div class="lvseg" role="group" aria-label="Nivel (level)">${[1,2,3].map(l=>`<button data-set="lvl" data-v="${l}" aria-pressed="${S.lvl==l}"><span>${['','🌱','🌿','🌳'][l]}</span>${LV[l]}</button>`).join('')}</div>`;
-function sideHTML(){const nav=g=>VIEWDEF().filter(v=>v.g==g).map(v=>`<button class="nv" data-view="${v.id}"><span class="ni">${v.ic}</span><span class="nt">${v.t}</span>${v.id=='repaso'?`<span class="badge" data-due></span>`:''}</button>`).join('');
+function sideHTML(){const nav=g=>VIEWDEF().filter(v=>v.g==g&&v.id!='gramatica').map(v=>`<button class="nv${v.th?' '+v.th:''}" data-view="${v.id}"><span class="ni">${v.ic}</span><span class="nt">${v.t}</span>${v.id=='repaso'?`<span class="badge" data-due></span>`:''}</button>`).join('');
 return `<a class="brand" href="#inicio">${owl(42)}<span><b>Laboratorio</b><small>de vocabulario</small></span></a>
 <button class="sessbtn" data-sess>⏱️ Sesión de 10 min</button>
-<nav aria-label="Menú"><p class="ng">Hoy</p>${nav('hoy')}<p class="ng">Unidades</p>${nav('uni')}<p class="ng">Practicar</p>${nav('pra')}</nav>
+<nav aria-label="Menú"><p class="ng">Hoy</p>${nav('hoy')}<p class="ng">Unidades</p>${nav('uni')}<button class="ng gramh" data-view="gramatica">📐 Gramática <span>⭐</span></button><div class="gside">${nav('gra')}</div><p class="ng">Practicar</p>${nav('pra')}</nav>
 <div class="sidefoot"><p class="ng">Nivel ${tEn('level')}</p>${lvlSeg()}<div class="sfrow"><span class="starbox">⭐ <span class="starsn">${+store.get('stars')||0}</span></span><button class="btn ghost" data-cfg>⚙️ Ajustes</button></div></div>`}
 function mtopHTML(){return `<a class="brand" href="#inicio">${owl(34)}<b>Laboratorio</b></a><button class="lvpill" data-cfg>${['','🌱','🌿','🌳'][S.lvl]} ${LV[S.lvl]}</button><span class="starbox">⭐ <span class="starsn">${+store.get('stars')||0}</span></span><button class="iconb" data-cfg aria-label="Ajustes (settings)">⚙️</button>`}
-function bnavHTML(){return [['inicio','🏡','Inicio'],['repaso','🔁','Repaso'],['unidades','📚','Unidades'],['progreso','📈','Progreso'],['practicar','🎯','Practicar']].map(([v,i,t])=>`<button data-view="${v}"><span>${i}</span>${t}${v=='repaso'?'<span class="badge" data-due></span>':''}</button>`).join('')}
+function bnavHTML(){return [['inicio','🏡','Inicio'],['repaso','🔁','Repaso'],['unidades','📚','Unidades'],['practicar','🎯','Practicar'],['gramatica','📐','Gramática']].map(([v,i,t])=>`<button data-view="${v}"><span>${i}</span>${t}${v=='repaso'?'<span class="badge" data-due></span>':''}</button>`).join('')}
 function cfgHTML(){const opt=(k,v,t,e)=>`<button data-set="${k}" data-v="${v}" aria-pressed="${String(S[k])==String(v)}">${t}${e?`<small>${e}</small>`:''}</button>`;
  const tg=(k,t,d)=>`<div class="crow"><div><b>${t}</b><p>${d}</p></div><button class="tog" data-tog="${k}" aria-pressed="${!!S[k]}" aria-label="${t}"><span class="sw"></span></button></div>`;
 return `<div class="mbox" role="dialog" aria-modal="true" aria-labelledby="cfgt"><div class="mhead"><h2 id="cfgt">⚙️ Ajustes</h2><button class="btn pri" data-cfgclose>Listo<small>Done</small></button></div>
@@ -2479,16 +2538,18 @@ function curAct(v){const bs=v.blocks||[];return bs.includes(ACT[v.id])?ACT[v.id]
 function renderView(id){const v=VIEWDEF().find(x=>x.id==id)||VIEWDEF()[0];const box=$('#v-'+v.id);
  if(v.id=='inicio'){box.innerHTML=`<div class="phead end"><span class="pbtns">${enBtn()}${lisBtn()}</span></div>`+home();DIRTY.delete(v.id);return}
  if(v.id=='unidades'){box.innerHTML=`<div class="phead"><h2 class="ptitle">📚 Unidades</h2>${enBtn()}</div>${unitGrid()}`;DIRTY.delete(v.id);return}
+ if(GHUB[v.id]){box.className='view th-gram';box.innerHTML=GHUB[v.id]();DIRTY.delete(v.id);return}
  if(v.id=='practicar'){box.innerHTML=`<div class="phead"><h2 class="ptitle">🎯 Practicar</h2><span class="pbtns">${enBtn()}${lisBtn()}</span></div>${practiceGrid()}`;DIRTY.delete(v.id);return}
  const a=curAct(v);const multi=(v.blocks||[]).length>1;const n=v.u?ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl).length:0;
- box.innerHTML=(multi||v.u?`<header class="vhead"><span class="vi" aria-hidden="true">${v.ic}</span><div><h2>${v.t}</h2><p><span class="en">${v.en} · </span>${v.u?`${LV[S.lvl]} · ${n} palabras${v.desc?' · '+v.desc:''}`:(v.desc||'')}</p></div></header>`:'')+`
+ box.className='view'+(v.th?' th-'+v.th:'');const par=v.par&&VIEWDEF().find(x=>x.id==v.par);
+ box.innerHTML=(par?`<div class="phead"><button class="back" data-view="${par.id}">← ${par.t}</button></div>`:'')+(multi||v.u||v.th?`<header class="vhead"><span class="vi" aria-hidden="true">${v.ic}</span><div><h2>${v.t}</h2><p><span class="en">${v.en} · </span>${v.u?`${LV[S.lvl]} · ${n} palabras${v.desc?' · '+v.desc:''}`:(v.desc||'')}</p></div></header>`:'')+`
  ${multi?`<div class="acts" role="tablist">${v.blocks.map(b=>`<button role="tab" data-act="${b}" data-v="${v.id}" aria-selected="${a==b}"><span>${TABIC[b]||''}</span>${BL[b].label||b}</button>`).join('')}</div>`:''}
  <div class="actbox">${blockHTML(a)}</div>`;
  post(a);DIRTY.delete(v.id)}
 function fixTabIcons(v){$$(`#v-${v.id} .acts button`).forEach(bt=>{const b=bt.dataset.act;const ic=RUN[b]&&RUN[b].o&&RUN[b].o.icon;if(ic&&!bt.firstChild.textContent)bt.firstChild.textContent=ic})}
 function switchAct(vid,b){ACT[vid]=b;saveAct();const v=VIEWDEF().find(x=>x.id==vid);$$(`#v-${vid} .acts button`).forEach(x=>x.setAttribute('aria-selected',x.dataset.act==b));const box=$(`#v-${vid} .actbox`);if(box){box.innerHTML=blockHTML(b);post(b)}}
 function go(id,push=true){if(!VIEWDEF().some(v=>v.id==id))id='inicio';CUR=id;$$('.view').forEach(x=>x.hidden=x.id!='v-'+id);
- $$('[data-view]').forEach(b=>{if(b.closest('.side,.bnav'))b.setAttribute('aria-current',b.dataset.view==id||(id!='inicio'&&b.dataset.view=='unidades'&&VIEWS.some(v=>v.id==id))?'page':'false')});
+ $$('[data-view]').forEach(b=>{if(b.closest('.side,.bnav')){const cv=VIEWDEF().find(x=>x.id==id)||{};const bv=b.dataset.view;b.setAttribute('aria-current',bv==id||(id!='inicio'&&bv=='unidades'&&VIEWS.some(v=>v.id==id))||(cv.par&&cv.par==bv)||(b.closest('.bnav')&&bv=='gramatica'&&cv.th)?'page':'false')}});
  if(DIRTY.has(id)||!$('#v-'+id).innerHTML)renderView(id);if(id=='inicio'||id=='progreso')renderView(id);
  if(push&&location.hash!='#'+id){try{history.replaceState(null,'','#'+id)}catch(e){}}dueBadges()}
 function dueBadges(){const n=dueList().length;$$('[data-due]').forEach(b=>{b.textContent=n||'';b.hidden=!n})}
@@ -2507,7 +2568,8 @@ return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p c
 <div class="ctas"><button class="cta pri" data-sess><span>⏱️</span><b>Mi sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas${S.nolisten?'':' y escuchar'}</small></button><button class="cta" data-act-go="rev-today"><span>📅</span><b>Repaso de hoy</b><small>${dlStatus()}</small></button>${due?`<button class="cta" data-act-go="rev-srs"><span>🧠</span><b>Mis repasos</b><small>${due} palabras te esperan</small></button>`:''}</div></div>
 <div class="howl">${owl(150)}</div></section>
 <h3 class="sec">Unidades ${tEn('units')}</h3>${unitGrid()}
-<h3 class="sec">Practicar ${tEn('practice')}</h3>${practiceGrid()}`}
+<h3 class="sec">Practicar ${tEn('practice')}</h3>${practiceGrid()}
+<h3 class="sec">📐 Gramática ${tEn('grammar')}</h3><div class="ggrid"><button class="gcard verb" data-view="verbos"><span>🔤</span><b>Verbos</b><small>12 tiempos ${tEn('12 tenses')}</small></button><button class="gcard prac" data-view="gram"><span>🧩</span><b>Práctica de gramática</b><small>${GTOP.length+1} temas ${tEn('topics')}</small></button><button class="gcard list" data-view="vlista"><span>📋</span><b>Lista de verbos</b><small>${verbList().all.length} verbos</small></button></div>`}
 /* ---------- boot ---------- */
 function boot(){
 document.body.insertAdjacentHTML('afterbegin',`<div class="app"><aside class="side" id="side">${sideHTML()}</aside><div class="mainw"><header class="mtop" id="mtop">${mtopHTML()}</header><main id="main">${VIEWDEF().map(v=>`<div class="view" id="v-${v.id}" hidden></div>`).join('')}</main></div></div><nav class="bnav" id="bnav" aria-label="Menú">${bnavHTML()}</nav><div id="sessbar" class="sessbar" hidden></div><div class="modal" id="cfg" hidden></div>`);
@@ -2527,6 +2589,375 @@ document.addEventListener('change',e=>{if(e.target.id=='pname'){S.name=e.target.
 addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h&&h!=CUR)go(h,false)});
 let wasPh=isPhone();addEventListener('resize',()=>{clearTimeout(window._rz);window._rz=setTimeout(()=>{if(isPhone()!=wasPh){wasPh=isPhone();rerenderAll()}},300)});
 go(location.hash.slice(1)||'inicio',false)}
+
+/* ==== conj.js ==== */
+/* conj.js: Spanish (Spain) conjugation engine. cj(verb, tense) -> 6 forms [yo, tú, él, nosotros, vosotros, ellos] */
+const PERS=['yo','tú','él / ella / usted','nosotros','vosotros','ellos / ellas / ustedes'];
+const PERS_S=['yo','tú','él','nosotros','vosotros','ellos'];
+const ACC={a:'á',e:'é',i:'í',o:'ó',u:'ú'},UNACC={'á':'a','é':'e','í':'i','ó':'o','ú':'u'};
+const unacc=s=>s.replace(/[áéíóú]/g,c=>UNACC[c]);
+/* stem changes */
+const SC={};
+'pensar empezar comenzar cerrar despertar sentar entender perder querer preferir sentir mentir divertir convertir encender defender nevar calentar fregar regar recomendar atravesar confesar negar merendar tender sugerir hervir advertir referir apretar gobernar manifestar sembrar temblar tropezar ascender descender invertir consentir arrepentir requerir atender acertar encerrar'.split(' ').forEach(v=>SC[v]='ie');
+'poder volver dormir morir contar costar encontrar mostrar recordar soñar volar almorzar colgar probar sonar rogar mover llover doler resolver devolver envolver soler acostar aprobar demostrar torcer comprobar renovar promover remover morder cocer forzar esforzar apostar acordar tostar'.split(' ').forEach(v=>SC[v]='ue');
+'pedir servir repetir seguir conseguir vestir medir reír sonreír freír elegir corregir despedir impedir competir perseguir gemir rendir teñir desteñir reñir'.split(' ').forEach(v=>SC[v]='i');
+SC.jugar='ue_u';SC.tener='ie';SC.venir='ie';SC.decir='i';SC.adquirir='ie_i';SC.oler='hue';
+/* accent verbs: envío, continúo, reúno, prohíbo */
+const ACCV=new Set('enviar confiar enfriar esquiar guiar criar vaciar fiar desafiar ampliar actuar continuar graduar situar evaluar acentuar reunir prohibir'.split(' '));
+/* full tables */
+const T6=s=>s.split(' ');
+const IRR={
+ ser:{pres:T6('soy eres es somos sois son'),pret:T6('fui fuiste fue fuimos fuisteis fueron'),impf:T6('era eras era éramos erais eran'),subj:T6('sea seas sea seamos seáis sean'),tu:'sé'},
+ ir:{pres:T6('voy vas va vamos vais van'),pret:T6('fui fuiste fue fuimos fuisteis fueron'),impf:T6('iba ibas iba íbamos ibais iban'),subj:T6('vaya vayas vaya vayamos vayáis vayan'),tu:'ve',ger:'yendo'},
+ estar:{pres:T6('estoy estás está estamos estáis están'),subj:T6('esté estés esté estemos estéis estén'),pstem:'estuv'},
+ haber:{pres:T6('he has ha hemos habéis han'),subj:T6('haya hayas haya hayamos hayáis hayan'),pstem:'hub',fut:'habr'},
+ dar:{pres:T6('doy das da damos dais dan'),pret:T6('di diste dio dimos disteis dieron'),subj:T6('dé des dé demos deis den')},
+ saber:{pres:T6('sé sabes sabe sabemos sabéis saben'),subj:T6('sepa sepas sepa sepamos sepáis sepan'),pstem:'sup',fut:'sabr'},
+ ver:{pres:T6('veo ves ve vemos veis ven'),yo:'veo',pret:T6('vi viste vio vimos visteis vieron'),impf:T6('veía veías veía veíamos veíais veían'),pp:'visto'},
+ oír:{pres:T6('oigo oyes oye oímos oís oyen'),yo:'oigo'},
+ caber:{yo:'quepo',pstem:'cup',fut:'cabr'},
+ tener:{yo:'tengo',pstem:'tuv',fut:'tendr',tu:'ten'},
+ venir:{yo:'vengo',pstem:'vin',fut:'vendr',tu:'ven'},
+ poner:{yo:'pongo',pstem:'pus',fut:'pondr',tu:'pon',pp:'puesto'},
+ salir:{yo:'salgo',fut:'saldr',tu:'sal'},
+ valer:{yo:'valgo',fut:'valdr'},
+ hacer:{yo:'hago',pstem:'hic',fut:'har',tu:'haz',pp:'hecho'},
+ decir:{yo:'digo',pstem:'dij',fut:'dir',tu:'di',pp:'dicho',ger:'diciendo'},
+ traer:{yo:'traigo',pstem:'traj'},
+ caer:{yo:'caigo'},
+ poder:{pstem:'pud',fut:'podr',ger:'pudiendo'},
+ querer:{pstem:'quis',fut:'querr'},
+ andar:{pstem:'anduv'},
+ conducir:{pstem:'conduj'},traducir:{pstem:'traduj'},producir:{pstem:'produj'},reducir:{pstem:'reduj'},introducir:{pstem:'introduj'},deducir:{pstem:'deduj'},
+ reír:{pres:T6('río ríes ríe reímos reís ríen'),pret:T6('reí reíste rio reímos reísteis rieron'),subj:T6('ría rías ría riamos riáis rían'),ger:'riendo',pp:'reído'},
+ freír:{pres:T6('frío fríes fríe freímos freís fríen'),pret:T6('freí freíste frio freímos freísteis frieron'),subj:T6('fría frías fría friamos friáis frían'),ger:'friendo',pp:'frito'},
+ morir:{pp:'muerto'},volver:{pp:'vuelto'},escribir:{pp:'escrito'},abrir:{pp:'abierto'},romper:{pp:'roto'},cubrir:{pp:'cubierto'},resolver:{pp:'resuelto'},imprimir:{pp:'impreso'}
+};
+/* prefixed verbs inherit the base (mantener, proponer, deshacer, devolver, describir, sonreír...) */
+const PREFIX_BASES=['tener','venir','poner','hacer','decir','traer','volver','solver','escribir','cubrir','reír','ducir','seguir','oír','salir','valer','caer'];
+function splitPrefix(v){if(IRR[v])return ['',v];for(const b of PREFIX_BASES){if(v.length>b.length&&v.endsWith(b)){const pre=v.slice(0,-b.length);if(pre.length<=6)return [pre,b]}}return ['',v]}
+function isRefl(v){return /(ar|er|ir|ír)se$/.test(v)}
+const REFP=['me','te','se','nos','os','se'];
+function info(v){const end=v.slice(-2).replace('í','i');return {inf:v,end,stem:v.slice(0,-2)}}
+function chStem(v,stem){const t=SC[v]||(()=>{const[p,b]=splitPrefix(v);return p&&SC[b]?SC[b]:null})();if(!t)return stem;
+ const idx=(()=>{const vs=[...stem.matchAll(/[aeiouáéíóú]/g)];if(!vs.length)return -1;let k=vs.length-1;
+  /* skip u after q/g (seguir: seg-u-ir), and trailing vowel cluster in stem like 'fregar' fine */
+  while(k>0&&vs[k][0]=='u'&&/[qg]/.test(stem[vs[k].index-1]))k--;return vs[k].index})();
+ if(idx<0)return stem;const c=stem[idx];
+ if(t=='ie'&&c=='e')return stem.slice(0,idx)+'ie'+stem.slice(idx+1);
+ if(t=='ue'&&c=='o')return stem.slice(0,idx)+'ue'+stem.slice(idx+1);
+ if(t=='i'&&c=='e')return stem.slice(0,idx)+'i'+stem.slice(idx+1);
+ if(t=='ue_u'&&c=='u')return stem.slice(0,idx)+'ue'+stem.slice(idx+1);
+ if(t=='ie_i'&&c=='i')return stem.slice(0,idx)+'ie'+stem.slice(idx+1);
+ if(t=='hue')return 'hue'+stem.slice(1);
+ return stem}
+/* weak change for -ir stem changers (sintió, durmió, pidió, sintiendo) */
+function weakStem(v,stem){const t=SC[v]||(()=>{const[p,b]=splitPrefix(v);return p&&SC[b]?SC[b]:null})();const e=v.replace(/se$/,'').slice(-2).replace('í','i');if(e!='ir'||!t||t=='ue_u')return stem;
+ const vs=[...stem.matchAll(/[aeiou]/g)];let k=vs.length-1;while(k>0&&vs[k][0]=='u'&&/[qg]/.test(stem[vs[k].index-1]))k--;if(k<0)return stem;const i=vs[k].index,c=stem[i];
+ if(c=='e')return stem.slice(0,i)+'i'+stem.slice(i+1);if(c=='o')return stem.slice(0,i)+'u'+stem.slice(i+1);return stem}
+function accStem(v,stem){if(!ACCV.has(v))return stem;const m=stem.match(/([iu])([^aeiou]*)$/);if(!m)return stem;const i=stem.lastIndexOf(m[1]);return stem.slice(0,i)+ACC[m[1]]+stem.slice(i+1)}
+const ENDP={ar:T6('o as a amos áis an'),er:T6('o es e emos éis en'),ir:T6('o es e imos ís en')};
+function irrOf(v){if(IRR[v])return [ '',v,IRR[v]];const[p,b]=splitPrefix(v);if(p&&IRR[b])return [p,b,IRR[b]];if(p&&b=='solver')return [p,'resolver',{pp:'suelto'}];if(p&&b=='ducir')return [p,'conducir',{pstem:'duj'}];return ['',v,null]}
+function yoForm(v){const {stem,end}=info(v);const [p,b,ir]=irrOf(v);if(ir&&ir.pres)return p+ir.pres[0];if(ir&&ir.yo)return p+ir.yo;
+ let s=accStem(v,chStem(v,stem));
+ if(/uir$/.test(v)&&!/guir$/.test(v))return stem+'yo';
+ if(/[gq]uir$/.test(v)&&/guir$/.test(v))return s.slice(0,-2)+'go';
+ if(/(ger|gir)$/.test(v))return s.slice(0,-1)+'jo';
+ if(/[aeiouáéó]cer$|[aeiou]cir$|ducir$/.test(v)&&!/(hacer|decir)$/.test(v)&&!/(cocer|mecer)$/.test(v))return s.slice(0,-1)+'zco';
+ if(/[^aeiou]cer$|cocer$/.test(v))return s.slice(0,-1)+'zo';
+ return s+'o'}
+function present(v){const [p,b,ir]=irrOf(v);if(ir&&ir.pres)return ir.pres.map(x=>p+x);const {stem,end}=info(v),E=ENDP[end];
+ const ch=accStem(v,chStem(v,stem));const out=E.map((e,i)=>([3,4].includes(i)?stem:ch)+e);
+ if(/uir$/.test(v)&&!/guir$/.test(v))[0,1,2,5].forEach(i=>out[i]=stem+'y'+E[i]);
+ out[0]=yoForm(v);
+ if(ir&&ir.yo&&p==''&&b=='decir'){}
+ return out.map(f=>{if(p&&(b=='tener'||b=='venir')){return f}return f})}
+const ENDPRET={ar:T6('é aste ó amos asteis aron'),er:T6('í iste ió imos isteis ieron'),ir:T6('í iste ió imos isteis ieron')};
+function preterite(v){const [p,b,ir]=irrOf(v);if(ir&&ir.pret)return ir.pret.map(x=>p+x);const {stem,end}=info(v);
+ if(ir&&ir.pstem){const s=p+ir.pstem;const j=/j$/.test(s);const f=[s+'e',s+'iste',s+'o',s+'imos',s+'isteis',s+(j?'eron':'ieron')];if(b=='hacer')f[2]=p+'hizo';return f}
+ if(end=='ar'){const f=ENDPRET.ar.map(e=>stem+e);f[0]=stem.replace(/c$/,'qu').replace(/gu$/,'gü').replace(/g$/,'gu').replace(/z$/,'c')+'é';return f}
+ const w=weakStem(v,stem);
+ if(/[aeou]$/.test(stem)&&!/[gq]u$/.test(stem)){const ui=/u$/.test(stem);return [stem+'í',stem+(ui?'iste':'íste'),stem+'yó',stem+(ui?'imos':'ímos'),stem+(ui?'isteis':'ísteis'),stem+'yeron']}
+ const f=ENDPRET[end].map(e=>stem+e);f[2]=w+'ió';f[5]=w+'ieron';
+ if(/ñ$|ll$/.test(stem)){f[2]=w+'ó';f[5]=w+'eron'}return f}
+function imperfect(v){const [p,b,ir]=irrOf(v);if(ir&&ir.impf)return ir.impf.map(x=>p+x);const {stem,end}=info(v);
+ return end=='ar'?T6('aba abas aba ábamos abais aban').map(e=>stem+e):T6('ía ías ía íamos íais ían').map(e=>stem+e)}
+function futStem(v){const [p,b,ir]=irrOf(v);if(ir&&ir.fut)return p+ir.fut;return unacc(v)}
+const future=v=>T6('é ás á emos éis án').map(e=>futStem(v)+e);
+const conditional=v=>T6('ía ías ía íamos íais ían').map(e=>futStem(v)+e);
+function participle(v){const [p,b,ir]=irrOf(v);if(ir&&ir.pp)return p+ir.pp;if(p&&b=='resolver')return p+'suelto';const {stem,end}=info(v);
+ if(end=='ar')return stem+'ado';if(/[aeo]$/.test(stem))return stem+'ído';return stem+'ido'}
+function gerund(v){const [p,b,ir]=irrOf(v);if(ir&&ir.ger)return p+ir.ger;const {stem,end}=info(v);if(end=='ar')return stem+'ando';
+ if(/[aeiou]$/.test(stem)&&!/[gq]u$/.test(stem))return stem+'yendo';if(/ñ$|ll$/.test(stem))return weakStem(v,stem)+'endo';
+ const w=weakStem(v,stem);return w+'iendo'}
+function subjunctive(v){const [p,b,ir]=irrOf(v);if(ir&&ir.subj)return ir.subj.map(x=>p+x);const {stem,end}=info(v);const E=end=='ar'?T6('e es e emos éis en'):T6('a as a amos áis an');
+ const yo=yoForm(v);const ch=accStem(v,chStem(v,stem));const yoIrr=yo!=ch+'o'&&!/uir$/.test(v);
+ const fix=s=>end=='ar'?s.replace(/c$/,'qu').replace(/gu$/,'gü').replace(/g$/,'gu').replace(/z$/,'c'):s;
+ if(yoIrr){const s=yo.slice(0,-1);const s45=(SC[v]&&end=='ir'&&!/^(decir|elegir|corregir|seguir|conseguir|perseguir)$/.test(v))?weakStem(v,s):s;return E.map((e,i)=>([3,4].includes(i)?s45:s)+e)}
+ if(/uir$/.test(v)&&!/guir$/.test(v))return E.map(e=>stem+'y'+e);
+ const s45=end=='ir'?weakStem(v,stem):stem;return E.map((e,i)=>fix([3,4].includes(i)?s45:ch)+e)}
+function impSubj(v){const s=preterite(v)[5].replace(/ron$/,'');const sA=s.slice(0,-1)+ACC[s.slice(-1)];return [s+'ra',s+'ras',s+'ra',sA+'ramos',s+'rais',s+'ran']}
+function imperative(v){const [p,b,ir]=irrOf(v);const sj=subjunctive(v);let tu=ir&&ir.tu?p+ir.tu:present(v)[2];
+ if(p&&ir&&ir.tu&&/^[^aeiou]*[aeiou][^aeiou]*$/.test(ir.tu)&&/[ns]$|[aeiou]$/.test(ir.tu)&&b!='ir'){tu=p+ir.tu.replace(/[aeiou](?=[^aeiou]*$)/,c=>ACC[c])}
+ const vos=b=='ir'&&!p?'id':v.slice(0,-1)+'d';return [null,tu,sj[2],b=='ir'&&!p?'vamos':sj[3],vos,sj[5]]}
+const HAB=T6('he has ha hemos habéis han'),HABIA=T6('había habías había habíamos habíais habían'),ESTOY=T6('estoy estás está estamos estáis están'),VOY=T6('voy vas va vamos vais van');
+const TENSES=[
+ ['pres','Presente','Present'],['prog','Presente continuo','Present progressive'],['perf','Pretérito perfecto','Present perfect'],['pret','Pretérito indefinido','Simple past (preterite)'],
+ ['impf','Pretérito imperfecto','Imperfect (used to / was -ing)'],['plus','Pluscuamperfecto','Past perfect (had done)'],['ira','Futuro con «ir a»','Near future (going to)'],['fut','Futuro simple','Future (will)'],
+ ['cond','Condicional','Conditional (would)'],['subj','Presente de subjuntivo','Present subjunctive'],['imp','Imperativo','Commands'],['isubj','Imperfecto de subjuntivo','Imperfect subjunctive']];
+function cjBase(v,t){switch(t){case'pres':return present(v);case'pret':return preterite(v);case'impf':return imperfect(v);case'fut':return future(v);case'cond':return conditional(v);
+ case'subj':return subjunctive(v);case'isubj':return impSubj(v);case'imp':return imperative(v);
+ case'perf':return HAB.map(h=>h+' '+participle(v));case'plus':return HABIA.map(h=>h+' '+participle(v));
+ case'prog':return ESTOY.map(h=>h+' '+gerund(v));case'ira':return VOY.map(h=>h+' a '+v)}}
+/* public: handles reflexive verbs (levantarse -> me levanto) */
+function cj(verb,t){verb=verb.trim().toLowerCase();if(isRefl(verb)){const v=verb.slice(0,-2);if(t=='imp')return [null,null,null,null,null,null];
+ if(t=='ira')return VOY.map((h,i)=>REFP[i]+' '+h+' a '+v);return cjBase(v,t).map((f,i)=>REFP[i]+' '+f)}return cjBase(verb,t)}
+/* is this form irregular in this tense? (compares with the regular pattern) */
+function regForm(v,t){const {stem,end}=info(v);const R={pres:ENDP[end].map(e=>stem+e),pret:ENDPRET[end].map(e=>stem+e),impf:end=='ar'?T6('aba abas aba ábamos abais aban').map(e=>stem+e):T6('ía ías ía íamos íais ían').map(e=>stem+e),
+ fut:T6('é ás á emos éis án').map(e=>v+e),cond:T6('ía ías ía íamos íais ían').map(e=>v+e),subj:(end=='ar'?T6('e es e emos éis en'):T6('a as a amos áis an')).map(e=>stem+e)};
+ R.isubj=(end=='ar'?['ara','aras','ara','áramos','arais','aran']:['iera','ieras','iera','iéramos','ierais','ieran']).map(e=>stem+e);
+ const pp=end=='ar'?stem+'ado':stem+'ido',ger=end=='ar'?stem+'ando':stem+'iendo';R.perf=HAB.map(h=>h+' '+pp);R.plus=HABIA.map(h=>h+' '+pp);R.prog=ESTOY.map(h=>h+' '+ger);R.ira=VOY.map(h=>h+' a '+v);
+ R.imp=[null,stem+ENDP[end][2],R.subj[2],R.subj[3],v.slice(0,-1)+'d',R.subj[5]];return R[t]}
+function isIrr(v,t){const a=cjBase(v,t),r=regForm(v,t);return a.some((f,i)=>f!=null&&f!=r[i])}
+function vType(v){const b=isRefl(v)?v.slice(0,-2):v;const[p,bb,ir]=irrOf(b);if(ir)return 'irr';const s=SC[b]||(p&&SC[bb]);if(s)return {ie:'e→ie',ue:'o→ue',i:'e→i',ue_u:'u→ue',ie_i:'i→ie',hue:'o→hue'}[s];
+ if(TENSES.some(([t])=>isIrr(b,t)))return 'orto';return 'reg'}
+
+/* ==== verbs_data.js ==== */
+/* verbs_data.js: most common Spanish verbs (roughly by frequency), tense notes, sentence frames and common phrases */
+const COMMONV=`ser=to be;estar=to be (place, state);haber=to have (helper verb) / there is;tener=to have;hacer=to do / to make;poder=can / to be able to;decir=to say / to tell;ir=to go;ver=to see;dar=to give;saber=to know (facts, how to);querer=to want / to love;llegar=to arrive;pasar=to pass / to happen / to spend (time);deber=must / to owe;poner=to put;parecer=to seem;quedar=to stay / to meet up;creer=to believe;hablar=to speak;llevar=to carry / to wear;dejar=to leave / to let;seguir=to follow / to keep going;encontrar=to find;llamar=to call;venir=to come;pensar=to think;salir=to go out / to leave;volver=to come back;tomar=to take / to drink;conocer=to know (people, places);vivir=to live;sentir=to feel;tratar=to try / to treat;mirar=to look at;contar=to count / to tell;empezar=to begin;esperar=to wait / to hope;buscar=to look for;existir=to exist;entrar=to go in;trabajar=to work;escribir=to write;perder=to lose;producir=to produce;ocurrir=to happen;entender=to understand;pedir=to ask for / to order;recibir=to receive;recordar=to remember;terminar=to finish;permitir=to allow;aparecer=to appear;conseguir=to get / to achieve;comenzar=to begin;servir=to serve;sacar=to take out;necesitar=to need;mantener=to keep;resultar=to turn out;leer=to read;caer=to fall;cambiar=to change;presentar=to present / to introduce;crear=to create;abrir=to open;considerar=to consider;oír=to hear;acabar=to finish / to have just;convertir=to turn into;ganar=to win / to earn;formar=to form;traer=to bring;partir=to leave / to split;morir=to die;aceptar=to accept;realizar=to carry out;suponer=to suppose;comprender=to understand;lograr=to achieve;explicar=to explain;preguntar=to ask (a question);tocar=to touch / to play (music);reconocer=to recognize;estudiar=to study;alcanzar=to reach;nacer=to be born;dirigir=to direct / to manage;correr=to run;utilizar=to use;pagar=to pay;ayudar=to help;gustar=to like (to be pleasing);jugar=to play (a game);escuchar=to listen;cumplir=to fulfill / to turn (an age);ofrecer=to offer;descubrir=to discover;levantar=to lift;intentar=to try;usar=to use;decidir=to decide;repetir=to repeat;olvidar=to forget;valer=to be worth / to cost;comer=to eat;mostrar=to show;ocupar=to occupy;mover=to move;continuar=to continue;suceder=to happen;desarrollar=to develop;obtener=to get / to obtain;responder=to answer;señalar=to point out;establecer=to establish;observar=to observe;dormir=to sleep;contestar=to answer;elegir=to choose;enseñar=to teach / to show;subir=to go up;bajar=to go down;caminar=to walk;viajar=to travel;cocinar=to cook;beber=to drink;comprar=to buy;vender=to sell;limpiar=to clean;lavar=to wash;cerrar=to close;aprender=to learn;preparar=to prepare;cantar=to sing;bailar=to dance;nadar=to swim;conducir=to drive;montar=to ride;descansar=to rest;despertarse=to wake up;levantarse=to get up;acostarse=to go to bed;ducharse=to take a shower;vestirse=to get dressed;peinarse=to comb your hair;lavarse=to wash (yourself);sentarse=to sit down;llamarse=to be called;quedarse=to stay;irse=to leave / to go away;casarse=to get married;enamorarse=to fall in love;divertirse=to have fun;aburrirse=to get bored;preocuparse=to worry;enfadarse=to get angry;acordarse=to remember;equivocarse=to make a mistake;sentirse=to feel;ponerse=to put on / to become;quitarse=to take off;mudarse=to move (house);celebrar=to celebrate;invitar=to invite;visitar=to visit;regalar=to give (as a gift);recoger=to pick up;coger=to take / to catch;traducir=to translate;pronunciar=to pronounce;sonreír=to smile;reír=to laugh;llorar=to cry;gritar=to shout;besar=to kiss;abrazar=to hug;amar=to love;odiar=to hate;preferir=to prefer;desear=to wish;soñar=to dream;imaginar=to imagine;mentir=to lie;prometer=to promise;perdonar=to forgive;agradecer=to thank;saludar=to greet;despedirse=to say goodbye;quejarse=to complain;discutir=to argue / to discuss;compartir=to share;prestar=to lend;devolver=to give back;romper=to break;arreglar=to fix;construir=to build;pintar=to paint;dibujar=to draw;cortar=to cut;mezclar=to mix;calentar=to heat up;hervir=to boil;freír=to fry;probar=to taste / to try;añadir=to add;pesar=to weigh;medir=to measure;costar=to cost;gastar=to spend (money);ahorrar=to save (money);cobrar=to charge;alquilar=to rent;reservar=to book;cancelar=to cancel;llenar=to fill;vaciar=to empty;guardar=to keep / to put away;esconder=to hide;encender=to turn on / to light;apagar=to turn off;funcionar=to work (machines);cargar=to carry / to charge;enviar=to send;mandar=to send / to order;imprimir=to print;borrar=to erase / to delete;navegar=to sail / to browse;descargar=to download;crecer=to grow;respirar=to breathe;doler=to hurt;curar=to cure;cuidar=to take care of;sufrir=to suffer;toser=to cough;estornudar=to sneeze;sudar=to sweat;adelgazar=to lose weight;engordar=to put on weight;llover=to rain;nevar=to snow;brillar=to shine;soplar=to blow;empujar=to push;tirar=to throw / to pull;colgar=to hang;doblar=to fold / to turn;girar=to turn;cruzar=to cross;parar=to stop;acercarse=to come closer;huir=to run away;escapar=to escape;saltar=to jump;volar=to fly;tropezar=to trip;competir=to compete;entrenar=to train;golpear=to hit;matar=to kill;robar=to steal;aprobar=to pass (an exam);suspender=to fail (an exam);corregir=to correct;significar=to mean;depender=to depend;pertenecer=to belong;contener=to contain;incluir=to include;faltar=to be missing;sobrar=to be left over;bastar=to be enough;importar=to matter;interesar=to interest;encantar=to love (something);molestar=to bother;preocupar=to worry (someone);acompañar=to go with;organizar=to organize;planear=to plan;votar=to vote;prohibir=to forbid;obligar=to force;exigir=to demand;sugerir=to suggest;recomendar=to recommend;aconsejar=to advise;avisar=to warn / to let know;comparar=to compare;describir=to describe;demostrar=to prove;resolver=to solve;investigar=to investigate;cenar=to have dinner;desayunar=to have breakfast;almorzar=to have lunch;merendar=to have an afternoon snack;tardar=to take (time);durar=to last;mejorar=to improve;empeorar=to get worse;aumentar=to increase;disminuir=to decrease;apoyar=to support;confiar=to trust;dudar=to doubt;negar=to deny;asistir=to attend;pescar=to fish;plantar=to plant;regar=to water (plants);fumar=to smoke;oler=to smell;sonar=to sound / to ring;afeitarse=to shave;maquillarse=to put on makeup;cepillarse=to brush (your hair, teeth);caber=to fit;andar=to walk;atender=to attend to;defender=to defend;envolver=to wrap;reunirse=to get together;firmar=to sign;rellenar=to fill in (a form);practicar=to practice;repasar=to review;ordenar=to tidy / to put in order;fregar=to scrub / to wash dishes;barrer=to sweep;planchar=to iron;divorciarse=to get divorced;reciclar=to recycle;aparcar=to park;contaminar=to pollute;meter=to put in;notar=to notice;fijarse=to pay attention;cubrir=to cover;quemar=to burn;despertar=to wake (someone) up;acostumbrarse=to get used to;atreverse=to dare;echar=to throw / to pour;soler=to usually (do);charlar=to chat;conversar=to talk;disfrutar=to enjoy;evitar=to avoid;entregar=to hand in;apuntar=to write down / to sign up;averiguar=to find out;calcular=to calculate;callar=to be quiet;colocar=to place;comunicar=to communicate;confirmar=to confirm;conectar=to connect;contratar=to hire;controlar=to control;copiar=to copy;dedicar=to dedicate;detener=to stop / to arrest;fallar=to fail / to miss;grabar=to record;informar=to inform;insistir=to insist;jubilarse=to retire;juntar=to put together;marcar=to mark / to score;mencionar=to mention;nombrar=to name;pegar=to stick / to hit;perseguir=to chase;proteger=to protect;quitar=to take away;rechazar=to reject;secar=to dry;sorprender=to surprise;sumar=to add up;vigilar=to watch over;asustar=to scare;atacar=to attack;combinar=to combine;apostar=to bet;rezar=to pray;despedir=to fire / to see off`;
+/* tense notes */
+const TD={
+pres:{use:['Lo que haces normalmente o siempre.','Cosas que son verdad.','Lo que pasa ahora (en general).'],useEn:'What you usually do, facts, and what is happening now.',mk:'todos los días, siempre, normalmente, a veces, los lunes, nunca',
+ ex:[['Hablo español todos los días.','I speak Spanish every day.'],['Comemos a las dos.','We eat at two.'],['¿Dónde vivís?','Where do you (all) live?']],
+ irrNote:'Muchos verbos cambian la vocal (pienso, puedo, pido), otros son irregulares en «yo» (tengo, hago, pongo, salgo, conozco), y algunos son totalmente irregulares (soy, estoy, voy).',
+ fr:['Normalmente {S} ___ {C}.','Todos los días {S} ___ {C}.','Los sábados {S} ___ {C}.'],
+ ph:[['¿Cómo te *llamas*?','What is your name?','llamarse','tú'],['¿Cómo *estás*?','How are you?','estar','tú'],['No *entiendo*.',"I don't understand.",'entender','yo'],['¿Cuánto *cuesta*?','How much is it?','costar','él'],['*Tengo* hambre.',"I'm hungry.",'tener','yo'],['¿Qué hora *es*?','What time is it?','ser','él'],['¿*Puedes* repetir, por favor?','Can you repeat, please?','poder','tú'],['*Hace* mucho calor.',"It's very hot.",'hacer','él'],['¿De dónde *eres*?','Where are you from?','ser','tú'],['*Quiero* un vaso de agua.','I want a glass of water.','querer','yo']]},
+prog:{use:['Una acción que está pasando en este momento.'],useEn:'Something happening right now (I am doing).',mk:'ahora, ahora mismo, en este momento',
+ ex:[['Estoy estudiando.',"I'm studying."],['¿Qué estás haciendo?','What are you doing?'],['Está lloviendo.',"It's raining."]],
+ irrNote:'Se forma con estar + gerundio (-ando / -iendo). Gerundios irregulares: leyendo, oyendo, cayendo, durmiendo, muriendo, pidiendo, diciendo, sintiendo, viniendo, pudiendo, yendo.',
+ fr:['Ahora mismo {S} ___ {C}.','En este momento {S} ___ {C}.'],
+ ph:[['¿Qué *estás haciendo*?','What are you doing?','hacer','tú'],['*Estoy buscando* las llaves.',"I'm looking for the keys.",'buscar','yo'],['*Está lloviendo*.',"It's raining.",'llover','él'],['*Estamos esperando* el autobús.',"We're waiting for the bus.",'esperar','nosotros'],['Ahora no puedo, *estoy trabajando*.',"I can't right now, I'm working.",'trabajar','yo'],['¿Me *estás escuchando*?','Are you listening to me?','escuchar','tú'],['Los niños *están durmiendo*.','The kids are sleeping.','dormir','ellos'],['*Estoy leyendo* un libro muy bueno.',"I'm reading a very good book.",'leer','yo']]},
+perf:{use:['Acciones en un tiempo que todavía no ha terminado (hoy, esta semana, este año).','Experiencias de tu vida (alguna vez, nunca).','Con ya y todavía no.'],useEn:'Have done: today, this week, ever, never, already, not yet.',mk:'hoy, esta mañana, esta semana, este año, alguna vez, nunca, ya, todavía no',
+ ex:[['Hoy he comido paella.','Today I have eaten paella.'],['¿Has estado en Sevilla?','Have you been to Seville?'],['Todavía no hemos terminado.',"We haven't finished yet."]],
+ irrNote:'Se forma con haber (he, has, ha, hemos, habéis, han) + participio (-ado / -ido). Participios irregulares: hecho, dicho, visto, escrito, puesto, vuelto, abierto, roto, muerto, descubierto, frito.',
+ fr:['Hoy {S} ___ {C}.','Esta semana {S} ___ {C}.','Este año {S} ___ {C}.'],
+ ph:[['¿*Has estado* alguna vez en Sevilla?','Have you ever been to Seville?','estar','tú'],['Todavía no *he terminado*.',"I haven't finished yet.",'terminar','yo'],['¿Qué *has hecho* hoy?','What have you done today?','hacer','tú'],['Nunca *he visto* la nieve.','I have never seen snow.','ver','yo'],['¿*Habéis comido* ya?','Have you (all) eaten yet?','comer','vosotros'],['¡*Has ganado*!','You have won!','ganar','tú'],['Este año *hemos viajado* mucho.','This year we have traveled a lot.','viajar','nosotros'],['¿Quién *ha dicho* eso?','Who said that?','decir','él']]},
+pret:{use:['Acciones terminadas en un momento concreto del pasado.','Una serie de acciones (primero..., después...).'],useEn:'Finished actions at a specific time in the past (I did).',mk:'ayer, anoche, el lunes pasado, la semana pasada, el año pasado, en 2020, hace dos días, de repente',
+ ex:[['Ayer fui al cine.','Yesterday I went to the movies.'],['Comimos en un restaurante.','We ate at a restaurant.'],['¿Qué hiciste el sábado?','What did you do on Saturday?']],
+ irrNote:'Muy irregulares: fui (ser e ir), tuve, estuve, hice, dije, pude, puse, vine, quise, supe, di, vi. Los verbos -ir con cambio cambian en él y ellos: pidió, durmió, sintieron.',
+ fr:['Ayer {S} ___ {C}.','La semana pasada {S} ___ {C}.','Anoche {S} ___ {C}.'],
+ ph:[['¿Qué *hiciste* el fin de semana?','What did you do on the weekend?','hacer','tú'],['¿Cómo te *fue* el examen?','How did the exam go?','ir','él'],['*Nací* en 2010.','I was born in 2010.','nacer','yo'],['Ayer *fuimos* al cine.','Yesterday we went to the movies.','ir','nosotros'],['¿*Viste* el partido anoche?','Did you see the game last night?','ver','tú'],['Lo *pasamos* muy bien.','We had a great time.','pasar','nosotros'],['Me *encantó*.','I loved it.','encantar','él'],['¿Qué *dijo* el profesor?','What did the teacher say?','decir','él']]},
+impf:{use:['Describir el pasado (cómo era, qué había).','Costumbres del pasado (used to).','Una acción en progreso (was doing).','La hora y la edad en el pasado.'],useEn:'Descriptions, habits (used to) and actions in progress (was doing) in the past.',mk:'antes, de pequeño, siempre, todos los días, normalmente, mientras, cuando era niño',
+ ex:[['De pequeño vivía en un pueblo.','When I was little I lived in a village.'],['Siempre jugábamos en la calle.','We always used to play in the street.'],['Eran las diez.','It was ten o’clock.']],
+ irrNote:'¡Solo hay tres verbos irregulares: ser (era), ir (iba) y ver (veía)!',
+ fr:['De pequeño, {S} siempre ___ {C}.','Antes {S} ___ {C}.','Cuando vivíamos en el pueblo, {S} ___ {C}.'],
+ ph:[['Cuando *era* pequeño, vivía en Málaga.','When I was little, I lived in Málaga.','ser','yo'],['*Hacía* mucho frío.','It was very cold.','hacer','él'],['*Eran* las diez de la noche.','It was ten at night.','ser','ellos'],['¿Qué *querías* decir?','What did you mean?','querer','tú'],['Antes *íbamos* a la playa todos los veranos.','We used to go to the beach every summer.','ir','nosotros'],['Mientras yo *cocinaba*, mi hermano ponía la mesa.','While I was cooking, my brother was setting the table.','cocinar','yo'],['No *sabía* que estabas aquí.',"I didn't know you were here.",'saber','yo'],['*Había* mucha gente en la plaza.','There were a lot of people in the square.','haber','él']]},
+plus:{use:['Una acción pasada que ocurrió antes de otra acción pasada.'],useEn:'Had done: something that happened before another past action.',mk:'ya, todavía no, nunca, antes de, cuando llegué',
+ ex:[['Cuando llegué, ya habían cenado.','When I arrived, they had already had dinner.'],['Nunca había visto el mar.','I had never seen the sea.']],
+ irrNote:'Se forma con había (había, habías, había, habíamos, habíais, habían) + participio. Los participios irregulares son los mismos: hecho, dicho, visto, escrito, puesto, vuelto, abierto, roto...',
+ fr:['Cuando llegué a casa, {S} ya ___ {C}.','Antes de la fiesta, {S} ya ___ {C}.'],
+ ph:[['Cuando llegué, el tren ya *había salido*.','When I arrived, the train had already left.','salir','él'],['Nunca *había comido* paella antes.','I had never eaten paella before.','comer','yo'],['¿Ya *habías estado* en Madrid?','Had you already been to Madrid?','estar','tú'],['Cuando empezó la película, ya *habíamos cenado*.','When the movie started, we had already had dinner.','cenar','nosotros'],['Me dijo que *había perdido* las llaves.','He told me he had lost the keys.','perder','él'],['Nunca *habían visto* el mar.','They had never seen the sea.','ver','ellos'],['¡Yo no *había dicho* nada!',"I hadn't said anything!",'decir','yo'],['No sabía que *habías vuelto*.',"I didn't know you had come back.",'volver','tú']]},
+ira:{use:['Planes e intenciones.','Cosas que van a pasar muy pronto.'],useEn:'Going to: plans and things that are about to happen.',mk:'esta tarde, esta noche, mañana, el fin de semana que viene, la próxima semana, pronto',
+ ex:[['Voy a estudiar esta tarde.',"I'm going to study this afternoon."],['¿Qué vas a hacer mañana?','What are you going to do tomorrow?'],['Va a llover.',"It's going to rain."]],
+ irrNote:'Es muy fácil: ir en presente (voy, vas, va, vamos, vais, van) + a + infinitivo. Con verbos con «se»: me voy a levantar = voy a levantarme.',
+ fr:['Esta tarde {S} ___ {C}.','Mañana {S} ___ {C}.','El fin de semana que viene {S} ___ {C}.'],
+ ph:[['¿Qué *vas a hacer* esta noche?','What are you going to do tonight?','hacer','tú'],['*Va a llover*.',"It's going to rain.",'llover','él'],['*Voy a estudiar* para el examen.',"I'm going to study for the exam.",'estudiar','yo'],['*Vamos a ver*...',"Let's see...",'ver','nosotros'],['¿*Vais a venir* a la fiesta?','Are you (all) coming to the party?','venir','vosotros'],['Este verano *vamos a viajar* a Italia.',"This summer we're going to travel to Italy.",'viajar','nosotros'],['*Van a llegar* tarde.',"They're going to be late.",'llegar','ellos'],['¡*Vas a ganar*!',"You're going to win!",'ganar','tú']]},
+fut:{use:['El futuro.','Predicciones y promesas.','Suposiciones sobre el presente (¿Qué hora será?).'],useEn:'Will: the future, predictions, promises, and guesses.',mk:'mañana, pasado mañana, el año que viene, en el futuro, dentro de diez años',
+ ex:[['Mañana hará sol.','Tomorrow it will be sunny.'],['Te llamaré esta noche.',"I'll call you tonight."],['Seremos médicos.','We will be doctors.']],
+ irrNote:'Las terminaciones son iguales para todos los verbos. Irregulares: tendré, haré, diré, podré, pondré, saldré, vendré, querré, sabré, habrá.',
+ fr:['El año que viene {S} ___ {C}.','En el futuro {S} ___ {C}.','Dentro de diez años {S} ___ {C}.'],
+ ph:[['Te *llamaré* mañana.',"I'll call you tomorrow.",'llamar','yo'],['¿Qué hora *será*?','I wonder what time it is.','ser','él'],['Ya *veremos*.',"We'll see.",'ver','nosotros'],['No *volverá* a pasar.',"It won't happen again.",'volver','él'],['*Habrá* mucha gente.','There will be lots of people.','haber','él'],['¿*Vendrás* conmigo?','Will you come with me?','venir','tú'],['Mañana *hará* sol.','Tomorrow it will be sunny.','hacer','él'],['*Tendremos* que esperar.','We will have to wait.','tener','nosotros']]},
+cond:{use:['Lo que harías (would).','Consejos: Yo que tú...','Peticiones educadas: ¿Podrías...?','Deseos: Me gustaría...'],useEn:'Would: advice, polite requests and wishes.',mk:'yo que tú, en tu lugar, con más tiempo, me gustaría',
+ ex:[['Me gustaría viajar a Japón.','I would like to travel to Japan.'],['¿Podrías ayudarme?','Could you help me?'],['Yo que tú, descansaría.','If I were you, I would rest.']],
+ irrNote:'Los mismos irregulares que el futuro: tendría, haría, diría, podría, pondría, saldría, vendría, querría, sabría, habría.',
+ fr:['Con más dinero, {S} ___ {C}.','Con más tiempo, {S} ___ {C}.','En vacaciones, {S} ___ {C}.'],
+ ph:[['Me *gustaría* un café, por favor.','I would like a coffee, please.','gustar','él'],['¿*Podrías* ayudarme?','Could you help me?','poder','tú'],['Yo que tú, *estudiaría* más.','If I were you, I would study more.','estudiar','yo'],['¿Qué *harías* tú?','What would you do?','hacer','tú'],['*Deberías* descansar.','You should rest.','deber','tú'],['*Sería* genial.','It would be great.','ser','él'],['¿Te *importaría* cerrar la ventana?','Would you mind closing the window?','importar','él'],['*Querríamos* reservar una mesa.','We would like to book a table.','querer','nosotros']]},
+subj:{use:['Deseos: Quiero que..., Ojalá...','Consejos: Te recomiendo que...','Emociones: Me alegro de que...','Dudas: No creo que...','Para que... / Cuando + futuro.'],useEn:'After wishes, advice, feelings, doubts, para que, and cuando (future).',mk:'quiero que, espero que, ojalá, es importante que, para que, cuando (futuro), no creo que',
+ ex:[['Quiero que vengas.','I want you to come.'],['Ojalá haga sol.','I hope it’s sunny.'],['Cuando llegues, llámame.','When you arrive, call me.']],
+ irrNote:'Se forma desde «yo» del presente: tengo → tenga, hago → haga, pido → pida. -ar → e (hable), -er/-ir → a (coma, viva). Irregulares: sea, esté, vaya, haya, sepa, dé.',
+ fr:['Es importante que {S} ___ {C}.','Mi madre quiere que {S} ___ {C}.','Ojalá {S} ___ {C}.'],
+ ph:[['¡Que *tengas* un buen día!','Have a nice day!','tener','tú'],['¡Que te *mejores*!','Get well soon!','mejorarse','tú'],['Ojalá *haga* sol mañana.','I hope it’s sunny tomorrow.','hacer','él'],['Cuando *puedas*, llámame.','Call me when you can.','poder','tú'],['No creo que *sea* verdad.',"I don't think it's true.",'ser','él'],['Te lo explico para que lo *entiendas*.',"I'll explain it so you understand.",'entender','tú'],['¡Que *aproveche*!','Enjoy your meal!','aprovechar','él'],['Espero que os *guste*.','I hope you (all) like it.','gustar','él']]},
+imp:{use:['Dar órdenes.','Dar consejos e instrucciones.','Invitar: ¡Pasa!'],useEn:'Commands and instructions.',mk:'¡ven!, ¡mira!, por favor, oye, perdone',
+ ex:[['Habla más despacio, por favor.','Speak more slowly, please.'],['Abrid los libros.','Open your books (you all).'],['Pase, por favor.','Come in, please (formal).']],
+ irrNote:'tú = como «él» en presente (habla, come). usted / ustedes = subjuntivo (hable, coman). vosotros = infinitivo sin -r + d (hablad, comed, vivid). Irregulares con tú: ten, ven, pon, sal, haz, di, sé, ve.',
+ fr:['{P}, ___ {C}, por favor.','¡{P}, ___ {C} ahora mismo!'],
+ ph:[['*Mira*, ¡qué bonito!','Look, how pretty!','mirar','tú'],['*Ven* aquí.','Come here.','venir','tú'],['*Perdone*, ¿dónde está la estación?','Excuse me, where is the station?','perdonar','usted'],['*Ten* cuidado.','Be careful.','tener','tú'],['*Abrid* los libros por la página diez.','Open your books to page ten.','abrir','vosotros'],['*Pase*, pase.','Come in, come in.','pasar','usted'],['*Haz* los deberes.','Do your homework.','hacer','tú'],['*Sigue* todo recto.','Go straight ahead.','seguir','tú']]},
+isubj:{use:['Si + imperfecto de subjuntivo + condicional: Si tuviera dinero, viajaría.','Deseos y consejos en pasado: Quería que vinieras.','Ojalá (algo difícil o imposible).'],useEn:'If I had..., I wanted you to..., I wish...',mk:'si (imposible), quería que, me pidió que, ojalá, como si',
+ ex:[['Si tuviera tiempo, iría contigo.','If I had time, I would go with you.'],['Quería que me ayudaras.','I wanted you to help me.'],['Ojalá pudiera volar.','I wish I could fly.']],
+ irrNote:'Se forma desde «ellos» del indefinido: hablaron → hablara, tuvieron → tuviera, fueron → fuera, hicieron → hiciera. Nosotros lleva tilde: habláramos.',
+ fr:['Si {S} ___ {C}, sería muy feliz.','Mis padres querían que {S} ___ {C}.','Ojalá {S} ___ {C}.'],
+ ph:[['Si *tuviera* dinero, viajaría por todo el mundo.','If I had money, I would travel around the world.','tener','yo'],['Si yo *fuera* tú, no lo haría.',"If I were you, I wouldn't do it.",'ser','yo'],['Ojalá *pudiera* ayudarte.','I wish I could help you.','poder','yo'],['Me pidió que *viniera* pronto.','He asked me to come early.','venir','yo'],['Si *hiciera* buen tiempo, iríamos a la playa.','If the weather were nice, we would go to the beach.','hacer','él'],['¡Como si *fuera* tan fácil!','As if it were that easy!','ser','él'],['Quería que me *ayudaras*.','I wanted you to help me.','ayudar','tú'],['Si *supiera* la respuesta, te la diría.','If I knew the answer, I would tell you.','saber','yo']]}
+};
+/* verb + complement for sentences */
+const VC=[['comer','paella'],['beber','agua'],['leer','el periódico'],['escribir','un correo'],['hablar','con la abuela'],['vivir','en el centro'],['trabajar','en una tienda'],['estudiar','español'],['ir','al mercado'],['hacer','los deberes'],['ver','una película'],['poner','la mesa'],['salir','con los amigos'],['venir','a mi casa'],['jugar','al fútbol'],['dormir','la siesta'],['comprar','fruta'],['cocinar','una tortilla'],['limpiar','la cocina'],['visitar','a los abuelos'],['cenar','en un restaurante'],['abrir','las ventanas'],['tener','paciencia'],['decir','la verdad'],['traer','el pan'],['pedir','una pizza'],['volver','a casa temprano'],['tocar','la guitarra'],['escuchar','música'],['correr','en el parque'],['nadar','en la piscina'],['aprender','inglés'],['bailar','en la fiesta'],['ayudar','a mi madre'],['llamar','a mi tía'],['lavar','los platos'],['subir','a la montaña'],['conducir','el coche'],['ordenar','la habitación'],['saber','la respuesta'],['poder','ayudar'],['querer','un helado'],['dar','un paseo']];
+const IMPVC=[['abrir','la ventana'],['cerrar','la puerta'],['traer','el pan'],['poner','la mesa'],['beber','agua'],['venir','aquí'],['hablar','más despacio'],['esperar','un momento'],['tener','cuidado'],['hacer','los deberes'],['leer','el texto'],['escuchar','con atención'],['limpiar','la mesa'],['decir','la verdad'],['salir','de aquí'],['subir','al coche'],['comer','la verdura'],['apagar','la luz'],['lavar','los platos'],['firmar','aquí']];
+const SUBJ=[['yo',0],['tú',1],['mi hermano',2],['Lucía',2],['nosotros',3],['vosotros',4],['mis amigos',5],['mis padres',5]];
+const VOC=[['Pablo',1],['Señora García',2],['Chicos',4],['Señores',5]];
+const REGPOOL='hablar trabajar estudiar cocinar comprar escuchar bailar cantar viajar caminar limpiar comer beber aprender vender correr comprender vivir escribir recibir subir compartir decidir partir llamar ayudar preparar visitar lavar nadar tomar mirar necesitar esperar responder deber meter romper permitir existir abrir'.split(' ');
+const IRRPOOL='ser estar ir tener hacer decir poder querer saber poner venir salir dar ver oír traer caer conocer pedir dormir sentir jugar pensar volver empezar entender seguir leer construir conducir morir escribir abrir romper buscar llegar almorzar servir preferir encontrar contar elegir coger haber pagar'.split(' ');
+
+/* ==== gram_data.js ==== */
+/* gram_data.js: grammar topics. Each question: [sentence with ___, [right, wrong, (wrong)], English, why] */
+const GTOP=[
+{id:'serestar',ic:'⚖️',t:'Ser o estar',en:'Two verbs for "to be"',
+ rule:`<div class="g2"><div><h5>SER</h5><ul><li>Quién eres: <i>Soy Alex.</i></li><li>Origen: <i>Somos de Chicago.</i></li><li>Profesión: <i>Es médico.</i></li><li>Cómo es (carácter, aspecto): <i>Es alta.</i></li><li>La hora y el día: <i>Son las tres. Hoy es lunes.</i></li><li>Material: <i>Es de madera.</i></li><li>Dónde es un evento: <i>La fiesta es en mi casa.</i></li></ul></div><div><h5>ESTAR</h5><ul><li>Dónde está algo o alguien: <i>Madrid está en España.</i></li><li>Cómo estás (estado, emoción): <i>Estoy cansado.</i></li><li>Resultados: <i>La puerta está abierta.</i></li><li>estar + gerundio: <i>Estoy comiendo.</i></li></ul></div></div>`,
+ q:[['Mi padre ___ médico.',['es','está'],'My father is a doctor.','Profesión → ser'],['Madrid ___ en el centro de España.',['está','es'],'Madrid is in the center of Spain.','Lugar → estar'],['Hoy ___ muy cansada.',['estoy','soy'],"Today I'm very tired.",'Estado → estar'],['Nosotros ___ de Chicago.',['somos','estamos'],"We're from Chicago.",'Origen → ser'],['La mesa ___ de madera.',['es','está'],'The table is made of wood.','Material → ser'],['¿Qué hora ___?',['es','está'],'What time is it?','La hora → ser'],['La sopa ___ fría. Hay que calentarla.',['está','es'],'The soup is cold. We have to heat it up.','Estado → estar'],['Mis abuelos ___ muy simpáticos.',['son','están'],'My grandparents are very nice.','Carácter → ser'],['Los niños ___ jugando en el parque.',['están','son'],'The kids are playing in the park.','estar + gerundio'],['La fiesta ___ en casa de Marta.',['es','está'],"The party is at Marta's house.",'Un evento → ser'],['¿Dónde ___ mis llaves?',['están','son'],'Where are my keys?','Lugar → estar'],['Hoy ___ lunes.',['es','está'],'Today is Monday.','Días → ser'],['La puerta ___ abierta.',['está','es'],'The door is open.','Resultado → estar'],['Mi hermana ___ triste porque perdió el partido.',['está','es'],'My sister is sad because she lost the game.','Emoción → estar']]},
+{id:'porpara',ic:'🎯',t:'Por o para',en:'Two words for "for"',
+ rule:`<div class="g2"><div><h5>PARA ➡️ (meta)</h5><ul><li>Para qué: <i>Estudio para aprobar.</i></li><li>Para quién: <i>Es para ti.</i></li><li>Destino: <i>El tren para Sevilla.</i></li><li>Fecha límite: <i>Para el lunes.</i></li><li>Opinión: <i>Para mí, es fácil.</i></li></ul></div><div><h5>POR 🔄 (causa, camino)</h5><ul><li>Causa: <i>No salimos por la lluvia.</i></li><li>Por dónde: <i>Paseo por el parque.</i></li><li>Partes del día: <i>Por la mañana.</i></li><li>Medio: <i>Por teléfono.</i></li><li>Precio, cambio: <i>Por diez euros.</i></li><li><i>Gracias por...</i></li></ul></div></div>`,
+ q:[['Este regalo es ___ ti.',['para','por'],'This gift is for you.','Para quién → para'],['Gracias ___ todo.',['por','para'],'Thanks for everything.','gracias por'],['Estudio mucho ___ aprobar el examen.',['para','por'],'I study a lot to pass the exam.','Para qué → para'],['Paseamos ___ el parque.',['por','para'],'We walk through the park.','Por dónde → por'],['Hablo con mi abuela ___ teléfono.',['por','para'],'I talk to my grandmother on the phone.','Medio → por'],['Los deberes son ___ el lunes.',['para','por'],'The homework is for Monday.','Fecha límite → para'],['Compré la camiseta ___ diez euros.',['por','para'],'I bought the T-shirt for ten euros.','Precio → por'],['___ la mañana voy al instituto.',['Por','Para'],'In the morning I go to school.','Partes del día → por'],['___ mí, el español es fácil.',['Para','Por'],'For me, Spanish is easy.','Opinión → para'],['No salimos ___ la lluvia.',['por','para'],"We didn't go out because of the rain.",'Causa → por'],['Este tren va ___ Sevilla.',['para','por'],'This train is going to Seville.','Destino → para'],['Necesito una toalla ___ la playa.',['para','por'],'I need a towel for the beach.','Para qué → para']]},
+{id:'hayesta',ic:'📍',t:'Hay o está',en:'There is / it is (located)',
+ rule:`<div class="g2"><div><h5>HAY (existe)</h5><ul><li>Con un, una, unos, unas: <i>Hay un banco en mi calle.</i></li><li>Con números y mucho: <i>Hay veinte alumnos.</i></li><li>Sin artículo: <i>Hay leche.</i></li><li>Nunca cambia: hay = there is / there are.</li></ul></div><div><h5>ESTÁ / ESTÁN (dónde)</h5><ul><li>Con el, la, los, las: <i>El banco está en mi calle.</i></li><li>Con mi, tu, su...: <i>Mis libros están aquí.</i></li><li>Con nombres: <i>Toledo está cerca de Madrid.</i></li></ul></div></div>`,
+ q:[['En mi barrio ___ un parque muy grande.',['hay','está'],'In my neighborhood there is a very big park.','un/una → hay'],['El parque ___ al lado del museo.',['está','hay'],'The park is next to the museum.','el/la → está'],['¿Dónde ___ la farmacia?',['está','hay'],'Where is the pharmacy?','la → está'],['¿___ una farmacia por aquí?',['Hay','Está'],'Is there a pharmacy around here?','una → hay'],['En la nevera ___ leche y huevos.',['hay','están'],'There is milk and eggs in the fridge.','sin artículo → hay'],['Mis libros ___ en la mesa.',['están','hay'],'My books are on the table.','mis → están'],['En la clase ___ veinte alumnos.',['hay','están'],'There are twenty students in the class.','números → hay'],['Toledo ___ cerca de Madrid.',['está','hay'],'Toledo is near Madrid.','nombre de ciudad → está'],['No ___ nadie en casa.',['hay','está'],"There's nobody home.",'nadie → hay'],['Las llaves ___ en el bolso.',['están','hay'],'The keys are in the bag.','las → están'],['En el centro ___ muchos restaurantes.',['hay','están'],'Downtown there are many restaurants.','muchos → hay'],['El cuarto de baño ___ al final del pasillo.',['está','hay'],'The bathroom is at the end of the hallway.','el → está']]},
+{id:'muymucho',ic:'💯',t:'Muy o mucho',en:'Very / a lot',
+ rule:`<ul><li><b>muy</b> + adjetivo o adverbio: <i>muy alto, muy bien, muy lejos</i>. Nunca cambia.</li><li><b>mucho, mucha, muchos, muchas</b> + nombre: <i>mucha gente, muchos libros, mucho frío</i>.</li><li>verbo + <b>mucho</b>: <i>Estudio mucho. Me gusta mucho.</i></li><li><b>mucho</b> + más / menos / mejor / peor: <i>mucho mejor</i>.</li></ul>`,
+ q:[['Mi casa es ___ grande.',['muy','mucho'],'My house is very big.','adjetivo → muy'],['Tengo ___ hambre.',['mucha','muy'],"I'm very hungry.",'hambre es un nombre femenino → mucha'],['Mi hermano estudia ___.',['mucho','muy'],'My brother studies a lot.','verbo → mucho'],['Hoy hace ___ calor.',['mucho','muy'],"It's very hot today.",'calor es un nombre → mucho'],['Hablas español ___ bien.',['muy','mucho'],'You speak Spanish very well.','adverbio → muy'],['Hay ___ gente en la plaza.',['mucha','muy'],'There are a lot of people in the square.','gente (f.) → mucha'],['Tengo ___ amigos en el colegio.',['muchos','muy'],'I have many friends at school.','amigos (m. pl.) → muchos'],['Este libro es ___ mejor que el otro.',['mucho','muy'],'This book is much better than the other one.','mucho + mejor'],['La película fue ___ aburrida.',['muy','mucha'],'The movie was very boring.','adjetivo → muy'],['Me gustan ___ las fresas.',['mucho','muy'],'I like strawberries a lot.','verbo → mucho'],['Mis abuelos viven ___ lejos.',['muy','mucho'],'My grandparents live very far away.','adverbio → muy'],['Hay ___ casas en esta calle.',['muchas','muy'],'There are many houses on this street.','casas (f. pl.) → muchas']]},
+{id:'gustar',ic:'❤️',t:'Gustar y verbos como gustar',en:'Like = "to be pleasing"',
+ rule:`<p>En español, la cosa que te gusta es el sujeto. <i>Me gusta el chocolate</i> = "Chocolate is pleasing to me".</p><table class="gtab"><tr><td>(a mí)</td><td><b>me</b></td><td rowspan="6"><b>gusta</b> + una cosa / un verbo<br><b>gustan</b> + varias cosas</td></tr><tr><td>(a ti)</td><td><b>te</b></td></tr><tr><td>(a él, a ella, a usted)</td><td><b>le</b></td></tr><tr><td>(a nosotros)</td><td><b>nos</b></td></tr><tr><td>(a vosotros)</td><td><b>os</b></td></tr><tr><td>(a ellos, a ustedes)</td><td><b>les</b></td></tr></table><p>Igual: <b>encantar</b> (to love), <b>interesar</b>, <b>doler</b> (to hurt), <b>molestar</b> (to bother), <b>importar</b>.</p>`,
+ q:[['A mí me ___ el chocolate.',['gusta','gustan'],'I like chocolate.','una cosa → gusta'],['A mi hermano le ___ los videojuegos.',['gustan','gusta'],'My brother likes video games.','varias cosas → gustan'],['¿A ti ___ gusta bailar?',['te','le'],'Do you like to dance?','a ti → te'],['A nosotros ___ encanta la playa.',['nos','les'],'We love the beach.','a nosotros → nos'],['A mis padres ___ gusta viajar.',['les','le'],'My parents like to travel.','a ellos → les'],['Me ___ la cabeza.',['duele','duelen'],'My head hurts.','una cosa → duele'],['¿Os ___ las películas de miedo?',['gustan','gusta'],'Do you (all) like horror movies?','varias cosas → gustan'],['A Lucía ___ encantan los gatos.',['le','la'],'Lucía loves cats.','a ella → le'],['Nos ___ cocinar los domingos.',['gusta','gustan'],'We like to cook on Sundays.','un verbo → gusta'],['Me ___ los pies después de correr.',['duelen','duele'],'My feet hurt after running.','varias cosas → duelen'],['A mí no ___ gustan las cebollas.',['me','mi'],"I don't like onions.",'a mí → me'],['¿Te ___ la música alta?',['molesta','molestan'],'Does loud music bother you?','una cosa → molesta']]},
+{id:'concord',ic:'🎨',t:'Adjetivos: masculino, femenino, plural',en:'Adjective agreement',
+ rule:`<ul><li>El adjetivo cambia como el nombre: <i>el chico alto, la chica alta, los chicos altos, las chicas altas</i>.</li><li>Adjetivos en <b>-e</b> o consonante: igual para chico y chica: <i>grande, azul, fácil</i> → plural <i>grandes, azules, fáciles</i>.</li><li><b>-z → -ces</b>: <i>feliz → felices</i>.</li><li>Nacionalidad: <i>español → española</i>.</li><li>Grupo mixto (chico + chica) → masculino plural: <i>Mis tíos son altos.</i></li></ul>`,
+ q:[['Las casas son muy ___.',['bonitas','bonitos','bonita'],'The houses are very pretty.','casas: femenino plural'],['Mi abuela es muy ___.',['simpática','simpático','simpáticas'],'My grandmother is very nice.','abuela: femenino singular'],['Tengo dos perros ___.',['negros','negras','negro'],'I have two black dogs.','perros: masculino plural'],['La falda ___ es de mi hermana.',['azul','azula','azules'],"The blue skirt is my sister's.",'azul: igual para m. y f.'],['Los niños están muy ___.',['felices','felizes','feliz'],'The kids are very happy.','feliz → felices'],['Es una ciudad muy ___.',['grande','granda','grandes'],'It is a very big city.','grande: igual para m. y f.'],['Mis tíos son ___.',['altos','altas','alto'],'My aunt and uncle are tall.','grupo mixto → masculino plural'],['Llevo unos zapatos ___.',['nuevos','nuevas','nuevo'],"I'm wearing new shoes.",'zapatos: masculino plural'],['Las películas de terror son ___.',['interesantes','interesantas','interesante'],'Horror movies are interesting.','-e → -es'],['El agua está muy ___.',['fría','frío','frías'],'The water is very cold.','agua es femenino (el agua fría)'],['Mi madre es ___.',['española','español','españolas'],'My mother is Spanish.','español → española'],['Tengo unas botas ___.',['marrones','marrón','marronas'],'I have brown boots.','marrón → marrones']]},
+{id:'compar',ic:'📏',t:'Comparar',en:'Comparisons',
+ rule:`<ul><li><b>más</b> ... <b>que</b>: <i>Madrid es más grande que Toledo.</i></li><li><b>menos</b> ... <b>que</b>: <i>Es menos caro que el otro.</i></li><li><b>tan</b> + adjetivo + <b>como</b>: <i>Es tan alto como yo.</i></li><li><b>tanto, tanta, tantos, tantas</b> + nombre + <b>como</b>: <i>Tengo tantos libros como tú.</i></li><li>Especiales: bueno → <b>mejor</b>, malo → <b>peor</b>, edad → <b>mayor / menor</b>.</li><li>El más...: <i>la montaña más alta <b>del</b> mundo</i>.</li></ul>`,
+ q:[['Madrid es ___ grande que Toledo.',['más','tan','tanto'],'Madrid is bigger than Toledo.','más ... que'],['Mi hermano es tan alto ___ mi padre.',['como','que','de'],'My brother is as tall as my father.','tan ... como'],['Este restaurante es ___ que el otro: la comida está riquísima.',['mejor','más bueno','bueno'],'This restaurant is better than the other one.','bueno → mejor'],['Tengo ___ libros como tú.',['tantos','tan','tantas'],'I have as many books as you.','tantos + nombre masculino plural'],['Mi abuela es ___ que mi abuelo: ella tiene 80 años y él 78.',['mayor','menor','más vieja de'],'My grandma is older than my grandpa.','edad → mayor'],['Hoy hace ___ frío como ayer.',['tanto','tan','tanta'],"Today it's as cold as yesterday.",'tanto + frío (nombre)'],['El Everest es la montaña más alta ___ mundo.',['del','que','como'],'Everest is the highest mountain in the world.','el más ... de'],['Este examen es ___ que el anterior. ¡Saqué un 3!',['peor','mejor','más malo de'],'This exam is worse than the last one.','malo → peor'],['El tren es ___ rápido que el autobús.',['más','muy','tan'],'The train is faster than the bus.','más ... que'],['Mi prima es ___ que yo: ella tiene 10 años y yo 14.',['menor','mayor','más pequeña de'],'My cousin is younger than me.','edad → menor'],['Hay ___ gente aquí como en el centro.',['tanta','tanto','tan'],'There are as many people here as downtown.','tanta + gente (f.)'],['Las fresas son menos caras ___ las cerezas.',['que','como','de'],'Strawberries are cheaper than cherries.','menos ... que']]},
+{id:'poses',ic:'🔑',t:'Posesivos: mi, tu, su...',en:'My, your, his, our...',
+ rule:`<table class="gtab"><tr><th></th><th>una cosa</th><th>varias cosas</th></tr><tr><td>yo</td><td>mi</td><td>mis</td></tr><tr><td>tú</td><td>tu</td><td>tus</td></tr><tr><td>él, ella, usted</td><td>su</td><td>sus</td></tr><tr><td>nosotros</td><td>nuestro / nuestra</td><td>nuestros / nuestras</td></tr><tr><td>vosotros</td><td>vuestro / vuestra</td><td>vuestros / vuestras</td></tr><tr><td>ellos, ustedes</td><td>su</td><td>sus</td></tr></table><p>El posesivo cambia según <b>la cosa</b>, no según la persona: <i>nuestra casa, nuestros perros</i>. Ojo: <b>tu</b> casa (your) ≠ <b>tú</b> (you); <b>mi</b> perro ≠ para <b>mí</b>.</p>`,
+ q:[['___ hermanos viven en Sevilla. (yo)',['Mis','Mi','Nuestros'],'My brothers live in Seville.','yo + varias cosas → mis'],['Esta es ___ casa. (nosotros)',['nuestra','nuestro','nuestras'],'This is our house.','casa (f.) → nuestra'],['¿Dónde está ___ mochila? (tú)',['tu','tú','tus'],'Where is your backpack?','tu (sin tilde) = your'],['Pedro y ___ novia van al cine. (él)',['su','sus','tu'],'Pedro and his girlfriend go to the movies.','él + una cosa → su'],['___ padres son muy jóvenes. (vosotros)',['Vuestros','Vuestras','Sus'],'Your (all) parents are very young.','padres (m. pl.) → vuestros'],['Mis abuelos venden ___ piso. (ellos)',['su','sus','nuestro'],'My grandparents are selling their apartment.','ellos + una cosa → su'],['___ amigas son muy simpáticas. (nosotros)',['Nuestras','Nuestros','Nuestra'],'Our friends (girls) are very nice.','amigas (f. pl.) → nuestras'],['Señora, ¿es este ___ bolso? (usted)',['su','tu','sus'],'Madam, is this your bag?','usted → su'],['Me encanta ___ jersey nuevo. (tú)',['tu','tus','su'],'I love your new sweater.','tú + una cosa → tu'],['___ clase es muy grande. (vosotros)',['Vuestra','Vuestro','Su'],'Your (all) class is very big.','clase (f.) → vuestra'],['Lucía pierde siempre ___ llaves. (ella)',['sus','su','tus'],'Lucía always loses her keys.','ella + varias cosas → sus'],['___ perro se llama Toby. (yo)',['Mi','Mí','Mis'],'My dog is called Toby.','mi (sin tilde) = my']]},
+{id:'pronom',ic:'👉',t:'Pronombres: lo, la, le...',en:'Object pronouns (it, him, her, them)',
+ rule:`<div class="g2"><div><h5>¿Qué? (objeto directo)</h5><ul><li><b>lo</b> (él / masculino), <b>la</b> (ella / femenino)</li><li><b>los</b>, <b>las</b> (plural)</li><li><i>¿El libro? Lo leo.</i></li></ul></div><div><h5>¿A quién? (objeto indirecto)</h5><ul><li><b>le</b> (a él, a ella, a usted), <b>les</b> (a ellos)</li><li><i>Le escribo un correo a mi abuela.</i></li><li>le + lo → <b>se lo</b>: <i>Se lo doy.</i></li></ul></div></div><p>Van <b>antes</b> del verbo (<i>lo compro</i>) o <b>pegados</b> al infinitivo (<i>voy a comprarlo</i>). También: me, te, nos, os.</p>`,
+ q:[['¿El libro? Ya ___ he leído.',['lo','la','le'],'The book? I have already read it.','el libro → lo'],['¿Las fresas? ___ compro en el mercado.',['Las','Los','Les'],'The strawberries? I buy them at the market.','las fresas → las'],['¿Dónde está María? No ___ veo.',['la','le','lo'],"Where's María? I don't see her.",'a María (¿a quién veo?) → la'],['Escribo un correo a mi abuela. ___ escribo un correo.',['Le','La','Lo'],'I write my grandmother an email.','a mi abuela (¿a quién?) → le'],['¿Los deberes? Voy a hacer___ ahora.',['los','las','les'],"The homework? I'm going to do it now.",'los deberes → los, pegado al infinitivo'],['Doy un regalo a mis padres. ___ doy un regalo.',['Les','Los','Le'],'I give my parents a gift.','a mis padres → les'],['¿La tortilla? ___ hace mi padre.',['La','Lo','Le'],'The omelette? My dad makes it.','la tortilla → la'],['¿El regalo para Ana? ___ lo doy mañana.',['Se','Le','La'],"The gift for Ana? I'll give it to her tomorrow.",'le + lo → se lo'],['¿Los zapatos nuevos? ___ llevo hoy.',['Los','Las','Les'],"The new shoes? I'm wearing them today.",'los zapatos → los'],['¿Me ayudas? — Sí, claro, ___ ayudo.',['te','me','le'],"Will you help me? — Sure, I'll help you.",'a ti → te'],['La película es genial. ¿___ has visto?',['La','Lo','Le'],'The movie is great. Have you seen it?','la película → la'],['Mi hermano tiene mis llaves. ___ tiene él.',['Las','Les','Los'],'My brother has my keys. He has them.','las llaves → las']]},
+{id:'prepos',ic:'🧭',t:'Preposiciones: a, en, de, con',en:'Small words: to, in, of, with',
+ rule:`<ul><li><b>a</b>: adónde (<i>voy a Madrid</i>), la hora (<i>a las tres</i>), personas (<i>veo a mi tía</i>).</li><li><b>en</b>: dónde (<i>en casa</i>), transporte (<i>en tren</i>), meses y años (<i>en julio</i>).</li><li><b>de</b>: origen (<i>soy de</i>), material (<i>de madera</i>), de quién (<i>el coche de mi padre</i>), de ... a (<i>de lunes a viernes</i>).</li><li><b>con</b>: con quién (<i>con mis amigos</i>).</li><li>a + el = <b>al</b>, de + el = <b>del</b>.</li></ul>`,
+ q:[['Voy ___ Madrid este fin de semana.',['a','en','de'],"I'm going to Madrid this weekend.",'adónde → a'],['Vivo ___ un piso pequeño.',['en','a','de'],'I live in a small apartment.','dónde → en'],['La clase empieza ___ las nueve.',['a','en','de'],'Class starts at nine.','la hora → a'],['Este anillo es ___ oro.',['de','en','con'],'This ring is made of gold.','material → de'],['Voy al colegio ___ autobús.',['en','con','a'],'I go to school by bus.','transporte → en'],['Mi cumpleaños es ___ marzo.',['en','a','de'],'My birthday is in March.','meses → en'],['Quedo ___ mis amigos los sábados.',['con','a','de'],'I meet up with my friends on Saturdays.','con quién → con'],['Visito ___ mis abuelos los domingos.',['a','en','de'],'I visit my grandparents on Sundays.','personas → a'],['Somos ___ Chicago.',['de','en','a'],"We're from Chicago.",'origen → de'],['Trabajo ___ lunes a viernes.',['de','en','con'],'I work from Monday to Friday.','de ... a'],['El coche ___ mi padre es rojo.',['de','a','en'],"My dad's car is red.",'de quién → de'],['Estoy ___ casa.',['en','a','de'],"I'm at home.",'dónde → en']]},
+{id:'indimp',ic:'⏳',t:'Indefinido o imperfecto',en:'Two past tenses',
+ rule:`<div class="g2"><div><h5>INDEFINIDO (fui, comí)</h5><ul><li>Acción terminada, momento concreto: <i>Ayer fui al cine.</i></li><li>De repente, una vez, en 2020.</li><li>La acción que interrumpe: <i>...cuando <b>sonó</b> el teléfono.</i></li></ul></div><div><h5>IMPERFECTO (iba, comía)</h5><ul><li>Descripciones: <i>La casa era grande.</i></li><li>Costumbres: <i>De pequeño iba al parque.</i></li><li>Acción en progreso: <i><b>Estaba</b> en la ducha cuando...</i></li><li>Hora, edad y tiempo: <i>Eran las diez. Tenía 8 años. Hacía frío.</i></li></ul></div></div>`,
+ q:[['Ayer ___ al cine con mis amigos.',['fui','iba'],'Yesterday I went to the movies with my friends.','acción terminada (ayer) → indefinido'],['De pequeño, ___ al parque todos los días.',['iba','fui'],'When I was little, I went to the park every day.','costumbre → imperfecto'],['___ las diez cuando llegó mi padre.',['Eran','Fueron'],'It was ten when my father arrived.','la hora → imperfecto'],['Mientras yo estudiaba, mi hermano ___ la tele.',['veía','vio'],'While I was studying, my brother was watching TV.','acción en progreso (mientras) → imperfecto'],['Estaba en la ducha cuando ___ el teléfono.',['sonó','sonaba'],'I was in the shower when the phone rang.','acción que interrumpe → indefinido'],['La casa de mis abuelos ___ muy grande y tenía un jardín.',['era','fue'],"My grandparents' house was very big and had a garden.",'descripción → imperfecto'],['En 2019 ___ a Italia.',['viajé','viajaba'],'In 2019 I traveled to Italy.','momento concreto → indefinido'],['Cuando ___ diez años, me gustaba el fútbol.',['tenía','tuve'],'When I was ten, I liked soccer.','la edad → imperfecto'],['De repente, ___ a llover.',['empezó','empezaba'],'Suddenly it started to rain.','de repente → indefinido'],['Antes, la gente no ___ móviles.',['tenía','tuvo'],"People didn't use to have cell phones.",'costumbre → imperfecto'],['El sábado pasado ___ una tarta para mi madre.',['hice','hacía'],'Last Saturday I made a cake for my mom.','acción terminada → indefinido'],['___ mucho frío y nevaba.',['Hacía','Hizo'],'It was very cold and it was snowing.','el tiempo (descripción) → imperfecto']]}
+];
+
+/* ==== grammar.js ==== */
+/* grammar.js: Gramática = Verbos (12 tenses x 5 activities), Práctica de gramática (topics), Lista de verbos */
+const TK=Object.fromEntries(TENSES.map(([k,t,e])=>[k,{t,e}]));
+const TGROUP=[['Presente','Present',['pres','prog','perf']],['Pasado','Past',['pret','impf','plus']],['Futuro y condicional','Future and conditional',['ira','fut','cond']],['Subjuntivo e imperativo','Subjunctive and commands',['subj','imp','isubj']]];
+const TIC={pres:'🌞',prog:'🏃',perf:'✅',pret:'📸',impf:'🎞️',plus:'⏪',ira:'🚀',fut:'🔮',cond:'💭',subj:'🙏',imp:'📣',isubj:'🌈'};
+const IMPP=['','tú','usted','nosotros','vosotros','ustedes'];
+const REFLPOOL='levantarse ducharse acostarse vestirse despertarse sentarse quedarse divertirse lavarse peinarse'.split(' ');
+/* verbs: vocab + common */
+let VERBS=null;
+function verbList(){if(VERBS)return VERBS;const seen=new Map();
+ ALL.forEach(c=>{alts(c.es).forEach(x=>{const w=x.trim().toLowerCase();if(/^[a-záéíóúñü]+(ar|er|ir|ír)(se)?$/.test(w)&&/^to /i.test(c.en)&&!seen.has(w))seen.set(w,{v:w,en:c.en,src:c.u})})});
+ const voc=[...seen.values()];let n=0;const com=[];
+ COMMONV.split(';').forEach(s=>{const [v,en]=s.split('=');if(!v||seen.has(v)||n>=300)return;seen.set(v,1);com.push({v,en,src:'común'});n++});
+ VERBS={voc,com,all:voc.concat(com).sort((a,b)=>a.v.localeCompare(b.v,'es'))};return VERBS}
+const vEn=v=>{const x=verbList().all.find(o=>o.v==v);return x?x.en:''};
+/* ---------- typed practice engine ---------- */
+const GX={};
+const gN=s=>(s||'').toLowerCase().replace(/[¡!¿?.,;:"«»]/g,'').replace(/\s+/g,' ').trim();
+const PRON=/^(yo|tú|tu|él|el|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes) /;
+function gxJudge(v,ans){const n=gN(v),n2=n.replace(PRON,'');for(const a of ans){const g=gN(a);if(n==g||n2==g)return 'ok'}for(const a of ans){const g=deacc(gN(a));if(deacc(n)==g||deacc(n2)==g)return 'tilde'}return 'no'}
+const ACCBAR=`<div class="accbar" aria-label="Letras con tilde">${['á','é','í','ó','ú','ñ','ü'].map(c=>`<button type="button" class="btn ghost" data-acc="${c}" tabindex="-1">${c}</button>`).join('')}</div>`;
+function gxCard(id){const q=GX[id];if(!q)return '';const n=q.items.length;
+ if(q.i>=n){const pct=Math.round(q.ok/n*100);if(!q.done){q.done=true;if(pct>=80)confetti();markDay()}
+  return `<div class="qcard done"><p class="qw">${q.ok} / ${n} ${pct>=80?'🎉':'💪'}</p><p class="qk">a la primera ${tEn('right on the first try')}</p><div class="row"><button class="btn pri" data-do="new" data-b="${id}">↻ Otra vez<small>Again</small></button></div></div>`}
+ const it=q.items[q.i];
+ return `<div class="qtop"><div class="qbar"><span style="width:${q.i/n*100}%"></span></div><span class="qcount">${q.i+1} / ${n}</span></div>
+ <div class="qcard gx"><div class="gxq">${it.q}</div>
+ <input class="fld gxi" data-gx="${id}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Escribe aquí…" aria-label="Respuesta">${ACCBAR}
+ <div class="row"><button class="btn pri" data-gxc="${id}">✓ Comprobar<small>Check</small></button></div>
+ <div class="qfb" id="gxfb-${id}" aria-live="polite"></div><div class="row"><button class="btn pri" id="gxnx-${id}" data-gxn="${id}" hidden>Siguiente ▶<small>Next</small></button></div></div>`}
+function gxShow(id){const b=$(`#b-${id} .bb`);if(b){b.innerHTML=gxCard(id);const i=b.querySelector('.gxi');if(i)i.focus({preventScroll:true})}}
+function gxCheck(id){const q=GX[id];if(!q||q.ans)return;const i=$(`#b-${id} .gxi`),fb=$('#gxfb-'+id);if(!i||!i.value.trim())return;const it=q.items[q.i];const r=gxJudge(i.value,it.a);
+ const full=`<b>${esc(it.a[0])}</b>${it.en?` ${tEn(it.en)}`:''}`;
+ if(r=='ok'){if(q.t==0){q.ok++;addStars(1)}q.ans=true;setState(i,'ok');i.readOnly=true;fb.innerHTML=`<span class="okc">✅ ${q.t==0?'¡Muy bien!':'¡Bien!'}</span> ${full}`}
+ else if(q.t==0){q.t=1;setState(i,'try');shake(i);i.select();fb.innerHTML=r=='tilde'?`<span class="tryc">✋ ¡Casi! Revisa la tilde.</span> ${tEn('Check the accent mark.')}`:`<span class="tryc">✋ Todavía no.</span> Pista: <b>${esc(hintOf(it.a[0]))}</b>`}
+ else{q.ans=true;setState(i,r=='tilde'?'almost':'bad');i.readOnly=true;fb.innerHTML=`<span class="badc">✗ La respuesta es</span> ${full}`}
+ if(q.ans){const n=$('#gxnx-'+id);n.hidden=false;n.focus()}}
+/* ---------- multiple-choice engine ---------- */
+const GM={};
+function gmCard(id){const q=GM[id];const n=q.items.length;
+ if(q.i>=n){const pct=Math.round(q.ok/n*100);if(!q.done){q.done=true;if(pct>=80)confetti();markDay()}
+  return `<div class="qcard done"><p class="qw">${q.ok} / ${n} ${pct>=80?'🎉':'💪'}</p><div class="row"><button class="btn pri" data-do="new" data-b="${id}">↻ Otra vez<small>Again</small></button></div></div>`}
+ const it=q.items[q.i],a=q.ans;
+ return `<div class="qtop"><div class="qbar"><span style="width:${q.i/n*100}%"></span></div><span class="qcount">${q.i+1} / ${n}</span></div>
+ <div class="qcard gm"><p class="gmq">${esc(it.q).replace('___',`<span class="gblank">${a==null?'___':esc(it.opts[a==null?0:it.right])}</span>`)}</p>
+ <div class="gmopts">${it.opts.map((o,k)=>`<button class="btn gmo${a==null?'':k==it.right?' ok':k==a?' bad':' dim'}" data-gm="${id}" data-o="${k}"${a==null?'':' disabled'}>${esc(o)}</button>`).join('')}</div>
+ ${a==null?'':`<div class="qfb"><span class="${a==it.right?'okc':'badc'}">${a==it.right?'✅ ¡Correcto!':'✗ No es correcto.'}</span> 💡 ${esc(it.why)}<br><span class="sub">${esc(it.en)}</span></div><div class="row"><button class="btn pri" data-gmn="${id}">Siguiente ▶<small>Next</small></button></div>`}</div>`}
+function gmShow(id){const b=$(`#gmbox-${id}`);if(b)b.innerHTML=gmCard(id)}
+/* ---------- tense blocks ---------- */
+function persOf(k){return k=='imp'?[1,2,3,4,5]:[0,1,2,3,4,5]}
+function cjTable(v,k){const f=cj(v,k),P=k=='imp'?IMPP:PERS;return `<table class="cjt"><tbody>${f.map((x,i)=>x==null?'':`<tr><td>${P[i]}</td><td><b>${esc(x)}</b></td></tr>`).join('')}</tbody></table>`}
+function tenseInfo(k){const d=TD[k],T=TK[k];const models=['hablar','comer','vivir'];const P=k=='imp'?IMPP:PERS;
+ const irrs=(k=='ira'?['levantarse']:IRRPOOL.filter(v=>v!='haber'||k!='imp').filter(v=>isIrr(v,k))).slice(0,4);
+ return `<div class="tinfo"><div class="tcols"><section><h4>🤔 ¿Cuándo se usa? ${tEn('when do you use it?')}</h4><ul>${d.use.map(u=>`<li>${esc(u)}</li>`).join('')}</ul><p class="sub">🇬🇧 ${esc(d.useEn)}</p>
+ <h4>🔑 Palabras clave ${tEn('key words')}</h4><p class="chips">${d.mk.split(', ').map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</p></section>
+ <section><h4>💬 Ejemplos ${tEn('examples')}</h4><ul class="exs">${d.ex.map(([e,n])=>`<li><b>${esc(e)}</b> ${spk(e)}<br><span class="sub">${esc(n)}</span></li>`).join('')}</ul></section></div>
+ <h4>🧱 Cómo se forma ${tEn('how to form it')}</h4><div class="pan tscroll"><table class="cjt big"><thead><tr><th></th>${models.map(m=>`<th>${m}</th>`).join('')}</tr></thead><tbody>${P.map((p,i)=>k=='imp'&&i==0?'':`<tr><td>${p}</td>${models.map(m=>`<td>${esc(cj(m,k)[i])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+ <p class="note">⚠️ ${esc(d.irrNote)}</p>
+ ${irrs.length?`<h4>🔴 Irregulares importantes ${tEn('key irregular verbs')}</h4><div class="irrgrid">${irrs.map(v=>`<div><p class="ivh">${v} <span class="sub">${esc(vEn(v))}</span></p>${cjTable(v,k)}</div>`).join('')}</div>`:''}
+ <h4>🔍 Conjugador ${tEn('type any verb')}</h4><div class="row cjrow"><input class="fld" id="cjin-${k}" placeholder="p. ej. dormir" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn pri" data-cjgo="${k}">Ver<small>Show</small></button></div><div id="cjout-${k}"></div></div>`}
+function tItems(k,mode){const items=[];const P=persOf(k);const Pl=k=='imp'?IMPP:PERS_S;
+ if(mode=='reg'||mode=='irr'){let pool=mode=='reg'?REGPOOL.filter(v=>!isIrr(v,k)):(k=='ira'?REFLPOOL:IRRPOOL.filter(v=>isIrr(v,k)&&!(k=='imp'&&v=='haber')));
+  const sp=shuf(pool);for(let n=0;n<10;n++){const v=sp[n%sp.length],p=pick(P);let a=[cj(v,k)[p]];
+   if(k=='ira'&&isRefl(v))a.push(VOY[p]+' a '+v.slice(0,-2)+REFP[p]);
+   items.push({q:`<p class="gxv"><b>${v}</b> <span class="en">(${esc(vEn(v))})</span></p><p class="gxp">${Pl[p]}</p>`,a})}}
+ if(mode=='fra'){const fr=TD[k].fr;const pool=(k=='imp'?IMPVC:VC).filter(([v])=>!(k=='prog'&&/^(tener|saber|poder|querer|ser)$/.test(v)));
+  for(let n=0;n<10;n++){const [v,c]=pick(pool);let f=pick(fr),p,s;if(k=='imp'){[s,p]=pick(VOC);f=f.replace('{P}',s)}else{[s,p]=pick(SUBJ);f=f.replace('{S}',s)}
+   const a=cj(v,k)[p];f=f.replace('{C}',c);f=f.charAt(0).toUpperCase()+f.slice(1);
+   items.push({q:`<p class="gxs">${esc(f).replace('___','<span class="gblank">___</span>')}</p><p class="gxp">(${v})</p>`,a:[a]})}}
+ if(mode=='com'){shuf(TD[k].ph).forEach(([s,en,inf,per])=>{const m=s.match(/\*([^*]+)\*/);items.push({q:`<p class="gxs">${esc(s.replace(/\*[^*]+\*/,'___')).replace('___','<span class="gblank">___</span>')}</p><p class="gxp">(${inf} · ${per})</p><p class="sub">🇬🇧 ${esc(en)}</p>`,a:[m[1]],en})})}
+ return items}
+const TMODES=[['info','📘','Cómo se forma','How it works'],['reg','🟢','Regulares','Regular verbs'],['irr','🔴','Irregulares','Irregular verbs'],['fra','💬','En una frase','In a sentence'],['com','⭐','Frases comunes','Common phrases']];
+TENSES.forEach(([k,t,e])=>{TMODES.forEach(([m,ic,lab,len])=>{const id=`tv-${k}-${m}`;TABIC[id]=ic;
+ BL[id]={label:k=='ira'&&m=='irr'?'Verbos con «se»':lab,noUnit:1,render(){
+  if(m=='info')return {t:t,en:e,icon:TIC[k],noCheck:1,noBank:1,noNew:1,body:tenseInfo(k)};
+  GX[id]={items:tItems(k,m),i:0,t:0,ok:0,ans:false,done:false};
+  const sub={reg:'Escribe la forma correcta del verbo regular.',irr:k=='ira'?'Verbos con «se»: me voy a levantar (o voy a levantarme).':'Escribe la forma correcta del verbo irregular.',fra:'Completa la frase con el verbo entre paréntesis.',com:'Frases que se usan mucho. Escribe el verbo que falta.'}[m];
+  return {t:`${t}: ${k=='ira'&&m=='irr'?'verbos con «se»':lab.toLowerCase()}`,en:`${e}: ${len.toLowerCase()}`,icon:ic,noCheck:1,noBank:1,sub,subEn:'Use the accent buttons for á, é, í, ó, ú, ñ.',body:gxCard(id)}},
+  after(){const i=$(`#b-${id} .gxi`);if(i)i.focus({preventScroll:true})}}})});
+/* ---------- grammar topic blocks ---------- */
+GTOP.forEach(g=>{const id='gt-'+g.id;TABIC[id]=g.ic;
+ BL[id]={label:g.t,noUnit:1,render(){GM[id]={items:shuf(g.q).slice(0,10).map(([q,o,en,why])=>{const opts=shuf(o);return {q,opts,right:opts.indexOf(o[0]),en,why}}),i:0,ok:0,ans:null,done:false};
+  return {t:g.t,en:g.en,icon:g.ic,noCheck:1,noBank:1,body:`<details class="grule" open><summary>📘 La regla ${tEn('the rule')}</summary>${g.rule}</details><div id="gmbox-${id}">${gmCard(id)}</div>`}}}});
+/* ---------- verb list ---------- */
+let VLF={q:'',f:'all'};
+function vlRows(){const V=verbList();let L=VLF.f=='voc'?V.voc:VLF.f=='com'?V.com:V.all;if(VLF.f=='voc'||VLF.f=='com')L=[...L].sort((a,b)=>a.v.localeCompare(b.v,'es'));
+ if(VLF.f=='irr')L=V.all.filter(o=>vType(o.v)!='reg');
+ const q=deacc(VLF.q.toLowerCase().trim());if(q)L=L.filter(o=>deacc(o.v).includes(q)||deacc(o.en.toLowerCase()).includes(q));
+ const tb={reg:['regular','vreg'],irr:['irregular','virr'],orto:['ortografía','vorto']};
+ return `<p class="sub">${L.length} verbos</p><div class="vlist">${L.map(o=>{const ty=vType(o.v);const [tl,tc]=tb[ty]||[ty,'vsc'];return `<details class="vrow" data-v="${esc(o.v)}"><summary><b>${esc(o.v)}</b><span class="ven">${esc(o.en)}</span><span class="vtags"><span class="vt ${tc}">${tl}</span><span class="vt ${o.src=='común'?'vcom':'vvoc'}">${o.src=='común'?'común':esc(o.src)}</span></span></summary><div class="vconj"></div></details>`}).join('')}</div>`}
+function vlConj(v){return `<div class="vgrid">${TENSES.map(([k,t])=>`<div><p class="ivh">${TIC[k]} ${t}</p>${cjTable(v,k)}</div>`).join('')}</div>`}
+BL['verb-list']={label:'Lista de verbos',noUnit:1,render(){const V=verbList();
+ return {t:'Lista de verbos',en:'All the verbs',icon:'📋',noCheck:1,noBank:1,noNew:1,sub:`${V.voc.length} verbos de tus unidades + ${V.com.length} verbos muy comunes. Toca un verbo para ver todas sus formas.`,subEn:'Tap a verb to see all its forms.',
+  body:`<div class="vlbar"><input class="fld" id="vlq" placeholder="🔍 Buscar (español o inglés)…" autocomplete="off" value="${esc(VLF.q)}"><div class="seg">${[['all','Todos'],['voc','De mis unidades'],['com','Comunes'],['irr','Irregulares']].map(([f,t])=>`<button data-vlf="${f}" aria-pressed="${VLF.f==f}">${t}</button>`).join('')}</div></div><div id="vlbody">${vlRows()}</div>`}}};
+TABIC['verb-list']='📋';
+/* ---------- hubs ---------- */
+function gramHub(){return `<section class="ghero"><div><p class="gtag">⭐ Muy importante ${tEn('very important')}</p><h2>📐 Gramática</h2><p>La gramática es la base de todo: con ella puedes usar todas tus palabras. Hay más que aprender aquí, así que ve paso a paso. ${tEn('Grammar is the base for everything. There is more to learn here, so go step by step.')}</p></div></section>
+ <div class="ggrid"><button class="gcard verb" data-view="verbos"><span>🔤</span><b>Verbos</b><small>12 tiempos: cómo se forman, regulares, irregulares, frases ${tEn('12 tenses')}</small></button>
+ <button class="gcard prac" data-view="gram"><span>🧩</span><b>Práctica de gramática</b><small>Ser o estar, por o para, ¿el o la?, gustar... ${tEn('grammar topics')}</small></button>
+ <button class="gcard list" data-view="vlista"><span>📋</span><b>Lista de verbos</b><small>${verbList().all.length} verbos con todas sus formas ${tEn('every verb, every form')}</small></button></div>`}
+function verbHub(){return `<div class="phead"><button class="back" data-view="gramatica">← Gramática</button>${enBtn()}</div><section class="ghero sm"><h2>🔤 Verbos</h2><p>Elige un tiempo. En cada uno: cómo se forma, verbos regulares, irregulares, frases y expresiones comunes. ${tEn('Pick a tense.')}</p></section>
+ ${TGROUP.map(([g,ge,ks])=>`<h3 class="sec">${g} ${tEn(ge)}</h3><div class="tgrid">${ks.map(k=>`<button class="tcard" data-view="t-${k}"><span>${TIC[k]}</span><b>${TK[k].t}</b><small>${esc(TK[k].e)}</small><i>${esc(cj('hablar',k)[k=='imp'?1:0])}</i></button>`).join('')}</div>`).join('')}
+ <button class="gcard list wide1" data-view="vlista"><span>📋</span><b>Lista de verbos</b><small>Todos los verbos con todas sus formas ${tEn('every verb, every form')}</small></button>`}
+function gramPracHub(){return `<div class="phead"><button class="back" data-view="gramatica">← Gramática</button>${enBtn()}</div><section class="ghero sm"><h2>🧩 Práctica de gramática</h2><p>Cada tema tiene la regla y 10 preguntas. ${tEn('Each topic has the rule and 10 questions.')}</p></section>
+ <div class="tgrid">${[{id:'genero',ic:'⚖️',t:'¿El o la?',en:'Masculine or feminine'}].concat(GTOP).map(g=>`<button class="tcard" data-view="g-${g.id}"><span>${g.ic}</span><b>${g.t}</b><small>${esc(g.en)}</small></button>`).join('')}</div>`}
+const GHUB={gramatica:gramHub,verbos:verbHub,gram:gramPracHub};
+const GVIEWS=()=>[{id:'gramatica',t:'Gramática',en:'Grammar',ic:'📐',g:'gra',th:'gram'},{id:'verbos',t:'Verbos',en:'Verbs',ic:'🔤',g:'gra',th:'gram'},{id:'gram',t:'Práctica de gramática',en:'Grammar practice',ic:'🧩',g:'gra',th:'gram'},{id:'vlista',t:'Lista de verbos',en:'Verb list',ic:'📋',g:'gra',th:'vlist',blocks:['verb-list'],par:'verbos'},
+ ...TENSES.map(([k,t,e])=>({id:'t-'+k,t,en:e,ic:TIC[k],g:'hid',th:'gram',par:'verbos',blocks:TMODES.map(([m])=>`tv-${k}-${m}`),desc:'Verbos'})),
+ {id:'g-genero',t:'¿El o la?',en:'Masculine or feminine',ic:'⚖️',g:'hid',th:'gram',par:'gram',blocks:['rev-gender'],desc:'Gramática'},
+ ...GTOP.map(g=>({id:'g-'+g.id,t:g.t,en:g.en,ic:g.ic,g:'hid',th:'gram',par:'gram',blocks:['gt-'+g.id],desc:'Gramática'}))];
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-gxc],[data-gxn],[data-gm],[data-gmn],[data-acc],[data-cjgo],[data-vlf]');if(!t)return;
+ if(t.dataset.gxc){gxCheck(t.dataset.gxc);return}
+ if(t.dataset.gxn){const q=GX[t.dataset.gxn];q.i++;q.t=0;q.ans=false;gxShow(t.dataset.gxn);return}
+ if(t.dataset.gm){const id=t.dataset.gm,q=GM[id];if(q.ans!=null)return;q.ans=+t.dataset.o;const it=q.items[q.i];if(q.ans==it.right){q.ok++;addStars(1)}gmShow(id);const n=$(`#gmbox-${id} [data-gmn]`);if(n)n.focus({preventScroll:true});return}
+ if(t.dataset.gmn){const q=GM[t.dataset.gmn];q.i++;q.ans=null;gmShow(t.dataset.gmn);return}
+ if(t.dataset.acc){const i=t.closest('.qcard,.blk').querySelector('.gxi:not([readonly])');if(i){const s=i.selectionStart??i.value.length,en=i.selectionEnd??s;i.value=i.value.slice(0,s)+t.dataset.acc+i.value.slice(en);i.focus();i.setSelectionRange(s+1,s+1)}return}
+ if(t.dataset.cjgo){const k=t.dataset.cjgo,v=($('#cjin-'+k).value||'').trim().toLowerCase();const o=$('#cjout-'+k);if(!/^[a-záéíóúñü]+(ar|er|ir|ír)(se)?$/.test(v)){o.innerHTML='<p class="sub">Escribe un infinitivo: hablar, comer, vivir... (Type an infinitive.)</p>';return}
+  o.innerHTML=`<p class="ivh">${esc(v)} <span class="sub">${esc(vEn(v))}</span></p>${cjTable(v,k)}`;return}
+ if(t.dataset.vlf){VLF.f=t.dataset.vlf;$$('[data-vlf]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.vlf==VLF.f));$('#vlbody').innerHTML=vlRows();return}});
+document.addEventListener('toggle',e=>{const d=e.target;if(d.classList&&d.classList.contains('vrow')&&d.open){const c=d.querySelector('.vconj');if(!c.innerHTML)c.innerHTML=vlConj(d.dataset.v)}},true);
+document.addEventListener('input',e=>{if(e.target.id=='vlq'){VLF.q=e.target.value;$('#vlbody').innerHTML=vlRows()}});
+document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.target.closest&&e.target.closest('.gxi');if(i){e.preventDefault();const id=i.dataset.gx;if(GX[id]&&GX[id].ans){const n=$('#gxnx-'+id);if(n)n.click()}else gxCheck(id);return}
+ const c=e.target.id&&e.target.id.startsWith('cjin-');if(c){e.preventDefault();const b=$(`[data-cjgo="${e.target.id.slice(5)}"]`);if(b)b.click()}});
 
 /* ==== init.js ==== */
 /* init.js: exam pools from old data, then start */

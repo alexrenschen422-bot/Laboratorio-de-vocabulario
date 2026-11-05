@@ -1,5 +1,5 @@
 import sys
-order=['old','data_cv','data_more','core','vocab','app','practice','familia','ropa_art','ropa','comida','cuerpo','ciudad_map','ciudad','ciudad2','viv_art','vivienda','learn','daily_data','daily','shell','init']
+order=['old','data_cv','data_more','core','vocab','app','practice','familia','ropa_art','ropa','comida','cuerpo','ciudad_map','ciudad','ciudad2','viv_art','vivienda','learn','daily_data','daily','shell','conj','verbs_data','gram_data','grammar','init']
 import os
 js=''
 for n in order:
