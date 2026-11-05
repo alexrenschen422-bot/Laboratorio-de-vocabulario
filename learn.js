@@ -1,7 +1,7 @@
 /* learn.js: review (spaced repetition), new words, listening, el/la, progress, 10-minute session */
 const QZ={};let REVANY=false,NEWU='Todas';
 const nounOf=c=>{const f=alts(c.es).find(x=>DEF.test(base(x)));if(!f)return null;const m=base(f).match(DEF);return{art:m[1],w:f.replace(/^\S+ /,'')}};
-function qType(c){if(c.u=='Expresiones')return'type';const r=Math.random();if(canSpeak()&&r<.25)return'listen';if(nounOf(c)&&r<.42)return'gender';return'type'}
+function qType(c){if(c.u=='Expresiones')return'type';const r=Math.random();if(canListen()&&r<.25)return'listen';if(nounOf(c)&&r<.42)return'gender';return'type'}
 function qzStart(id,cards){QZ[id]={deck:cards,i:0,ok:0,t:0,done:false,answered:false}}
 function qzCard(id){const q=QZ[id];if(q.i>=q.deck.length){const pct=Math.round(q.ok/q.deck.length*100);if(!q.done){q.done=true;if(pct>=80)confetti();markDay();if(window.onBlockDone)onBlockDone(id,pct)}
  return `<div class="qcard done"><p class="qw">¡Terminado! ${pct>=80?'🎉':'💪'}</p><p class="qk">${q.ok} de ${q.deck.length} a la primera ${tEn('right on the first try')}</p><p class="sub">Las palabras que fallaste vuelven pronto a tu repaso. ${tEn('The words you missed come back soon.')}</p><div class="row"><button class="btn pri" data-do="new" data-b="${id}">↻ Otra vez<small>Again</small></button><button class="btn ghost" data-view="progreso">📈 Mi progreso<small>My progress</small></button></div></div>`}
@@ -22,7 +22,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-qa],[data-
  if(t.dataset.qc){const i=$(`#b-${t.dataset.qc} input.qi`);if(i&&i.value.trim())qzAnswer(t.dataset.qc,i.value);return}
  if(t.dataset.qn){const q=QZ[t.dataset.qn];q.i++;q.t=0;q.answered=false;q.autoSay=true;qzShow(t.dataset.qn);return}
  if(t.dataset.revany!=null){REVANY=true;mount('rev-today');return}
- if(t.dataset.nwnext!=null){NW.i++;if(NW.i>=NW.words.length){qzStart('rev-new',shuf(NW.words).map(c=>({c,type:canSpeak()&&Math.random()<.4?'listen':'type'})));NW.phase='quiz'}nwRedraw();return}
+ if(t.dataset.nwnext!=null){NW.i++;if(NW.i>=NW.words.length){qzStart('rev-new',shuf(NW.words).map(c=>({c,type:canListen()&&Math.random()<.4?'listen':'type'})));NW.phase='quiz'}nwRedraw();return}
  if(t.dataset.sess!=null){sessStart();return}if(t.dataset.sessnext!=null){sessNext();return}if(t.dataset.sessend!=null){sessStop();return}
  if(t.dataset.reset!=null){if(t.dataset.reset=='ask'){t.outerHTML=`<span class="sub">¿Seguro? Se borran tus estrellas y tu memoria. ${tEn('Sure? Stars and memory will be deleted.')}</span> <button class="btn" data-reset="yes" style="border-color:var(--bad);color:var(--bad)">Sí, borrar</button> <button class="btn ghost" data-reset="no">No</button>`}else if(t.dataset.reset=='yes'){['srs','stars','days','miss'].forEach(k=>store.set(k,k=='stars'?'0':'[]'));store.set('srs','{}');SRS={};addStars(0);mount('prog')}else mount('prog');return}
  if(t.dataset.hardgo!=null){HARD=true;ACT.repaso='rev-today';go('repaso');mount('rev-today')}});
@@ -41,7 +41,7 @@ const NW={words:[],i:0,phase:'learn'};
 BL['rev-new']={label:'Palabras nuevas',noUnit:1,render(){const us=Object.keys(UNAMES).filter(u=>u!='Expresiones');
  const poolW=ALL.filter(c=>c.lvl==S.lvl&&!rec(c)&&c.u!='Expresiones'&&(NEWU=='Todas'||c.u==NEWU));NW.words=shuf(poolW).slice(0,5);NW.i=0;NW.phase='learn';
  const tools=`<label>Unidad ${tEn('unit')} <select data-newu><option ${NEWU=='Todas'?'selected':''}>Todas</option>${us.map(u=>`<option value="${u}" ${NEWU==u?'selected':''}>${UNAMES[u][0]}</option>`).join('')}</select></label>`;
- return {t:'Palabras nuevas',en:'New words',icon:'✨',noCheck:1,noBank:1,tools,sub:NW.words.length?'Primero mira y escucha 5 palabras. Después, escríbelas.':'',subEn:NW.words.length?'First look and listen to 5 words. Then write them.':'',body:nwBody()}}};
+ return {t:'Palabras nuevas',en:'New words',icon:'✨',noCheck:1,noBank:1,tools,sub:NW.words.length?(S.nolisten?'Primero mira 5 palabras. Después, escríbelas.':'Primero mira y escucha 5 palabras. Después, escríbelas.'):'',subEn:NW.words.length?(S.nolisten?'First look at 5 words. Then write them.':'First look and listen to 5 words. Then write them.'):'',body:nwBody()}}};
 function nwBody(){if(!NW.words.length)return `<div class="qcard done"><p class="qw">🌟 ¡Ya conoces todas las palabras de este nivel!</p><p class="sub">Elige otra unidad o sube de nivel. ${tEn('Pick another unit or move up a level.')}</p></div>`;
  if(NW.phase=='quiz')return qzCard('rev-new');const c=NW.words[NW.i],w=artForm(c.es,c.u),e=FEMO[first(c.es).replace(DEF,'')]||'';
  return `<div class="qtop"><div class="qbar"><span style="width:${NW.i/NW.words.length*50}%"></span></div><span class="qcount">Palabra ${NW.i+1} / ${NW.words.length}</span></div><div class="qcard learn">${e?`<p class="qe">${e}</p>`:''}<p class="qw">${esc(w)}</p><p class="qen">${esc(c.en)}</p><p class="qk">${UNAMES[c.u][2]} ${UNAMES[c.u][0]}</p><div class="row"><button class="btn huge" data-say="${esc(w)}">🔊 Escuchar</button><button class="btn pri" data-nwnext>${NW.i==NW.words.length-1?'¡A practicar! ▶':'Siguiente ▶'}<small>${NW.i==NW.words.length-1?"Let's practice":'Next'}</small></button></div></div>`}
@@ -77,7 +77,7 @@ BL.prog={label:'Mi progreso',noUnit:1,render(){const us=Object.keys(UNAMES);cons
 let SESS=null,STM=null;
 const DIAG=['fam-tree','rop-scene','rop-parts','com-market','cue-out','cue-in','ciu-street','ciu-map','viv-plan','viv-room'];
 function viewOfBlock(b){const v=VIEWDEF().find(v=>(v.blocks||[]).includes(b));return v?v.id:'inicio'}
-function sessStart(){const d=pick(DIAG),hasDue=dueList().length>0;SESS={t0:Date.now(),i:0,steps:[{b:hasDue?'rev-today':'rev-gender',t:hasDue?'Repaso':'¿El o la?',ic:hasDue?'🔁':'⚖️'},{b:d,t:'Un dibujo',ic:'🖼️'},{b:'rev-new',t:'Palabras nuevas',ic:'✨'},{b:'rev-listen',t:'¿Qué oyes?',ic:'🎧'}]};if(d=='ciu-map')CM.mode='label';sessGo();clearInterval(STM);STM=setInterval(sessBar,1000)}
+function sessStart(){const d=pick(DIAG),hasDue=dueList().length>0;SESS={t0:Date.now(),i:0,steps:[{b:hasDue?'rev-today':'rev-gender',t:hasDue?'Repaso':'¿El o la?',ic:hasDue?'🔁':'⚖️'},{b:d,t:'Un dibujo',ic:'🖼️'},{b:'rev-new',t:'Palabras nuevas',ic:'✨'},{b:'rev-listen',t:'¿Qué oyes?',ic:'🎧'}].filter(s=>!(S.nolisten&&s.b=='rev-listen'))};if(d=='ciu-map')CM.mode='label';sessGo();clearInterval(STM);STM=setInterval(sessBar,1000)}
 function sessGo(){const s=SESS.steps[SESS.i],v=viewOfBlock(s.b);ACT[v]=s.b;saveAct();go(v);mount(s.b);window.scrollTo({top:0});sessBar()}
 function sessNext(){if(!SESS)return;SESS.i++;if(SESS.i>=SESS.steps.length){sessDone();return}sessGo()}
 function sessDone(){addStars(10);markDay();confetti();toast('🏆 ¡Sesión terminada! +10 ⭐ <span class="en">(Session complete!)</span>',3200);sessStop();go('inicio')}

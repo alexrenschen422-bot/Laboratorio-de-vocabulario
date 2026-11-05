@@ -267,6 +267,9 @@ body.insess main{padding-bottom:140px}
 @media (max-width:720px){.vhead .vi{width:52px;height:52px;font-size:2rem}.vhead h2{font-size:1.55rem}.blk{padding:14px 12px;border-radius:20px}.bt h3{font-size:1.2rem}.bi{width:40px;height:40px;font-size:1.4rem}.lr{grid-template-columns:1fr auto}.lr .en{grid-column:1;text-align:left}.qs{grid-template-columns:1fr}}
 
 .phead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 2px 8px}.phead .ptitle{margin:4px 2px 6px}.phead.end{justify-content:flex-end}
+body.nolisten .spk,body.nolisten [data-say]{display:none!important}
+.lisoff[aria-pressed="true"]{background:var(--surface2);border-color:var(--pri);color:var(--pri);opacity:1}
+.pbtns{display:flex;gap:6px;flex-wrap:wrap}
 
 </style>
 </head><body>
@@ -617,7 +620,7 @@ const EXPR3=[
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={get(k){try{return localStorage.getItem('vl5-'+k)}catch(e){return null}},set(k,v){try{localStorage.setItem('vl5-'+k,v)}catch(e){}}};
 const jget=(k,d)=>{try{const v=store.get(k);return v?JSON.parse(v):d}catch(e){return d}};
-const S=Object.assign({lvl:1,bank:false,dev:'auto',strict:false,enMode:'auto',instant:true,art:false,pal:'menta',fs:1,av:'🧒',name:'',color:false},jget('cfg',{}));
+const S=Object.assign({lvl:1,bank:false,dev:'auto',strict:false,enMode:'auto',instant:true,art:false,pal:'menta',fs:1,av:'🧒',name:'',color:false,nolisten:false},jget('cfg',{}));
 if(S.dev==null)S.dev='auto';if(S.en===false&&!jget('cfg',{}).enMode)S.enMode='off';
 const saveS=()=>store.set('cfg',JSON.stringify(S));
 const isPhone=()=>S.dev=='phone'||(S.dev=='auto'&&window.innerWidth<760);
@@ -685,7 +688,7 @@ const BL={},RUN={},LAST={};
 function blockHTML(id){const b=BL[id];let o;try{o=b.render()}catch(e){console.error(id,e);o={t:'Error',en:'',body:`<p class="sub">${esc(e.message)}</p>`,noCheck:1}}
 RUN[id]={aw:0,shown:false,o,unit:b.unit};
 return `<section class="blk${o.wide?' wide':''}" id="b-${id}" data-b="${id}"><header class="bh"><div class="bt"><span class="bi" aria-hidden="true">${o.icon||'✏️'}</span><div class="btt"><h3>${o.t}</h3><p class="ten">${esc(o.en)}</p></div></div>
-<div class="bact">${enBtn()}<span class="pill" id="sc-${id}" hidden></span>${o.noCheck?'':`<button class="btn pri" data-do="check" data-b="${id}">✓ Comprobar<small>Check</small></button><button class="btn ghost" data-do="show" data-b="${id}">Ver respuestas<small>Show answers</small></button>`}${o.noNew?'':`<button class="btn ghost" data-do="new" data-b="${id}" title="Nuevo (new)">↻ Nuevo<small>New</small></button>`}</div></header>
+<div class="bact">${enBtn()}${/^(rev-|prog)/.test(id)?lisBtn():''}<span class="pill" id="sc-${id}" hidden></span>${o.noCheck?'':`<button class="btn pri" data-do="check" data-b="${id}">✓ Comprobar<small>Check</small></button><button class="btn ghost" data-do="show" data-b="${id}">Ver respuestas<small>Show answers</small></button>`}${o.noNew?'':`<button class="btn ghost" data-do="new" data-b="${id}" title="Nuevo (new)">↻ Nuevo<small>New</small></button>`}</div></header>
 ${o.tools?`<div class="tools">${o.tools}</div>`:''}${o.sub?`<p class="sub">${o.sub}${o.subEn?` ${tEn(o.subEn)}`:''}</p>`:''}<div class="bank" id="bk-${id}" hidden></div><div class="bb">${o.body}</div><p class="fb" id="fb-${id}" aria-live="polite"></p><p class="best" id="bs-${id}"></p></section>`}
 function mount(id){const el=$('#b-'+id);if(!el)return;el.outerHTML=blockHTML(id);post(id)}
 function post(id){bank(id);stats(id);const el=$('#b-'+id);if(el)requestAnimationFrame(()=>$$('.pan',el).forEach(p=>{if(p.id!='cmpan'){p.scrollLeft=(p.scrollWidth-p.clientWidth)/2;p.scrollTop=(p.scrollHeight-p.clientHeight)*.4}}));try{BL[id].after&&BL[id].after(el)}catch(e){console.error(id,e)}}
@@ -754,7 +757,9 @@ function addStars(n){const t=(+store.get('stars')||0)+n;store.set('stars',t);$$(
 let VOICE=null;function pickVoice(){try{const vs=speechSynthesis.getVoices();VOICE=vs.find(v=>/es[-_]ES/i.test(v.lang))||vs.find(v=>/^es/i.test(v.lang))||null}catch(e){}}
 try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
 const canSpeak=()=>{try{return 'speechSynthesis' in window}catch(e){return false}};
-function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='es-ES';if(!VOICE)pickVoice();if(VOICE)u.voice=VOICE;u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+const canListen=()=>canSpeak()&&!S.nolisten;
+const lisBtn=()=>`<button class="btn ghost entog lisoff" data-tog="nolisten" aria-pressed="${!!S.nolisten}" title="No puedo escuchar (I can't listen)"><span class="eni">🔇</span> <span class="enl">No puedo escuchar</span></button>`;
+function say(t){if(S.nolisten)return;try{const u=new SpeechSynthesisUtterance(t);u.lang='es-ES';if(!VOICE)pickVoice();if(VOICE)u.voice=VOICE;u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
 const spk=t=>`<button type="button" class="spk" data-say="${esc(t)}" aria-label="Escuchar (listen)" title="Escuchar (listen)">🔊</button>`;
 function confetti(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const w=document.createElement('div');w.className='conf';w.setAttribute('aria-hidden','true');const e=['⭐','🎉','✨','🌟','🎈','💚'];
 for(let i=0;i<34;i++){const s=document.createElement('span');s.textContent=pick(e);s.style.left=rr(2,98)+'%';s.style.animationDelay=rr(0,.5)+'s';s.style.fontSize=rr(16,34)+'px';s.style.setProperty('--dx',rr(-80,80)+'px');w.appendChild(s)}
@@ -2093,7 +2098,7 @@ addXS('Vivienda',SENTU.Vivienda.concat(VSENT3));addXG('Vivienda',GRPS.Vivienda.c
 /* learn.js: review (spaced repetition), new words, listening, el/la, progress, 10-minute session */
 const QZ={};let REVANY=false,NEWU='Todas';
 const nounOf=c=>{const f=alts(c.es).find(x=>DEF.test(base(x)));if(!f)return null;const m=base(f).match(DEF);return{art:m[1],w:f.replace(/^\S+ /,'')}};
-function qType(c){if(c.u=='Expresiones')return'type';const r=Math.random();if(canSpeak()&&r<.25)return'listen';if(nounOf(c)&&r<.42)return'gender';return'type'}
+function qType(c){if(c.u=='Expresiones')return'type';const r=Math.random();if(canListen()&&r<.25)return'listen';if(nounOf(c)&&r<.42)return'gender';return'type'}
 function qzStart(id,cards){QZ[id]={deck:cards,i:0,ok:0,t:0,done:false,answered:false}}
 function qzCard(id){const q=QZ[id];if(q.i>=q.deck.length){const pct=Math.round(q.ok/q.deck.length*100);if(!q.done){q.done=true;if(pct>=80)confetti();markDay();if(window.onBlockDone)onBlockDone(id,pct)}
  return `<div class="qcard done"><p class="qw">¡Terminado! ${pct>=80?'🎉':'💪'}</p><p class="qk">${q.ok} de ${q.deck.length} a la primera ${tEn('right on the first try')}</p><p class="sub">Las palabras que fallaste vuelven pronto a tu repaso. ${tEn('The words you missed come back soon.')}</p><div class="row"><button class="btn pri" data-do="new" data-b="${id}">↻ Otra vez<small>Again</small></button><button class="btn ghost" data-view="progreso">📈 Mi progreso<small>My progress</small></button></div></div>`}
@@ -2114,7 +2119,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-qa],[data-
  if(t.dataset.qc){const i=$(`#b-${t.dataset.qc} input.qi`);if(i&&i.value.trim())qzAnswer(t.dataset.qc,i.value);return}
  if(t.dataset.qn){const q=QZ[t.dataset.qn];q.i++;q.t=0;q.answered=false;q.autoSay=true;qzShow(t.dataset.qn);return}
  if(t.dataset.revany!=null){REVANY=true;mount('rev-today');return}
- if(t.dataset.nwnext!=null){NW.i++;if(NW.i>=NW.words.length){qzStart('rev-new',shuf(NW.words).map(c=>({c,type:canSpeak()&&Math.random()<.4?'listen':'type'})));NW.phase='quiz'}nwRedraw();return}
+ if(t.dataset.nwnext!=null){NW.i++;if(NW.i>=NW.words.length){qzStart('rev-new',shuf(NW.words).map(c=>({c,type:canListen()&&Math.random()<.4?'listen':'type'})));NW.phase='quiz'}nwRedraw();return}
  if(t.dataset.sess!=null){sessStart();return}if(t.dataset.sessnext!=null){sessNext();return}if(t.dataset.sessend!=null){sessStop();return}
  if(t.dataset.reset!=null){if(t.dataset.reset=='ask'){t.outerHTML=`<span class="sub">¿Seguro? Se borran tus estrellas y tu memoria. ${tEn('Sure? Stars and memory will be deleted.')}</span> <button class="btn" data-reset="yes" style="border-color:var(--bad);color:var(--bad)">Sí, borrar</button> <button class="btn ghost" data-reset="no">No</button>`}else if(t.dataset.reset=='yes'){['srs','stars','days','miss'].forEach(k=>store.set(k,k=='stars'?'0':'[]'));store.set('srs','{}');SRS={};addStars(0);mount('prog')}else mount('prog');return}
  if(t.dataset.hardgo!=null){HARD=true;ACT.repaso='rev-today';go('repaso');mount('rev-today')}});
@@ -2133,7 +2138,7 @@ const NW={words:[],i:0,phase:'learn'};
 BL['rev-new']={label:'Palabras nuevas',noUnit:1,render(){const us=Object.keys(UNAMES).filter(u=>u!='Expresiones');
  const poolW=ALL.filter(c=>c.lvl==S.lvl&&!rec(c)&&c.u!='Expresiones'&&(NEWU=='Todas'||c.u==NEWU));NW.words=shuf(poolW).slice(0,5);NW.i=0;NW.phase='learn';
  const tools=`<label>Unidad ${tEn('unit')} <select data-newu><option ${NEWU=='Todas'?'selected':''}>Todas</option>${us.map(u=>`<option value="${u}" ${NEWU==u?'selected':''}>${UNAMES[u][0]}</option>`).join('')}</select></label>`;
- return {t:'Palabras nuevas',en:'New words',icon:'✨',noCheck:1,noBank:1,tools,sub:NW.words.length?'Primero mira y escucha 5 palabras. Después, escríbelas.':'',subEn:NW.words.length?'First look and listen to 5 words. Then write them.':'',body:nwBody()}}};
+ return {t:'Palabras nuevas',en:'New words',icon:'✨',noCheck:1,noBank:1,tools,sub:NW.words.length?(S.nolisten?'Primero mira 5 palabras. Después, escríbelas.':'Primero mira y escucha 5 palabras. Después, escríbelas.'):'',subEn:NW.words.length?(S.nolisten?'First look at 5 words. Then write them.':'First look and listen to 5 words. Then write them.'):'',body:nwBody()}}};
 function nwBody(){if(!NW.words.length)return `<div class="qcard done"><p class="qw">🌟 ¡Ya conoces todas las palabras de este nivel!</p><p class="sub">Elige otra unidad o sube de nivel. ${tEn('Pick another unit or move up a level.')}</p></div>`;
  if(NW.phase=='quiz')return qzCard('rev-new');const c=NW.words[NW.i],w=artForm(c.es,c.u),e=FEMO[first(c.es).replace(DEF,'')]||'';
  return `<div class="qtop"><div class="qbar"><span style="width:${NW.i/NW.words.length*50}%"></span></div><span class="qcount">Palabra ${NW.i+1} / ${NW.words.length}</span></div><div class="qcard learn">${e?`<p class="qe">${e}</p>`:''}<p class="qw">${esc(w)}</p><p class="qen">${esc(c.en)}</p><p class="qk">${UNAMES[c.u][2]} ${UNAMES[c.u][0]}</p><div class="row"><button class="btn huge" data-say="${esc(w)}">🔊 Escuchar</button><button class="btn pri" data-nwnext>${NW.i==NW.words.length-1?'¡A practicar! ▶':'Siguiente ▶'}<small>${NW.i==NW.words.length-1?"Let's practice":'Next'}</small></button></div></div>`}
@@ -2169,7 +2174,7 @@ BL.prog={label:'Mi progreso',noUnit:1,render(){const us=Object.keys(UNAMES);cons
 let SESS=null,STM=null;
 const DIAG=['fam-tree','rop-scene','rop-parts','com-market','cue-out','cue-in','ciu-street','ciu-map','viv-plan','viv-room'];
 function viewOfBlock(b){const v=VIEWDEF().find(v=>(v.blocks||[]).includes(b));return v?v.id:'inicio'}
-function sessStart(){const d=pick(DIAG),hasDue=dueList().length>0;SESS={t0:Date.now(),i:0,steps:[{b:hasDue?'rev-today':'rev-gender',t:hasDue?'Repaso':'¿El o la?',ic:hasDue?'🔁':'⚖️'},{b:d,t:'Un dibujo',ic:'🖼️'},{b:'rev-new',t:'Palabras nuevas',ic:'✨'},{b:'rev-listen',t:'¿Qué oyes?',ic:'🎧'}]};if(d=='ciu-map')CM.mode='label';sessGo();clearInterval(STM);STM=setInterval(sessBar,1000)}
+function sessStart(){const d=pick(DIAG),hasDue=dueList().length>0;SESS={t0:Date.now(),i:0,steps:[{b:hasDue?'rev-today':'rev-gender',t:hasDue?'Repaso':'¿El o la?',ic:hasDue?'🔁':'⚖️'},{b:d,t:'Un dibujo',ic:'🖼️'},{b:'rev-new',t:'Palabras nuevas',ic:'✨'},{b:'rev-listen',t:'¿Qué oyes?',ic:'🎧'}].filter(s=>!(S.nolisten&&s.b=='rev-listen'))};if(d=='ciu-map')CM.mode='label';sessGo();clearInterval(STM);STM=setInterval(sessBar,1000)}
 function sessGo(){const s=SESS.steps[SESS.i],v=viewOfBlock(s.b);ACT[v]=s.b;saveAct();go(v);mount(s.b);window.scrollTo({top:0});sessBar()}
 function sessNext(){if(!SESS)return;SESS.i++;if(SESS.i>=SESS.steps.length){sessDone();return}sessGo()}
 function sessDone(){addStars(10);markDay();confetti();toast('🏆 ¡Sesión terminada! +10 ⭐ <span class="en">(Session complete!)</span>',3200);sessStop();go('inicio')}
@@ -2183,7 +2188,7 @@ window.onBlockDone=(id,pct)=>{if(SESS&&SESS.steps[SESS.i].b==id){SESS.ready=true
 /* shell.js: layout (sidebar / bottom bar), views with one activity at a time, home, settings, boot */
 const ACT=jget('act',{});
 const TABIC={'fam-tree':'🌳','fam-yo':'🧒','fam-what':'🤔','rop-scene':'👗','rop-dress':'🧥','rop-bag':'🧳','rop-swatch':'🎨','rop-parts':'🚪','rop-words':'✍️','com-market':'🛒','com-class':'🧺','com-cats':'🧠','com-words':'✍️','cue-out':'🧍','cue-in':'🫀','cue-words':'✍️','ciu-map':'🗺️','ciu-street':'🚦','ciu-defs':'🔎','ciu-words':'✍️','viv-plan':'🏠','viv-room':'🛋️','viv-defs':'🔎','viv-words':'✍️','rev-today':'🔁','rev-new':'✨','rev-listen':'🎧','rev-gender':'⚖️'};const saveAct=()=>store.set('act',JSON.stringify(ACT));
-const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Repaso',en:'Review',ic:'🔁',g:'hoy',blocks:['rev-today','rev-new','rev-listen','rev-gender'],desc:'Tu memoria: repasa, aprende y escucha'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
+const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Repaso',en:'Review',ic:'🔁',g:'hoy',blocks:S.nolisten?['rev-today','rev-new','rev-gender']:['rev-today','rev-new','rev-listen','rev-gender'],desc:S.nolisten?'Tu memoria: repasa y aprende':'Tu memoria: repasa, aprende y escucha'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
  ...VIEWS.map(v=>({...v,g:'uni'})),{id:'unidades',t:'Unidades',en:'Units',ic:'📚',g:'hub'},{id:'practicar',t:'Practicar',en:'Practice',ic:'🎯',g:'hub'},
  {id:'expresiones',t:'Expresiones',en:'Idioms',ic:'💬',g:'pra',blocks:['expr']},{id:'examen',t:'Examen',en:'Practice test',ic:'📝',g:'pra',blocks:['exam']},{id:'tarjetas',t:'Tarjetas',en:'Flashcards',ic:'🃏',g:'pra',blocks:['fcards']},{id:'lista',t:'Lista de palabras',en:'Word list',ic:'📖',g:'pra',blocks:['wlist']}];
 let CUR='inicio';const DIRTY=new Set();
@@ -2200,6 +2205,7 @@ function cfgHTML(){const opt=(k,v,t,e)=>`<button data-set="${k}" data-v="${v}" a
 return `<div class="mbox" role="dialog" aria-modal="true" aria-labelledby="cfgt"><div class="mhead"><h2 id="cfgt">⚙️ Ajustes</h2><button class="btn pri" data-cfgclose>Listo<small>Done</small></button></div>
 <section><h3>Nivel <span class="en">(level)</span></h3><div class="lvcards">${[1,2,3].map(l=>`<button class="lvcard" data-set="lvl" data-v="${l}" aria-pressed="${S.lvl==l}"><b>${['','🌱','🌿','🌳'][l]} ${LV[l]}</b><span>${['','Las palabras más comunes de tu libro.','Las palabras más difíciles de tu libro.','Palabras útiles que no están en el libro.'][l]}</span></button>`).join('')}</div></section>
 <section><h3>Cómo aprendo <span class="en">(how I learn)</span></h3>
+${tg('nolisten','No puedo escuchar','Quita el audio y los ejercicios de escuchar; todo se hace leyendo y escribiendo. (Turns off sound and listening exercises.)')}
 ${tg('instant','Corregir al momento','Cada respuesta se corrige al pasar a la siguiente. Si fallas, ves una pista y tienes otra oportunidad. (Instant check with a hint and a second try.)')}
 ${tg('bank','Banco de palabras','Muestra las palabras para elegir en vez de escribirlas. (Show a word bank.)')}
 ${tg('strict','Exigir tildes','Las tildes cuentan: «árbol», no «arbol». (Accents count.)')}
@@ -2214,9 +2220,9 @@ ${tg('art','El artículo cuenta','Hay que escribir el artículo: «la farmacia»
 /* ---------- views ---------- */
 function curAct(v){const bs=v.blocks||[];return bs.includes(ACT[v.id])?ACT[v.id]:bs[0]}
 function renderView(id){const v=VIEWDEF().find(x=>x.id==id)||VIEWDEF()[0];const box=$('#v-'+v.id);
- if(v.id=='inicio'){box.innerHTML=`<div class="phead end">${enBtn()}</div>`+home();DIRTY.delete(v.id);return}
+ if(v.id=='inicio'){box.innerHTML=`<div class="phead end"><span class="pbtns">${enBtn()}${lisBtn()}</span></div>`+home();DIRTY.delete(v.id);return}
  if(v.id=='unidades'){box.innerHTML=`<div class="phead"><h2 class="ptitle">📚 Unidades</h2>${enBtn()}</div>${unitGrid()}`;DIRTY.delete(v.id);return}
- if(v.id=='practicar'){box.innerHTML=`<div class="phead"><h2 class="ptitle">🎯 Practicar</h2>${enBtn()}</div>${practiceGrid()}`;DIRTY.delete(v.id);return}
+ if(v.id=='practicar'){box.innerHTML=`<div class="phead"><h2 class="ptitle">🎯 Practicar</h2><span class="pbtns">${enBtn()}${lisBtn()}</span></div>${practiceGrid()}`;DIRTY.delete(v.id);return}
  const a=curAct(v);const multi=(v.blocks||[]).length>1;const n=v.u?ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl).length:0;
  box.innerHTML=(multi||v.u?`<header class="vhead"><span class="vi" aria-hidden="true">${v.ic}</span><div><h2>${v.t}</h2><p><span class="en">${v.en} · </span>${v.u?`${LV[S.lvl]} · ${n} palabras${v.desc?' · '+v.desc:''}`:(v.desc||'')}</p></div></header>`:'')+`
  ${multi?`<div class="acts" role="tablist">${v.blocks.map(b=>`<button role="tab" data-act="${b}" data-v="${v.id}" aria-selected="${a==b}"><span>${TABIC[b]||''}</span>${BL[b].label||b}</button>`).join('')}</div>`:''}
@@ -2230,18 +2236,18 @@ function go(id,push=true){if(!VIEWDEF().some(v=>v.id==id))id='inicio';CUR=id;$$(
  if(push&&location.hash!='#'+id){try{history.replaceState(null,'','#'+id)}catch(e){}}dueBadges()}
 function dueBadges(){const n=dueList().length;$$('[data-due]').forEach(b=>{b.textContent=n||'';b.hidden=!n})}
 function rerenderAll(){VIEWDEF().forEach(v=>DIRTY.add(v.id));renderView(CUR);$('#side').innerHTML=sideHTML();$('#mtop').innerHTML=mtopHTML();go(CUR,false)}
-function applyS(){document.body.dataset.pal=S.pal;document.documentElement.style.setProperty('--fs',S.fs);document.body.classList.toggle('noen',!showEn());
+function applyS(){document.body.dataset.pal=S.pal;document.documentElement.style.setProperty('--fs',S.fs);document.body.classList.toggle('noen',!showEn());document.body.classList.toggle('nolisten',!!S.nolisten);
  $$('[data-set]').forEach(b=>b.setAttribute('aria-pressed',String(S[b.dataset.set])==b.dataset.v));$$('[data-tog]').forEach(b=>b.setAttribute('aria-pressed',!!S[b.dataset.tog]));
  const on=showEn();$$('[data-entog]').forEach(b=>{b.setAttribute('aria-pressed',on);const l=$('.enl',b);if(l)l.textContent=on?'Inglés: sí':'Inglés: no'});
  $$('input[data-en]').forEach(i=>{i.placeholder=i.dataset.ph0+(on?' · '+i.dataset.en:'')})}
 /* ---------- home and hubs ---------- */
 const unitPct=v=>{const ws=ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl);return ws.length?Math.round(ws.filter(mastered).length/ws.length*100):0};
 function unitGrid(){return `<div class="ugrid">${VIEWS.map(v=>{const p=unitPct(v);return `<button class="ucard" data-view="${v.id}"><span class="ui" aria-hidden="true">${v.ic}</span><b>${v.t}</b><small><span class="en">${v.en} · </span>${v.desc||''}</small><span class="pbar sm"><span class="pm" style="width:${p}%"></span></span><small>${p}% dominado ${tEn('mastered')}</small></button>`}).join('')}</div>`}
-function practiceGrid(){const it=[['rev-today','🔁','Repaso de hoy',"Today's review"],['rev-new','✨','Palabras nuevas','New words'],['rev-listen','🎧','¿Qué oyes?','Listening'],['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
+function practiceGrid(){const it=[['rev-today','🔁','Repaso de hoy',"Today's review"],['rev-new','✨','Palabras nuevas','New words'],...(S.nolisten?[]:[['rev-listen','🎧','¿Qué oyes?','Listening']]),['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
  return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b><small class="en">${e}</small></button>`).join('')}</div>`}
 function home(){const nm=S.name?`, ${esc(S.name)}`:'';const due=dueList().length,st=streak();
 return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p class="hsub">${st?`🔥 ${st} ${st==1?'día':'días'} seguidos · `:''}⭐ <span class="starsn">${+store.get('stars')||0}</span> estrellas · Nivel ${LV[S.lvl]}</p>
-<div class="ctas"><button class="cta pri" data-sess><span>⏱️</span><b>Mi sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas y escuchar</small></button><button class="cta" data-act-go="rev-today"><span>🔁</span><b>Repaso de hoy</b><small>${due?`${due} palabras te esperan`:'¡Todo repasado!'}</small></button></div></div>
+<div class="ctas"><button class="cta pri" data-sess><span>⏱️</span><b>Mi sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas${S.nolisten?'':' y escuchar'}</small></button><button class="cta" data-act-go="rev-today"><span>🔁</span><b>Repaso de hoy</b><small>${due?`${due} palabras te esperan`:'¡Todo repasado!'}</small></button></div></div>
 <div class="howl">${owl(150)}</div></section>
 <h3 class="sec">Unidades ${tEn('units')}</h3>${unitGrid()}
 <h3 class="sec">Practicar ${tEn('practice')}</h3>${practiceGrid()}`}
@@ -2258,7 +2264,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-entog],[da
  if(t.dataset.view){go(t.dataset.view);window.scrollTo({top:0});return}
  if(t.dataset.entog!=null){S.enMode=showEn()?'off':'on';saveS();applyS();if($('#cfg')&&!$('#cfg').hidden){$('#cfg').innerHTML=cfgHTML();applyS()}return}
  if(t.dataset.set){const k=t.dataset.set;let v=t.dataset.v;if(k=='lvl'||k=='fs')v=+v;S[k]=v;saveS();applyS();if(['lvl','dev','av','enMode'].includes(k)){FC.deck=[];rerenderAll()}if(!$('#cfg').hidden&&k=='lvl'){$('#cfg').innerHTML=cfgHTML();applyS()}return}
- if(t.dataset.tog){const k=t.dataset.tog;S[k]=!S[k];saveS();applyS();if(k=='bank')Object.keys(RUN).forEach(id=>{if($('#b-'+id))bank(id)});if(k=='art')rerenderAll();return}});
+ if(t.dataset.tog){const k=t.dataset.tog;S[k]=!S[k];saveS();applyS();if(k=='bank')Object.keys(RUN).forEach(id=>{if($('#b-'+id))bank(id)});if(k=='art'||k=='nolisten')rerenderAll();return}});
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&!$('#cfg').hidden)$('#cfg').hidden=true});
 document.addEventListener('change',e=>{if(e.target.id=='pname'){S.name=e.target.value.trim().slice(0,30);saveS();DIRTY.add('inicio');if(CUR=='inicio')renderView('inicio')}});
 addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h&&h!=CUR)go(h,false)});

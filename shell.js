@@ -1,7 +1,7 @@
 /* shell.js: layout (sidebar / bottom bar), views with one activity at a time, home, settings, boot */
 const ACT=jget('act',{});
 const TABIC={'fam-tree':'🌳','fam-yo':'🧒','fam-what':'🤔','rop-scene':'👗','rop-dress':'🧥','rop-bag':'🧳','rop-swatch':'🎨','rop-parts':'🚪','rop-words':'✍️','com-market':'🛒','com-class':'🧺','com-cats':'🧠','com-words':'✍️','cue-out':'🧍','cue-in':'🫀','cue-words':'✍️','ciu-map':'🗺️','ciu-street':'🚦','ciu-defs':'🔎','ciu-words':'✍️','viv-plan':'🏠','viv-room':'🛋️','viv-defs':'🔎','viv-words':'✍️','rev-today':'🔁','rev-new':'✨','rev-listen':'🎧','rev-gender':'⚖️'};const saveAct=()=>store.set('act',JSON.stringify(ACT));
-const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Repaso',en:'Review',ic:'🔁',g:'hoy',blocks:['rev-today','rev-new','rev-listen','rev-gender'],desc:'Tu memoria: repasa, aprende y escucha'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
+const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Repaso',en:'Review',ic:'🔁',g:'hoy',blocks:S.nolisten?['rev-today','rev-new','rev-gender']:['rev-today','rev-new','rev-listen','rev-gender'],desc:S.nolisten?'Tu memoria: repasa y aprende':'Tu memoria: repasa, aprende y escucha'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
  ...VIEWS.map(v=>({...v,g:'uni'})),{id:'unidades',t:'Unidades',en:'Units',ic:'📚',g:'hub'},{id:'practicar',t:'Practicar',en:'Practice',ic:'🎯',g:'hub'},
  {id:'expresiones',t:'Expresiones',en:'Idioms',ic:'💬',g:'pra',blocks:['expr']},{id:'examen',t:'Examen',en:'Practice test',ic:'📝',g:'pra',blocks:['exam']},{id:'tarjetas',t:'Tarjetas',en:'Flashcards',ic:'🃏',g:'pra',blocks:['fcards']},{id:'lista',t:'Lista de palabras',en:'Word list',ic:'📖',g:'pra',blocks:['wlist']}];
 let CUR='inicio';const DIRTY=new Set();
@@ -18,6 +18,7 @@ function cfgHTML(){const opt=(k,v,t,e)=>`<button data-set="${k}" data-v="${v}" a
 return `<div class="mbox" role="dialog" aria-modal="true" aria-labelledby="cfgt"><div class="mhead"><h2 id="cfgt">⚙️ Ajustes</h2><button class="btn pri" data-cfgclose>Listo<small>Done</small></button></div>
 <section><h3>Nivel <span class="en">(level)</span></h3><div class="lvcards">${[1,2,3].map(l=>`<button class="lvcard" data-set="lvl" data-v="${l}" aria-pressed="${S.lvl==l}"><b>${['','🌱','🌿','🌳'][l]} ${LV[l]}</b><span>${['','Las palabras más comunes de tu libro.','Las palabras más difíciles de tu libro.','Palabras útiles que no están en el libro.'][l]}</span></button>`).join('')}</div></section>
 <section><h3>Cómo aprendo <span class="en">(how I learn)</span></h3>
+${tg('nolisten','No puedo escuchar','Quita el audio y los ejercicios de escuchar; todo se hace leyendo y escribiendo. (Turns off sound and listening exercises.)')}
 ${tg('instant','Corregir al momento','Cada respuesta se corrige al pasar a la siguiente. Si fallas, ves una pista y tienes otra oportunidad. (Instant check with a hint and a second try.)')}
 ${tg('bank','Banco de palabras','Muestra las palabras para elegir en vez de escribirlas. (Show a word bank.)')}
 ${tg('strict','Exigir tildes','Las tildes cuentan: «árbol», no «arbol». (Accents count.)')}
@@ -32,9 +33,9 @@ ${tg('art','El artículo cuenta','Hay que escribir el artículo: «la farmacia»
 /* ---------- views ---------- */
 function curAct(v){const bs=v.blocks||[];return bs.includes(ACT[v.id])?ACT[v.id]:bs[0]}
 function renderView(id){const v=VIEWDEF().find(x=>x.id==id)||VIEWDEF()[0];const box=$('#v-'+v.id);
- if(v.id=='inicio'){box.innerHTML=`<div class="phead end">${enBtn()}</div>`+home();DIRTY.delete(v.id);return}
+ if(v.id=='inicio'){box.innerHTML=`<div class="phead end"><span class="pbtns">${enBtn()}${lisBtn()}</span></div>`+home();DIRTY.delete(v.id);return}
  if(v.id=='unidades'){box.innerHTML=`<div class="phead"><h2 class="ptitle">📚 Unidades</h2>${enBtn()}</div>${unitGrid()}`;DIRTY.delete(v.id);return}
- if(v.id=='practicar'){box.innerHTML=`<div class="phead"><h2 class="ptitle">🎯 Practicar</h2>${enBtn()}</div>${practiceGrid()}`;DIRTY.delete(v.id);return}
+ if(v.id=='practicar'){box.innerHTML=`<div class="phead"><h2 class="ptitle">🎯 Practicar</h2><span class="pbtns">${enBtn()}${lisBtn()}</span></div>${practiceGrid()}`;DIRTY.delete(v.id);return}
  const a=curAct(v);const multi=(v.blocks||[]).length>1;const n=v.u?ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl).length:0;
  box.innerHTML=(multi||v.u?`<header class="vhead"><span class="vi" aria-hidden="true">${v.ic}</span><div><h2>${v.t}</h2><p><span class="en">${v.en} · </span>${v.u?`${LV[S.lvl]} · ${n} palabras${v.desc?' · '+v.desc:''}`:(v.desc||'')}</p></div></header>`:'')+`
  ${multi?`<div class="acts" role="tablist">${v.blocks.map(b=>`<button role="tab" data-act="${b}" data-v="${v.id}" aria-selected="${a==b}"><span>${TABIC[b]||''}</span>${BL[b].label||b}</button>`).join('')}</div>`:''}
@@ -48,18 +49,18 @@ function go(id,push=true){if(!VIEWDEF().some(v=>v.id==id))id='inicio';CUR=id;$$(
  if(push&&location.hash!='#'+id){try{history.replaceState(null,'','#'+id)}catch(e){}}dueBadges()}
 function dueBadges(){const n=dueList().length;$$('[data-due]').forEach(b=>{b.textContent=n||'';b.hidden=!n})}
 function rerenderAll(){VIEWDEF().forEach(v=>DIRTY.add(v.id));renderView(CUR);$('#side').innerHTML=sideHTML();$('#mtop').innerHTML=mtopHTML();go(CUR,false)}
-function applyS(){document.body.dataset.pal=S.pal;document.documentElement.style.setProperty('--fs',S.fs);document.body.classList.toggle('noen',!showEn());
+function applyS(){document.body.dataset.pal=S.pal;document.documentElement.style.setProperty('--fs',S.fs);document.body.classList.toggle('noen',!showEn());document.body.classList.toggle('nolisten',!!S.nolisten);
  $$('[data-set]').forEach(b=>b.setAttribute('aria-pressed',String(S[b.dataset.set])==b.dataset.v));$$('[data-tog]').forEach(b=>b.setAttribute('aria-pressed',!!S[b.dataset.tog]));
  const on=showEn();$$('[data-entog]').forEach(b=>{b.setAttribute('aria-pressed',on);const l=$('.enl',b);if(l)l.textContent=on?'Inglés: sí':'Inglés: no'});
  $$('input[data-en]').forEach(i=>{i.placeholder=i.dataset.ph0+(on?' · '+i.dataset.en:'')})}
 /* ---------- home and hubs ---------- */
 const unitPct=v=>{const ws=ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl);return ws.length?Math.round(ws.filter(mastered).length/ws.length*100):0};
 function unitGrid(){return `<div class="ugrid">${VIEWS.map(v=>{const p=unitPct(v);return `<button class="ucard" data-view="${v.id}"><span class="ui" aria-hidden="true">${v.ic}</span><b>${v.t}</b><small><span class="en">${v.en} · </span>${v.desc||''}</small><span class="pbar sm"><span class="pm" style="width:${p}%"></span></span><small>${p}% dominado ${tEn('mastered')}</small></button>`}).join('')}</div>`}
-function practiceGrid(){const it=[['rev-today','🔁','Repaso de hoy',"Today's review"],['rev-new','✨','Palabras nuevas','New words'],['rev-listen','🎧','¿Qué oyes?','Listening'],['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
+function practiceGrid(){const it=[['rev-today','🔁','Repaso de hoy',"Today's review"],['rev-new','✨','Palabras nuevas','New words'],...(S.nolisten?[]:[['rev-listen','🎧','¿Qué oyes?','Listening']]),['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
  return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b><small class="en">${e}</small></button>`).join('')}</div>`}
 function home(){const nm=S.name?`, ${esc(S.name)}`:'';const due=dueList().length,st=streak();
 return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p class="hsub">${st?`🔥 ${st} ${st==1?'día':'días'} seguidos · `:''}⭐ <span class="starsn">${+store.get('stars')||0}</span> estrellas · Nivel ${LV[S.lvl]}</p>
-<div class="ctas"><button class="cta pri" data-sess><span>⏱️</span><b>Mi sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas y escuchar</small></button><button class="cta" data-act-go="rev-today"><span>🔁</span><b>Repaso de hoy</b><small>${due?`${due} palabras te esperan`:'¡Todo repasado!'}</small></button></div></div>
+<div class="ctas"><button class="cta pri" data-sess><span>⏱️</span><b>Mi sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas${S.nolisten?'':' y escuchar'}</small></button><button class="cta" data-act-go="rev-today"><span>🔁</span><b>Repaso de hoy</b><small>${due?`${due} palabras te esperan`:'¡Todo repasado!'}</small></button></div></div>
 <div class="howl">${owl(150)}</div></section>
 <h3 class="sec">Unidades ${tEn('units')}</h3>${unitGrid()}
 <h3 class="sec">Practicar ${tEn('practice')}</h3>${practiceGrid()}`}
@@ -76,7 +77,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-entog],[da
  if(t.dataset.view){go(t.dataset.view);window.scrollTo({top:0});return}
  if(t.dataset.entog!=null){S.enMode=showEn()?'off':'on';saveS();applyS();if($('#cfg')&&!$('#cfg').hidden){$('#cfg').innerHTML=cfgHTML();applyS()}return}
  if(t.dataset.set){const k=t.dataset.set;let v=t.dataset.v;if(k=='lvl'||k=='fs')v=+v;S[k]=v;saveS();applyS();if(['lvl','dev','av','enMode'].includes(k)){FC.deck=[];rerenderAll()}if(!$('#cfg').hidden&&k=='lvl'){$('#cfg').innerHTML=cfgHTML();applyS()}return}
- if(t.dataset.tog){const k=t.dataset.tog;S[k]=!S[k];saveS();applyS();if(k=='bank')Object.keys(RUN).forEach(id=>{if($('#b-'+id))bank(id)});if(k=='art')rerenderAll();return}});
+ if(t.dataset.tog){const k=t.dataset.tog;S[k]=!S[k];saveS();applyS();if(k=='bank')Object.keys(RUN).forEach(id=>{if($('#b-'+id))bank(id)});if(k=='art'||k=='nolisten')rerenderAll();return}});
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&!$('#cfg').hidden)$('#cfg').hidden=true});
 document.addEventListener('change',e=>{if(e.target.id=='pname'){S.name=e.target.value.trim().slice(0,30);saveS();DIRTY.add('inicio');if(CUR=='inicio')renderView('inicio')}});
 addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h&&h!=CUR)go(h,false)});

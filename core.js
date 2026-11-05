@@ -2,7 +2,7 @@
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={get(k){try{return localStorage.getItem('vl5-'+k)}catch(e){return null}},set(k,v){try{localStorage.setItem('vl5-'+k,v)}catch(e){}}};
 const jget=(k,d)=>{try{const v=store.get(k);return v?JSON.parse(v):d}catch(e){return d}};
-const S=Object.assign({lvl:1,bank:false,dev:'auto',strict:false,enMode:'auto',instant:true,art:false,pal:'menta',fs:1,av:'🧒',name:'',color:false},jget('cfg',{}));
+const S=Object.assign({lvl:1,bank:false,dev:'auto',strict:false,enMode:'auto',instant:true,art:false,pal:'menta',fs:1,av:'🧒',name:'',color:false,nolisten:false},jget('cfg',{}));
 if(S.dev==null)S.dev='auto';if(S.en===false&&!jget('cfg',{}).enMode)S.enMode='off';
 const saveS=()=>store.set('cfg',JSON.stringify(S));
 const isPhone=()=>S.dev=='phone'||(S.dev=='auto'&&window.innerWidth<760);
@@ -70,7 +70,7 @@ const BL={},RUN={},LAST={};
 function blockHTML(id){const b=BL[id];let o;try{o=b.render()}catch(e){console.error(id,e);o={t:'Error',en:'',body:`<p class="sub">${esc(e.message)}</p>`,noCheck:1}}
 RUN[id]={aw:0,shown:false,o,unit:b.unit};
 return `<section class="blk${o.wide?' wide':''}" id="b-${id}" data-b="${id}"><header class="bh"><div class="bt"><span class="bi" aria-hidden="true">${o.icon||'✏️'}</span><div class="btt"><h3>${o.t}</h3><p class="ten">${esc(o.en)}</p></div></div>
-<div class="bact">${enBtn()}<span class="pill" id="sc-${id}" hidden></span>${o.noCheck?'':`<button class="btn pri" data-do="check" data-b="${id}">✓ Comprobar<small>Check</small></button><button class="btn ghost" data-do="show" data-b="${id}">Ver respuestas<small>Show answers</small></button>`}${o.noNew?'':`<button class="btn ghost" data-do="new" data-b="${id}" title="Nuevo (new)">↻ Nuevo<small>New</small></button>`}</div></header>
+<div class="bact">${enBtn()}${/^(rev-|prog)/.test(id)?lisBtn():''}<span class="pill" id="sc-${id}" hidden></span>${o.noCheck?'':`<button class="btn pri" data-do="check" data-b="${id}">✓ Comprobar<small>Check</small></button><button class="btn ghost" data-do="show" data-b="${id}">Ver respuestas<small>Show answers</small></button>`}${o.noNew?'':`<button class="btn ghost" data-do="new" data-b="${id}" title="Nuevo (new)">↻ Nuevo<small>New</small></button>`}</div></header>
 ${o.tools?`<div class="tools">${o.tools}</div>`:''}${o.sub?`<p class="sub">${o.sub}${o.subEn?` ${tEn(o.subEn)}`:''}</p>`:''}<div class="bank" id="bk-${id}" hidden></div><div class="bb">${o.body}</div><p class="fb" id="fb-${id}" aria-live="polite"></p><p class="best" id="bs-${id}"></p></section>`}
 function mount(id){const el=$('#b-'+id);if(!el)return;el.outerHTML=blockHTML(id);post(id)}
 function post(id){bank(id);stats(id);const el=$('#b-'+id);if(el)requestAnimationFrame(()=>$$('.pan',el).forEach(p=>{if(p.id!='cmpan'){p.scrollLeft=(p.scrollWidth-p.clientWidth)/2;p.scrollTop=(p.scrollHeight-p.clientHeight)*.4}}));try{BL[id].after&&BL[id].after(el)}catch(e){console.error(id,e)}}
@@ -139,7 +139,9 @@ function addStars(n){const t=(+store.get('stars')||0)+n;store.set('stars',t);$$(
 let VOICE=null;function pickVoice(){try{const vs=speechSynthesis.getVoices();VOICE=vs.find(v=>/es[-_]ES/i.test(v.lang))||vs.find(v=>/^es/i.test(v.lang))||null}catch(e){}}
 try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
 const canSpeak=()=>{try{return 'speechSynthesis' in window}catch(e){return false}};
-function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='es-ES';if(!VOICE)pickVoice();if(VOICE)u.voice=VOICE;u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+const canListen=()=>canSpeak()&&!S.nolisten;
+const lisBtn=()=>`<button class="btn ghost entog lisoff" data-tog="nolisten" aria-pressed="${!!S.nolisten}" title="No puedo escuchar (I can't listen)"><span class="eni">🔇</span> <span class="enl">No puedo escuchar</span></button>`;
+function say(t){if(S.nolisten)return;try{const u=new SpeechSynthesisUtterance(t);u.lang='es-ES';if(!VOICE)pickVoice();if(VOICE)u.voice=VOICE;u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
 const spk=t=>`<button type="button" class="spk" data-say="${esc(t)}" aria-label="Escuchar (listen)" title="Escuchar (listen)">🔊</button>`;
 function confetti(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const w=document.createElement('div');w.className='conf';w.setAttribute('aria-hidden','true');const e=['⭐','🎉','✨','🌟','🎈','💚'];
 for(let i=0;i<34;i++){const s=document.createElement('span');s.textContent=pick(e);s.style.left=rr(2,98)+'%';s.style.animationDelay=rr(0,.5)+'s';s.style.fontSize=rr(16,34)+'px';s.style.setProperty('--dx',rr(-80,80)+'px');w.appendChild(s)}
