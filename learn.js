@@ -21,21 +21,21 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-qa],[data-
  if(t.dataset.qa){qzAnswer(t.dataset.qa,t.dataset.v);return}
  if(t.dataset.qc){const i=$(`#b-${t.dataset.qc} input.qi`);if(i&&i.value.trim())qzAnswer(t.dataset.qc,i.value);return}
  if(t.dataset.qn){const q=QZ[t.dataset.qn];q.i++;q.t=0;q.answered=false;q.autoSay=true;qzShow(t.dataset.qn);return}
- if(t.dataset.revany!=null){REVANY=true;mount('rev-today');return}
+ if(t.dataset.revany!=null){REVANY=true;mount('rev-srs');return}
  if(t.dataset.nwnext!=null){NW.i++;if(NW.i>=NW.words.length){qzStart('rev-new',shuf(NW.words).map(c=>({c,type:canListen()&&Math.random()<.4?'listen':'type'})));NW.phase='quiz'}nwRedraw();return}
  if(t.dataset.sess!=null){sessStart();return}if(t.dataset.sessnext!=null){sessNext();return}if(t.dataset.sessend!=null){sessStop();return}
  if(t.dataset.reset!=null){if(t.dataset.reset=='ask'){t.outerHTML=`<span class="sub">¿Seguro? Se borran tus estrellas y tu memoria. ${tEn('Sure? Stars and memory will be deleted.')}</span> <button class="btn" data-reset="yes" style="border-color:var(--bad);color:var(--bad)">Sí, borrar</button> <button class="btn ghost" data-reset="no">No</button>`}else if(t.dataset.reset=='yes'){['srs','stars','days','miss'].forEach(k=>store.set(k,k=='stars'?'0':'[]'));store.set('srs','{}');SRS={};addStars(0);mount('prog')}else mount('prog');return}
- if(t.dataset.hardgo!=null){HARD=true;ACT.repaso='rev-today';go('repaso');mount('rev-today')}});
+ if(t.dataset.hardgo!=null){HARD=true;ACT.repaso='rev-srs';go('repaso');mount('rev-srs')}});
 document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.target.closest&&e.target.closest('input.qi');if(i){e.preventDefault();const b=i.closest('.blk').dataset.b;if(QZ[b]&&QZ[b].answered){const n=$('#qnx-'+b);if(n)n.click()}else if(i.value.trim())qzAnswer(b,i.value)}});
 /* ---------- today's review ---------- */
 let HARD=false;
-BL['rev-today']={label:'Repaso de hoy',noUnit:1,render(){const n=SESS?8:15;let cards=[];let msg='';
+BL['rev-srs']={label:'Mis repasos',noUnit:1,render(){const n=SESS?8:15;let cards=[];let msg='';
  if(HARD){HARD=false;cards=shuf(ALL.filter(c=>{const r=rec(c);return r&&r.w>0&&r.b<3})).slice(0,n)}
  else{cards=dueList().slice(0,n);if(!cards.length&&REVANY){REVANY=false;const seen=ALL.filter(c=>rec(c)&&c.lvl==S.lvl);cards=shuf(seen.length>=6?seen:ALL.filter(c=>c.lvl==S.lvl&&c.u!='Expresiones')).slice(0,10)}}
- qzStart('rev-today',cards.map(c=>({c,type:qType(c)})));
+ qzStart('rev-srs',cards.map(c=>({c,type:qType(c)})));
  const empty=`<div class="qcard done"><p class="qw">🎉 ¡Todo repasado!</p><p class="sub">No tienes palabras pendientes hoy. Las palabras que practicas en las unidades aparecen aquí cuando toca repasarlas. ${tEn('No words due today. Words you practice in the units come back here when it is time to review them.')}</p><div class="row"><button class="btn pri" data-act-go="rev-new">✨ Aprender palabras nuevas<small>Learn new words</small></button><button class="btn ghost" data-revany>Repasar igualmente<small>Practice anyway</small></button></div></div>`;
- return {t:'Repaso de hoy',en:"Today's review",icon:'🔁',noCheck:1,noBank:1,sub:cards.length?`Tienes <b>${cards.length}</b> palabras para repasar. Una a una: si fallas, tienes una pista y otra oportunidad.`:'',subEn:cards.length?'One at a time. If you miss, you get a hint and a second try.':'',body:cards.length?qzCard('rev-today'):empty}},
- after(){const i=$('#b-rev-today input.qi');if(i)i.focus({preventScroll:true})}};
+ return {t:'Mis repasos',en:'Spaced review',icon:'🧠',noCheck:1,noBank:1,sub:cards.length?`Tienes <b>${cards.length}</b> palabras para repasar. Una a una: si fallas, tienes una pista y otra oportunidad.`:'',subEn:cards.length?'One at a time. If you miss, you get a hint and a second try.':'',body:cards.length?qzCard('rev-srs'):empty}},
+ after(){const i=$('#b-rev-srs input.qi');if(i)i.focus({preventScroll:true})}};
 /* ---------- new words ---------- */
 const NW={words:[],i:0,phase:'learn'};
 BL['rev-new']={label:'Palabras nuevas',noUnit:1,render(){const us=Object.keys(UNAMES).filter(u=>u!='Expresiones');
@@ -77,7 +77,7 @@ BL.prog={label:'Mi progreso',noUnit:1,render(){const us=Object.keys(UNAMES);cons
 let SESS=null,STM=null;
 const DIAG=['fam-tree','rop-scene','rop-parts','com-market','cue-out','cue-in','ciu-street','ciu-map','viv-plan','viv-room'];
 function viewOfBlock(b){const v=VIEWDEF().find(v=>(v.blocks||[]).includes(b));return v?v.id:'inicio'}
-function sessStart(){const d=pick(DIAG),hasDue=dueList().length>0;SESS={t0:Date.now(),i:0,steps:[{b:hasDue?'rev-today':'rev-gender',t:hasDue?'Repaso':'¿El o la?',ic:hasDue?'🔁':'⚖️'},{b:d,t:'Un dibujo',ic:'🖼️'},{b:'rev-new',t:'Palabras nuevas',ic:'✨'},{b:'rev-listen',t:'¿Qué oyes?',ic:'🎧'}].filter(s=>!(S.nolisten&&s.b=='rev-listen'))};if(d=='ciu-map')CM.mode='label';sessGo();clearInterval(STM);STM=setInterval(sessBar,1000)}
+function sessStart(){const d=pick(DIAG),hasDue=dueList().length>0;SESS={t0:Date.now(),i:0,steps:[{b:hasDue?'rev-srs':'rev-gender',t:hasDue?'Repaso':'¿El o la?',ic:hasDue?'🔁':'⚖️'},{b:d,t:'Un dibujo',ic:'🖼️'},{b:'rev-new',t:'Palabras nuevas',ic:'✨'},{b:'rev-listen',t:'¿Qué oyes?',ic:'🎧'}].filter(s=>!(S.nolisten&&s.b=='rev-listen'))};if(d=='ciu-map')CM.mode='label';sessGo();clearInterval(STM);STM=setInterval(sessBar,1000)}
 function sessGo(){const s=SESS.steps[SESS.i],v=viewOfBlock(s.b);ACT[v]=s.b;saveAct();go(v);mount(s.b);window.scrollTo({top:0});sessBar()}
 function sessNext(){if(!SESS)return;SESS.i++;if(SESS.i>=SESS.steps.length){sessDone();return}sessGo()}
 function sessDone(){addStars(10);markDay();confetti();toast('🏆 ¡Sesión terminada! +10 ⭐ <span class="en">(Session complete!)</span>',3200);sessStop();go('inicio')}
