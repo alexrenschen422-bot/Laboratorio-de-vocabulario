@@ -270,6 +270,15 @@ body.insess main{padding-bottom:140px}
 body.nolisten .spk,body.nolisten [data-say]{display:none!important}
 .lisoff[aria-pressed="true"]{background:var(--surface2);border-color:var(--pri);color:var(--pri);opacity:1}
 .pbtns{display:flex;gap:6px;flex-wrap:wrap}
+/* answer boxes: state shown by outline only, text stays readable */
+input.ok,textarea.ok,input.bad,textarea.bad,input.almost,textarea.almost,input.try,textarea.try{background:var(--surface)!important;color:var(--ink)!important}
+input.ok,textarea.ok{box-shadow:0 0 0 2px var(--ok)!important;font-weight:800!important}
+input.bad,textarea.bad{box-shadow:0 0 0 2px var(--bad)!important}
+input.almost,textarea.almost,input.try,textarea.try{box-shadow:0 0 0 2px var(--alm)!important}
+.ov input.ans.ok,.ov input.ans.bad,.ov input.ans.almost,.ov input.ans.try{background:#FFFFFFF2!important;color:#1F3A40!important}
+.ov input.ans.ok{box-shadow:0 0 0 2px #23804F!important;border-color:#23804F!important}
+.ov input.ans.bad{box-shadow:0 0 0 2px #BF4038!important;border-color:#BF4038!important}
+.ov input.ans.almost,.ov input.ans.try{box-shadow:0 0 0 2px #C98A1E!important;border-color:#C98A1E!important}
 
 </style>
 </head><body>
