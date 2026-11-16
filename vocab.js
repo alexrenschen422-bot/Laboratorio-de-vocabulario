@@ -15,6 +15,7 @@ parse('Comida',VOCS.Comida,es=>isB(es)?1:2);
 parse('Cuerpo',VOCS.Cuerpo,es=>isB(es)?1:2);
 parse('Ciudad',NEW.Ciudad,es=>isC('Ciudad',es)?1:2);
 parse('Vivienda',NEW.Vivienda,es=>isC('Vivienda',es)?1:2);
+parse('Medio',MEDIO_BOOK,()=>1);
 Object.entries(EXTRA).forEach(([u,s])=>parse(u,s,()=>3));
 EXPR.forEach(x=>ALL.push({u:'Expresiones',es:x[1],en:x[2],lvl:1,src:x[0]}));
 EXPR3.forEach(x=>ALL.push({u:'Expresiones',es:x[1],en:x[2],lvl:3,src:x[0]}));
