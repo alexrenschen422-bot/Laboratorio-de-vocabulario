@@ -135,7 +135,7 @@ $$('.bb [data-w]',r).forEach(el=>{const k=el.dataset.g;if(!used[k]){const l=[];s
 $$('.bb [data-kw],.bb [data-desc]',r).forEach(el=>el.value=el.dataset.m||'');markChips(id);grade(id)}
 
 /* ---------- stars, sound, confetti, toast ---------- */
-function addStars(n){const t=(+store.get('stars')||0)+n;store.set('stars',t);$$('.starsn').forEach(el=>{el.textContent=t;const p=el.closest('.starbox');if(p){p.classList.remove('pop');void p.offsetWidth;p.classList.add('pop')}})}
+function addStars(n){if(n>0)n*=2;/* stars are doubled: easy to earn, spent in Mi animal */const t=(+store.get('stars')||0)+n;store.set('stars',t);$$('.starsn').forEach(el=>{el.textContent=t;const p=el.closest('.starbox');if(p){p.classList.remove('pop');void p.offsetWidth;p.classList.add('pop')}})}
 let VOICE=null;function pickVoice(){try{const vs=speechSynthesis.getVoices();VOICE=vs.find(v=>/es[-_]ES/i.test(v.lang))||vs.find(v=>/^es/i.test(v.lang))||null}catch(e){}}
 try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
 const canSpeak=()=>{try{return 'speechSynthesis' in window}catch(e){return false}};

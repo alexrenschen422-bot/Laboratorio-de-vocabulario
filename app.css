@@ -389,3 +389,4 @@ button.howl{border:0;background:none;cursor:pointer;display:grid;justify-items:c
 .pitem.own small{color:var(--ok)}.pitem.on{border-color:var(--ok);box-shadow:0 0 0 2px var(--ok) inset}.pitem:disabled{opacity:.45;cursor:not-allowed}
 .dlrw{display:grid;justify-items:center;gap:4px;margin:6px 0}.dlrw p{margin:0;font-size:1.1rem}.trow{font-size:1.4rem!important;font-weight:900;color:#C98A00}
 .cta.hero1 small span{font-size:inherit}
+.wallet .tro{font-size:1.2rem;margin:0 0 4px}.wallet .tro .sub{font-size:.85rem;font-weight:700}.pcur{font-size:.9rem}
