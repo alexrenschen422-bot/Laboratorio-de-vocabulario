@@ -370,6 +370,11 @@ input.almost,textarea.almost,input.try,textarea.try{box-shadow:0 0 0 2px var(--a
 .side .gside .nv{width:100%;display:flex}
 
 .cta.hero1{width:100%;margin-top:6px;padding:20px 22px;box-shadow:0 8px 22px -10px var(--pri)}.cta.hero1 span{font-size:2.6rem}.cta.hero1 b{font-size:1.45rem}@media(max-width:600px){.cta.hero1 b{font-size:1.2rem}}
+/* combined 10-minute session */
+.dlhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}.dlhead .dltheme{margin:0}
+.dltimer{font-weight:900;font-variant-numeric:tabular-nums;padding:6px 12px;border-radius:999px;background:var(--surface2);border:2px solid var(--pri);color:var(--pri)}
+.dltimer.over{border-color:var(--ok);color:var(--ok)}
+.sessbtn[aria-current="page"]{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--pri)}
 
 </style>
 </head><body>
@@ -2229,7 +2234,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-qa],[data-
  if(t.dataset.nwnext!=null){NW.i++;if(NW.i>=NW.words.length){qzStart('rev-new',shuf(NW.words).map(c=>({c,type:canListen()&&Math.random()<.4?'listen':'type'})));NW.phase='quiz'}nwRedraw();return}
  if(t.dataset.sess!=null){sessStart();return}if(t.dataset.sessnext!=null){sessNext();return}if(t.dataset.sessend!=null){sessStop();return}
  if(t.dataset.reset!=null){if(t.dataset.reset=='ask'){t.outerHTML=`<span class="sub">¿Seguro? Se borran tus estrellas y tu memoria. ${tEn('Sure? Stars and memory will be deleted.')}</span> <button class="btn" data-reset="yes" style="border-color:var(--bad);color:var(--bad)">Sí, borrar</button> <button class="btn ghost" data-reset="no">No</button>`}else if(t.dataset.reset=='yes'){['srs','stars','days','miss'].forEach(k=>store.set(k,k=='stars'?'0':'[]'));store.set('srs','{}');SRS={};addStars(0);mount('prog')}else mount('prog');return}
- if(t.dataset.hardgo!=null){HARD=true;ACT.repaso='rev-srs';go('repaso');mount('rev-srs')}});
+ if(t.dataset.hardgo!=null){HARD=true;ACT.repasos='rev-srs';go('repasos');mount('rev-srs')}});
 document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.target.closest&&e.target.closest('input.qi');if(i){e.preventDefault();const b=i.closest('.blk').dataset.b;if(QZ[b]&&QZ[b].answered){const n=$('#qnx-'+b);if(n)n.click()}else if(i.value.trim())qzAnswer(b,i.value)}});
 /* ---------- today's review ---------- */
 let HARD=false;
@@ -2433,7 +2438,8 @@ q:[['¿De dónde es Tom?',['De Estados Unidos','De Inglaterra','De Francia']],
 ];
 
 /* ==== daily.js ==== */
-/* daily.js: "Repaso de hoy" = 20 new words a day in 3 steps:
+/* daily.js: "Sesión de hoy" (10 min) = 20 new words a day: cards, write, listen, read.
+   was "Repaso de hoy" in 3 steps:
    1) flashcards rated 1-4 until all 20 are "¡Me la sé!", 2) write each word in Spanish, 3) read a text with all 20 words + 5 questions */
 const dlNorm=s=>deacc(base(s)).replace(DEF,'').trim();
 const dlLoad=()=>jget('daily',{done:[]});
@@ -2442,16 +2448,17 @@ const range=n=>[...Array(n).keys()];
 function dlNew(st){const N=DAILY.length;let li=range(N).find(i=>!st.done.includes(i));
  if(li==null)li=st.cur?(st.cur.li+1)%N:0;
  const L=DAILY[li];st.cur={li,day:today(),ph:'cards',q:shuf(range(L.w.length)),show:false,wq:shuf(range(L.w.length)),wt:0,wa:false,wok:[],wmiss:[],ans:L.q.map(()=>null),qord:L.q.map(()=>shuf([0,1,2]))};dlSave(st);return st}
-function dlState(){let st=dlLoad();if(!st.done)st.done=[];if(!st.cur||!DAILY[st.cur.li]||(st.cur.ph=='done'&&st.cur.day!=today()))st=dlNew(st);return st}
+function dlState(){let st=dlLoad();if(st.cur&&st.cur.ph=='listen'&&S.nolisten){st.cur.ph='read';dlSave(st)}if(!st.done)st.done=[];if(!st.cur||!DAILY[st.cur.li]||(st.cur.ph=='done'&&st.cur.day!=today()))st=dlNew(st);return st}
 const dlWord=(L,i)=>L.w[i][0];
 function dlStatus(){const st=dlLoad();const c=st.cur;if(c&&c.ph=='done'&&c.day==today())return '✅ ¡Hecho hoy! Vuelve mañana';
  const L=c&&DAILY[c.li]&&!(c.ph=='done')?DAILY[c.li]:DAILY[range(DAILY.length).find(i=>!(st.done||[]).includes(i))??0];return `20 palabras nuevas: ${L.ic} ${L.t}`}
 
 /* ---------- drawing ---------- */
-function dlSteps(ph){const s=[['cards','🃏','Tarjetas','Flashcards'],['write','✏️','Escribir','Write'],['read','📖','Leer','Read']];const at=ph=='done'?3:s.findIndex(x=>x[0]==ph);
+function dlSteps(ph){const s=[['cards','🃏','Tarjetas','Flashcards'],['write','✏️','Escribir','Write'],...(S.nolisten?[]:[['listen','🎧','Escuchar','Listen']]),['read','📖','Leer','Read']];const at=ph=='done'?s.length:s.findIndex(x=>x[0]==ph);
  return `<ol class="dlsteps">${s.map((x,i)=>`<li class="${i<at?'done':i==at?'now':''}"><span>${i<at?'✓':x[1]}</span><b>${i+1}. ${x[2]}</b><small class="en">${x[3]}</small></li>`).join('')}</ol>`}
 function dlBody(){const st=dlState(),c=st.cur,L=DAILY[c.li],n=L.w.length;
- let h=`<p class="dltheme">${L.ic} <b>${esc(L.t)}</b> ${tEn(L.en)}</p>`+dlSteps(c.ph);
+ const left=Math.max(0,600-(c.sec||0));
+ let h=`<div class="dlhead"><p class="dltheme">${L.ic} <b>${esc(L.t)}</b> ${tEn(L.en)}</p>${c.ph=='done'?'':`<span class="dltimer" id="dltimer">${dlTime(left)}</span>`}</div>`+dlSteps(c.ph);
  if(c.ph=='cards'){const i=c.q[0],k=n-c.q.length;
   h+=`<div class="qtop"><div class="qbar"><span style="width:${k/n*100}%"></span></div><span class="qcount">Ya sabes ${k} de ${n}</span></div>
   <div class="qcard dlcard${c.show?' flip':''}"><p class="qk">¿Sabes qué significa? ${tEn('do you know what it means?')}</p><p class="qw">${esc(dlWord(L,i))} ${spk(dlWord(L,i))}</p>
@@ -2469,6 +2476,14 @@ function dlBody(){const st=dlState(),c=st.cur,L=DAILY[c.li],n=L.w.length;
   <div class="row"><button class="btn pri" data-dl="check">✓ Comprobar<small>Check</small></button></div>
   <div class="qfb" id="dlfb" aria-live="polite"></div><div class="row"><button class="btn pri" id="dlnx" data-dl="next" hidden>Siguiente ▶<small>Next</small></button></div></div>
   <p class="sub dlnote">Si fallas dos veces, la palabra vuelve al final. ${tEn('Miss it twice and it comes back at the end.')}</p>`}
+ else if(c.ph=='listen'){if(!c.lq)c.lq=shuf(range(n)).slice(0,10);const N=10,i=c.lq[0],w=dlWord(L,i);
+  h+=`<div class="qtop"><div class="qbar"><span style="width:${(N-c.lq.length)/N*100}%"></span></div><span class="qcount">${N-c.lq.length+1} de ${N}</span></div>
+  <div class="qcard"><p class="qk">Escucha y escribe la palabra en español ${tEn('listen and write the word in Spanish')}</p>
+  <div class="row"><button class="btn pri big" data-say="${esc(w)}">🔊 Escuchar otra vez<small>Listen again</small></button></div>
+  ${inp(w,{noinst:1,cls:'dlin dlli',label:'Escribe lo que oyes',ph:'Escribe lo que oyes…'})}
+  <div class="row"><button class="btn pri" data-dl="lcheck">✓ Comprobar<small>Check</small></button></div>
+  <div class="qfb" id="dlfb" aria-live="polite"></div><div class="row"><button class="btn pri" id="dlnx" data-dl="lnext" hidden>Siguiente ▶<small>Next</small></button></div></div>
+  <p class="sub dlnote">10 palabras de hoy, en orden aleatorio. ${tEn("10 of today's words, in random order.")}</p>`}
  else if(c.ph=='read'){const plain=L.p.replace(/\[([^\]=]+)(?:=[^\]]+)?\]/g,'$1');const lem=L.w.map(x=>dlNorm(x[0]));
   const txt=esc(L.p).replace(/\[([^\]=]+)(?:=([^\]]+))?\]/g,(m,a,b)=>{const j=lem.indexOf(dlNorm(b||a));return `<span class="dw" tabindex="0" role="button">${a}<span class="dwen">${j>=0?esc(L.w[j][1]):''}</span></span>`});
   const nA=c.ans.filter(x=>x!=null).length,nOk=c.ans.filter(x=>x===0).length;
@@ -2478,14 +2493,18 @@ function dlBody(){const st=dlState(),c=st.cur,L=DAILY[c.li],n=L.w.length;
   ${nA==L.q.length?`<div class="qcard done"><p class="qw">${nOk}/${L.q.length} ${nOk>=4?'🎉':'💪'}</p><div class="row"><button class="btn pri big" data-dl="finish">✓ Terminar la lección<small>Finish the lesson</small></button></div></div>`:''}`}
  else{const w=c.wok.length,r=c.ans.filter(x=>x===0).length;
   h+=`<div class="qcard done"><p class="qw">🏆 ¡Lección terminada!</p><p class="qk">Hoy has aprendido ${n} palabras nuevas. ${tEn(`You learned ${n} new words today.`)}</p>
-  <p class="dlscore"><span>✏️ Escribir: <b>${w}/${n}</b> a la primera</span><span>📖 Lectura: <b>${r}/${L.q.length}</b></span></p>
+  <p class="dlscore"><span>✏️ Escribir: <b>${w}/${n}</b> a la primera</span>${c.lok?`<span>🎧 Escuchar: <b>${c.lok.length}/10</b></span>`:''}<span>📖 Lectura: <b>${r}/${L.q.length}</b></span><span>${dlTime(c.sec||0)}</span></p>
   <p class="sub">Mañana tienes ${n} palabras nuevas. ${tEn(`Tomorrow you get ${n} new words.`)}</p>
   <div class="row"><button class="btn ghost" data-dl="again">🔁 Repasar estas palabras<small>Practice these again</small></button><button class="btn pri" data-dl="more">➕ Otra lección ahora<small>Another lesson now</small></button></div></div>
   <div class="dlwords">${L.w.map(x=>`<span><b>${esc(x[0])}</b> <small>${esc(x[1])}</small></span>`).join('')}</div>`}
  return h}
 function dlDraw(sayIt){const b=$('#dl');if(!b)return;const y=window.scrollY;b.innerHTML=dlBody();const i=b.querySelector('input.dlin');if(i)i.focus({preventScroll:true});window.scrollTo({top:y});
- if(sayIt){const st=dlLoad(),c=st.cur;if(c&&c.ph=='cards'&&!c.show)say(dlWord(DAILY[c.li],c.q[0]))}}
-BL['rev-today']={label:'Repaso de hoy',noUnit:1,render(){return {t:'Repaso de hoy',en:"Today's 20 words",icon:'📅',noCheck:1,noBank:1,noNew:1,body:`<div id="dl">${dlBody()}</div>`}},after(){const i=$('#dl input.dlin');if(i)i.focus({preventScroll:true})}};
+ if(sayIt){const st=dlLoad(),c=st.cur;if(c&&c.ph=='cards'&&!c.show)say(dlWord(DAILY[c.li],c.q[0]));if(c&&c.ph=='listen'&&c.lq&&!c.la)say(dlWord(DAILY[c.li],c.lq[0]))}}
+const dlTime=s=>`⏱️ ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+/* 10-minute timer: counts only while the session is on screen */
+setInterval(()=>{const t=$('#dltimer');if(!t||document.hidden)return;const st=dlLoad(),c=st.cur;if(!c||c.ph=='done')return;c.sec=(c.sec||0)+1;dlSave(st);const left=Math.max(0,600-c.sec);
+ t.textContent=left?dlTime(left):'⏰ ¡10 min! Termina la lección';t.classList.toggle('over',!left);if(c.sec==600)toast('⏰ ¡Ya llevas 10 minutos! Puedes terminar o seguir. <span class="en">(10 minutes done!)</span>',3200)},1000);
+BL['rev-today']={label:'Sesión de hoy',noUnit:1,render(){return {t:'Tu sesión de hoy · 10 minutos',en:"Today's 10-minute session: 20 new words",icon:'⏱️',noCheck:1,noBank:1,noNew:1,body:`<div id="dl">${dlBody()}</div>`}},after(){const i=$('#dl input.dlin');if(i)i.focus({preventScroll:true})}};
 
 /* ---------- actions ---------- */
 function dlCheck(){const st=dlLoad(),c=st.cur,L=DAILY[c.li];if(c.ph!='write'||c.wa)return;const el=$('#dl input.dlin');if(!el||!el.value.trim())return;
@@ -2495,6 +2514,12 @@ function dlCheck(){const st=dlLoad(),c=st.cur,L=DAILY[c.li];if(c.ph!='write'||c.
  else if(c.wt==0){c.wt=1;if(!c.wmiss)c.wmiss=[];if(!c.wmiss.includes(i))c.wmiss.push(i);setState(el,'try');shake(el);el.select();fb.innerHTML=`<span class="tryc">✋ ${almost(el.value,ans)?'Casi: revisa la tilde.':'Todavía no.'}</span> Pista: <b>${esc(hintOf(ans.replace(DEF,'')))}</b>`}
  else{c.wt=2;c.wa=true;c.wq.push(i);if(ce)srsUpd(ce,false);setState(el,'bad');el.readOnly=true;fb.innerHTML=`<span class="badc">✗ La respuesta es</span> <b>${esc(ans)}</b> ${spk(ans)} <span class="sub">Vuelve al final. ${tEn('It comes back at the end.')}</span>`;say(ans)}
  dlSave(st);if(c.wa){const n=$('#dlnx');n.hidden=false;n.focus()}}
+function dlLCheck(){const st=dlLoad(),c=st.cur,L=DAILY[c.li];if(c.ph!='listen'||c.la)return;const el=$('#dl input.dlli');if(!el||!el.value.trim())return;
+ const i=c.lq[0],ans=dlWord(L,i),fb=$('#dlfb'),ce=entry(ans);if(!c.lok)c.lok=[];c.la=true;el.readOnly=true;
+ if(match(el.value,ans)){c.lok.push(i);addStars(1);if(ce)srsUpd(ce,true);setState(el,'ok');fb.innerHTML=`<span class="okc">✅ ¡Muy bien!</span> <b>${esc(ans)}</b> · ${esc(L.w[i][1])}`}
+ else if(almost(el.value,ans)){c.lok.push(i);setState(el,'almost');fb.innerHTML=`<span class="tryc">👍 Casi: revisa la tilde.</span> <b>${esc(ans)}</b> · ${esc(L.w[i][1])}`}
+ else{if(ce)srsUpd(ce,false);setState(el,'bad');fb.innerHTML=`<span class="badc">✗ Era</span> <b>${esc(ans)}</b> ${spk(ans)} · ${esc(L.w[i][1])}`}
+ dlSave(st);const n=$('#dlnx');n.hidden=false;n.focus()}
 document.addEventListener('click',e=>{const dw=e.target.closest('.dw');if(dw){dw.classList.toggle('open');return}
  const t=e.target.closest('[data-dl],[data-dlr],[data-dlq]');if(!t)return;const st=dlLoad();if(!st.cur)return;const c=st.cur,L=DAILY[c.li];
  if(t.dataset.dlr!=null){if(c.ph!='cards')return;const r=+t.dataset.dlr,i=c.q.shift();if(r<3)c.q.splice(Math.min([2,4,7][r],c.q.length),0,i);c.show=false;
@@ -2503,28 +2528,30 @@ document.addEventListener('click',e=>{const dw=e.target.closest('.dw');if(dw){dw
  const a=t.dataset.dl;
  if(a=='flip'){c.show=true;dlSave(st);dlDraw();return}
  if(a=='check'){dlCheck();return}
- if(a=='next'){if(!c.wa)return;c.wq.shift();c.wt=0;c.wa=false;if(!c.wq.length){c.ph='read';toast('📖 ¡Muy bien! Ahora, a leer. <span class="en">(Now read.)</span>',2400);addStars(3)}dlSave(st);dlDraw();if(c.ph=='read')window.scrollTo({top:0});return}
+ if(a=='next'){if(!c.wa)return;c.wq.shift();c.wt=0;c.wa=false;if(!c.wq.length){if(S.nolisten){c.ph='read';toast('📖 ¡Muy bien! Ahora, a leer. <span class="en">(Now read.)</span>',2400)}else{c.ph='listen';c.lq=shuf(range(L.w.length)).slice(0,10);c.la=false;c.lok=[];toast('🎧 ¡Muy bien! Ahora, a escuchar. <span class="en">(Now listen.)</span>',2400)}addStars(3)}dlSave(st);dlDraw(true);if(c.ph!='write')window.scrollTo({top:0});return}
+ if(a=='lcheck'){dlLCheck();return}
+ if(a=='lnext'){if(!c.la)return;c.lq.shift();c.la=false;if(!c.lq.length){c.ph='read';toast('📖 ¡Muy bien! Ahora, a leer. <span class="en">(Now read.)</span>',2400);addStars(3)}dlSave(st);dlDraw(true);if(c.ph=='read')window.scrollTo({top:0});return}
  if(a=='finish'){c.ph='done';if(!st.done.includes(c.li))st.done.push(c.li);dlSave(st);addStars(10);markDay();confetti();toast('🏆 ¡Lección terminada! +10 ⭐',2600);dlDraw();window.scrollTo({top:0});dueBadges&&dueBadges();DIRTY.add('inicio');return}
- if(a=='again'){const n=L.w.length;Object.assign(c,{ph:'cards',q:shuf(range(n)),show:false,wq:shuf(range(n)),wt:0,wa:false,wok:[],wmiss:[],ans:L.q.map(()=>null),qord:L.q.map(()=>shuf([0,1,2]))});dlSave(st);dlDraw(true);window.scrollTo({top:0});return}
+ if(a=='again'){const n=L.w.length;Object.assign(c,{ph:'cards',sec:0,lq:null,la:false,lok:null,q:shuf(range(n)),show:false,wq:shuf(range(n)),wt:0,wa:false,wok:[],wmiss:[],ans:L.q.map(()=>null),qord:L.q.map(()=>shuf([0,1,2]))});dlSave(st);dlDraw(true);window.scrollTo({top:0});return}
  if(a=='more'){dlNew(st);dlDraw(true);window.scrollTo({top:0});return}});
-document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.target.closest&&e.target.closest('input.dlin');if(!i)return;e.preventDefault();const st=dlLoad();if(st.cur&&st.cur.wa){const n=$('#dlnx');if(n)n.click()}else dlCheck()});
+document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.target.closest&&e.target.closest('input.dlin');if(!i)return;e.preventDefault();const st=dlLoad(),c=st.cur;if(!c)return;if(c.ph=='listen'){if(c.la){const n=$('#dlnx');if(n)n.click()}else dlLCheck();return}if(c.wa){const n=$('#dlnx');if(n)n.click()}else dlCheck()});
 
 /* ==== shell.js ==== */
 /* shell.js: layout (sidebar / bottom bar), views with one activity at a time, home, settings, boot */
 const ACT=jget('act',{});
 const TABIC={'rev-today':'📅','rev-srs':'🧠','fam-tree':'🌳','fam-yo':'🧒','fam-what':'🤔','rop-scene':'👗','rop-dress':'🧥','rop-bag':'🧳','rop-swatch':'🎨','rop-parts':'🚪','rop-words':'✍️','com-market':'🛒','com-class':'🧺','com-cats':'🧠','com-words':'✍️','cue-out':'🧍','cue-in':'🫀','cue-words':'✍️','ciu-map':'🗺️','ciu-street':'🚦','ciu-defs':'🔎','ciu-words':'✍️','viv-plan':'🏠','viv-room':'🛋️','viv-defs':'🔎','viv-words':'✍️','rev-new':'✨','rev-listen':'🎧','rev-gender':'⚖️'};const saveAct=()=>store.set('act',JSON.stringify(ACT));
-const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Repaso',en:'Review',ic:'🔁',g:'hoy',blocks:S.nolisten?['rev-today','rev-srs','rev-new']:['rev-today','rev-srs','rev-new','rev-listen'],desc:S.nolisten?'Tu memoria: repasa y aprende':'Tu memoria: repasa, aprende y escucha'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
+const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Sesión de hoy',en:"Today's session",ic:'⏱️',g:'hoy',blocks:['rev-today'],desc:'10 minutos: tarjetas, escribir, escuchar y leer'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
  ...VIEWS.map(v=>({...v,g:'uni'})),{id:'unidades',t:'Unidades',en:'Units',ic:'📚',g:'hub'},{id:'practicar',t:'Practicar',en:'Practice',ic:'🎯',g:'hub'},
- {id:'expresiones',t:'Expresiones',en:'Idioms',ic:'💬',g:'pra',blocks:['expr']},{id:'examen',t:'Examen',en:'Practice test',ic:'📝',g:'pra',blocks:['exam']},{id:'tarjetas',t:'Tarjetas',en:'Flashcards',ic:'🃏',g:'pra',blocks:['fcards']},{id:'lista',t:'Lista de palabras',en:'Word list',ic:'📖',g:'pra',blocks:['wlist']},...GVIEWS()];
+ {id:'repasos',t:'Mis repasos',en:'Review',ic:'🧠',g:'pra',blocks:S.nolisten?['rev-srs','rev-new']:['rev-srs','rev-new','rev-listen'],desc:'Tu memoria: repasa las palabras que fallas'},{id:'expresiones',t:'Expresiones',en:'Idioms',ic:'💬',g:'pra',blocks:['expr']},{id:'examen',t:'Examen',en:'Practice test',ic:'📝',g:'pra',blocks:['exam']},{id:'tarjetas',t:'Tarjetas',en:'Flashcards',ic:'🃏',g:'pra',blocks:['fcards']},{id:'lista',t:'Lista de palabras',en:'Word list',ic:'📖',g:'pra',blocks:['wlist']},...GVIEWS()];
 let CUR='inicio';const DIRTY=new Set();
 const lvlSeg=()=>`<div class="lvseg" role="group" aria-label="Nivel (level)">${[1,2,3].map(l=>`<button data-set="lvl" data-v="${l}" aria-pressed="${S.lvl==l}"><span>${['','🌱','🌿','🌳'][l]}</span>${LV[l]}</button>`).join('')}</div>`;
-function sideHTML(){const nav=g=>VIEWDEF().filter(v=>v.g==g&&v.id!='gramatica').map(v=>`<button class="nv${v.th?' '+v.th:''}" data-view="${v.id}"><span class="ni">${v.ic}</span><span class="nt">${v.t}</span>${v.id=='repaso'?`<span class="badge" data-due></span>`:''}</button>`).join('');
+function sideHTML(){const nav=g=>VIEWDEF().filter(v=>v.g==g&&v.id!='gramatica'&&v.id!='repaso').map(v=>`<button class="nv${v.th?' '+v.th:''}" data-view="${v.id}"><span class="ni">${v.ic}</span><span class="nt">${v.t}</span>${v.id=='repasos'?`<span class="badge" data-due></span>`:''}</button>`).join('');
 return `<a class="brand" href="#inicio">${owl(42)}<span><b>Laboratorio</b><small>de vocabulario</small></span></a>
-<button class="sessbtn" data-sess>⏱️ Sesión de 10 min</button>
+<button class="sessbtn" data-view="repaso">⏱️ Sesión de hoy · 10 min</button>
 <nav aria-label="Menú"><p class="ng">Hoy</p>${nav('hoy')}<p class="ng">Unidades</p>${nav('uni')}<button class="ng gramh" data-view="gramatica">📐 Gramática <span>⭐</span></button><div class="gside">${nav('gra')}</div><p class="ng">Practicar</p>${nav('pra')}</nav>
 <div class="sidefoot"><p class="ng">Nivel ${tEn('level')}</p>${lvlSeg()}<div class="sfrow"><span class="starbox">⭐ <span class="starsn">${+store.get('stars')||0}</span></span><button class="btn ghost" data-cfg>⚙️ Ajustes</button></div></div>`}
 function mtopHTML(){return `<a class="brand" href="#inicio">${owl(34)}<b>Laboratorio</b></a><button class="lvpill" data-cfg>${['','🌱','🌿','🌳'][S.lvl]} ${LV[S.lvl]}</button><span class="starbox">⭐ <span class="starsn">${+store.get('stars')||0}</span></span><button class="iconb" data-cfg aria-label="Ajustes (settings)">⚙️</button>`}
-function bnavHTML(){return [['inicio','🏡','Inicio'],['repaso','🔁','Repaso'],['unidades','📚','Unidades'],['practicar','🎯','Practicar'],['gramatica','📐','Gramática']].map(([v,i,t])=>`<button data-view="${v}"><span>${i}</span>${t}${v=='repaso'?'<span class="badge" data-due></span>':''}</button>`).join('')}
+function bnavHTML(){return [['inicio','🏡','Inicio'],['repaso','⏱️','Hoy'],['unidades','📚','Unidades'],['practicar','🎯','Practicar'],['gramatica','📐','Gramática']].map(([v,i,t])=>`<button data-view="${v}"><span>${i}</span>${t}${v=='repaso'?'<span class="badge" data-due></span>':''}</button>`).join('')}
 function cfgHTML(){const opt=(k,v,t,e)=>`<button data-set="${k}" data-v="${v}" aria-pressed="${String(S[k])==String(v)}">${t}${e?`<small>${e}</small>`:''}</button>`;
  const tg=(k,t,d)=>`<div class="crow"><div><b>${t}</b><p>${d}</p></div><button class="tog" data-tog="${k}" aria-pressed="${!!S[k]}" aria-label="${t}"><span class="sw"></span></button></div>`;
 return `<div class="mbox" role="dialog" aria-modal="true" aria-labelledby="cfgt"><div class="mhead"><h2 id="cfgt">⚙️ Ajustes</h2><button class="btn pri" data-cfgclose>Listo<small>Done</small></button></div>
@@ -2570,11 +2597,11 @@ function applyS(){document.body.dataset.pal=S.pal;document.documentElement.style
 /* ---------- home and hubs ---------- */
 const unitPct=v=>{const ws=ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl);return ws.length?Math.round(ws.filter(mastered).length/ws.length*100):0};
 function unitGrid(){return `<div class="ugrid">${VIEWS.map(v=>{const p=unitPct(v);return `<button class="ucard" data-view="${v.id}"><span class="ui" aria-hidden="true">${v.ic}</span><b>${v.t}</b><small><span class="en">${v.en} · </span>${v.desc||''}</small><span class="pbar sm"><span class="pm" style="width:${p}%"></span></span><small>${p}% dominado ${tEn('mastered')}</small></button>`}).join('')}</div>`}
-function practiceGrid(){const it=[['rev-today','📅','Repaso de hoy','20 new words a day'],['rev-srs','🧠','Mis repasos','Spaced review'],['rev-new','✨','Palabras nuevas','New words'],...(S.nolisten?[]:[['rev-listen','🎧','¿Qué oyes?','Listening']]),['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
+function practiceGrid(){const it=[['rev-srs','🧠','Mis repasos','Spaced review'],['rev-new','✨','Palabras nuevas','New words'],...(S.nolisten?[]:[['rev-listen','🎧','¿Qué oyes?','Listening']]),['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
  return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b><small class="en">${e}</small></button>`).join('')}</div>`}
 function home(){const nm=S.name?`, ${esc(S.name)}`:'';const due=dueList().length,st=streak();
 return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p class="hsub">${st?`🔥 ${st} ${st==1?'día':'días'} seguidos · `:''}⭐ <span class="starsn">${+store.get('stars')||0}</span> estrellas · Nivel ${LV[S.lvl]}</p>
-<button class="cta pri hero1" data-sess><span>⏱️</span><b>Empieza aquí: tu sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas${S.nolisten?'':' y escuchar'}</small></button></div>
+<button class="cta pri hero1" data-view="repaso"><span>⏱️</span><b>Empieza aquí: tu sesión de hoy (10 min)</b><small>${dlStatus()} · tarjetas, escribir${S.nolisten?'':', escuchar'} y leer</small></button></div>
 <div class="howl">${owl(150)}</div></section>
 <h3 class="sec">Unidades ${tEn('units')}</h3>${unitGrid()}
 <h3 class="sec">Practicar ${tEn('practice')}</h3>${practiceGrid()}

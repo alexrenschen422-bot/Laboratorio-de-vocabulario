@@ -25,7 +25,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-qa],[data-
  if(t.dataset.nwnext!=null){NW.i++;if(NW.i>=NW.words.length){qzStart('rev-new',shuf(NW.words).map(c=>({c,type:canListen()&&Math.random()<.4?'listen':'type'})));NW.phase='quiz'}nwRedraw();return}
  if(t.dataset.sess!=null){sessStart();return}if(t.dataset.sessnext!=null){sessNext();return}if(t.dataset.sessend!=null){sessStop();return}
  if(t.dataset.reset!=null){if(t.dataset.reset=='ask'){t.outerHTML=`<span class="sub">¿Seguro? Se borran tus estrellas y tu memoria. ${tEn('Sure? Stars and memory will be deleted.')}</span> <button class="btn" data-reset="yes" style="border-color:var(--bad);color:var(--bad)">Sí, borrar</button> <button class="btn ghost" data-reset="no">No</button>`}else if(t.dataset.reset=='yes'){['srs','stars','days','miss'].forEach(k=>store.set(k,k=='stars'?'0':'[]'));store.set('srs','{}');SRS={};addStars(0);mount('prog')}else mount('prog');return}
- if(t.dataset.hardgo!=null){HARD=true;ACT.repaso='rev-srs';go('repaso');mount('rev-srs')}});
+ if(t.dataset.hardgo!=null){HARD=true;ACT.repasos='rev-srs';go('repasos');mount('rev-srs')}});
 document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.target.closest&&e.target.closest('input.qi');if(i){e.preventDefault();const b=i.closest('.blk').dataset.b;if(QZ[b]&&QZ[b].answered){const n=$('#qnx-'+b);if(n)n.click()}else if(i.value.trim())qzAnswer(b,i.value)}});
 /* ---------- today's review ---------- */
 let HARD=false;
