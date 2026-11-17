@@ -390,3 +390,24 @@ button.howl{border:0;background:none;cursor:pointer;display:grid;justify-items:c
 .dlrw{display:grid;justify-items:center;gap:4px;margin:6px 0}.dlrw p{margin:0;font-size:1.1rem}.trow{font-size:1.4rem!important;font-weight:900;color:#C98A00}
 .cta.hero1 small span{font-size:inherit}
 .wallet .tro{font-size:1.2rem;margin:0 0 4px}.wallet .tro .sub{font-size:.85rem;font-weight:700}.pcur{font-size:.9rem}
+/* animal moods */
+.pet .pm{position:absolute;right:calc(var(--s)*-.04);bottom:calc(var(--s)*.02);font-size:calc(var(--s)*.26);line-height:1;animation:pmf 2.4s ease-in-out infinite}
+.pet.m-sad .pa{filter:grayscale(.55) brightness(.95);transform:rotate(-6deg)}.pet.m-happy .pa{animation:phop 1.8s ease-in-out infinite}
+@keyframes pmf{50%{transform:translateY(-4px)}}@keyframes phop{0%,100%{transform:translateY(0)}50%{transform:translateY(-3%)}}
+@media (prefers-reduced-motion:reduce){.pet .pm,.pet.m-happy .pa{animation:none}}
+/* games */
+.wotdh{display:flex;align-items:center;gap:14px;width:100%;margin:14px 0 0;padding:14px 18px;border-radius:20px;border:2px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;text-align:left}
+.wotdh>span:first-child{font-size:1.8rem}.wotdh small{display:block;color:var(--mut);font-weight:800}.wotdh b{font-size:1.15rem}.wotdh i{color:var(--mut)}.wotdh .go{margin-left:auto;font-size:1.6rem;color:var(--mut)}
+.ghead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}.gstat{padding:6px 12px;border-radius:999px;background:var(--surface2);font-weight:800}.gstat.big{font-size:1.3rem}
+.gsel{display:flex;gap:8px;align-items:center;font-weight:800}.gsel select{font:inherit;padding:6px 10px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+.mgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}@media(max-width:760px){.mgrid{grid-template-columns:repeat(3,1fr)}}
+.mtile{min-height:74px;padding:8px;border-radius:16px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;cursor:pointer;transition:transform .15s,opacity .3s}
+.mtile.es{border-color:color-mix(in srgb,var(--pri) 45%,var(--line))}.mtile.en{background:var(--surface2)}.mtile.sel{border-color:var(--pri);box-shadow:0 0 0 3px var(--pri);transform:scale(1.03)}
+.mtile.gone{opacity:0;pointer-events:none}.mtile.nope{border-color:var(--bad);animation:shake .35s}
+.sgopts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.sgo{min-height:60px;font-size:1.05rem}.sgo.ok{box-shadow:0 0 0 3px var(--ok) inset;font-weight:900}.sgo.bad{box-shadow:0 0 0 3px var(--bad) inset}
+.hword{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:2rem;font-weight:900;margin:14px 0}.hword span{min-width:1.1em;border-bottom:3px solid var(--line);text-align:center}
+.hkeys{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.hk{width:42px;height:42px;border-radius:10px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:900;cursor:pointer}
+.hk.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.hk.bad{opacity:.35}
+.wotd{padding:16px 18px;border-radius:20px;background:var(--surface2)}.wotd.big{padding:24px}.wotd p{margin:0 0 6px}.wes{font-size:1.4rem;font-weight:900}.wotd.big .wes{font-size:2rem}
+.wen{font-weight:800;color:var(--pri)}.wex{color:var(--mut)}.ws1{font-style:italic;font-weight:700}.ws2{color:var(--mut);font-size:.92rem}
+.wprev{display:grid;gap:8px}.wprev summary{cursor:pointer;padding:10px 14px;border-radius:14px;background:var(--surface);border:2px solid var(--line)}.wprev details[open] summary{margin-bottom:8px}

@@ -22,8 +22,11 @@ function weekDots(){const d=new Set(dlDays()),now=new Date(),k=x=>x.getFullYear(
 /* called once when the daily review is finished: +1 trophy per day */
 function dayReward(){const d=dlDays();if(d.includes(today()))return {t:0,s:dStreak()};d.push(today());store.set('dldays',JSON.stringify(d.slice(-400)));
  const s=dStreak(),t=1;store.set('troph',troph()+t);return {t,s}}
+/* animal mood: happy when today's review is done, waiting if you're on a streak, sleepy/sad after missing days */
+function petMood(){if(doneToday())return 'happy';if(dStreak()>0||!dlDays().length)return 'wait';return 'sad'}
+const MOODS={happy:['💖','😊 ¡Está feliz!','happy'],wait:['💭','⏳ Te espera para el repaso','waiting for your review'],sad:['💤','💤 Te echa de menos','misses you']};
 function petHTML(size){const p=petLoad(),a=PETS.find(x=>x[0]==p.a)||PETS[0],h=HATS.find(x=>x[0]==p.h),f=FACES.find(x=>x[0]==p.f),bg=(BGS.find(x=>x[0]==p.bg)||BGS[0])[1];
- return `<span class="pet" data-ps="${size}" style="--s:${size}px;--pbg:${bg}" aria-hidden="true"><span class="pa">${a[0]=='owl'?owl(size):a[1]}</span>${h&&h[0]?`<span class="ph">${h[1]}</span>`:''}${f&&f[0]?`<span class="pf">${f[1]}</span>`:''}</span>`}
+ const m=petMood();return `<span class="pet m-${m}" data-ps="${size}" style="--s:${size}px;--pbg:${bg}" aria-hidden="true"><span class="pa">${a[0]=='owl'?owl(size):a[1]}</span>${h&&h[0]?`<span class="ph">${h[1]}</span>`:''}${f&&f[0]?`<span class="pf">${f[1]}</span>`:''}<span class="pm">${MOODS[m][0]}</span></span>`}
 function petRefresh(){$$('.pet[data-ps]').forEach(e=>{e.outerHTML=petHTML(+e.dataset.ps)})}
 BL['pet']={label:'Mi animal',noUnit:1,render(){const p=petLoad(),t=troph(),sn=starsN();
  const sec=(k,title,en)=>`<h4 class="sec">${title} ${tEn(en)} <span class="pcur">${PCUR(k)}</span></h4><div class="pshop">${PSHOP[k].map(([id,ic,nm,cost])=>{const key=k+':'+id,own=p.own.includes(key)||!cost,on=p[k]==id;
