@@ -368,3 +368,24 @@ input.almost,textarea.almost,input.try,textarea.try{box-shadow:0 0 0 2px var(--a
 .dltimer{font-weight:900;font-variant-numeric:tabular-nums;padding:6px 12px;border-radius:999px;background:var(--surface2);border:2px solid var(--pri);color:var(--pri)}
 .dltimer.over{border-color:var(--ok);color:var(--ok)}
 .sessbtn[aria-current="page"]{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--pri)}
+/* daily habit: streak, week dots, my animal */
+.hsub{display:flex;gap:14px;flex-wrap:wrap;font-size:1.05rem}.hsub .fire b{color:#E8672C}.hsub .fire.off{opacity:.6}
+.wdots{list-style:none;display:flex;gap:8px;padding:0;margin:4px 0 14px}
+.wdots li{display:grid;justify-items:center;gap:3px}.wdots li span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--surface2);border:2px solid var(--line);font-weight:900;color:#fff}
+.wdots li.on span{background:var(--ok);border-color:var(--ok)}.wdots li.today span{border-color:var(--pri);border-width:3px}.wdots li.fut span{opacity:.45}
+.wdots li small{font-size:.75rem;font-weight:800;color:var(--mut)}.wdots li.today small{color:var(--pri)}
+.cta.hero1.hdone{background:var(--surface2);border:2px solid var(--ok);box-shadow:none}.cta.hero1.hdone b{color:var(--ok)}
+button.howl{border:0;background:none;cursor:pointer;display:grid;justify-items:center;gap:6px;padding:0;font:inherit}button.howl small{font-weight:800;color:var(--mut)}
+@media(max-width:640px){.hello{flex-wrap:wrap}button.howl{display:grid;order:-1;width:100%}.hello .pet{--s:96px!important}}
+.pet{position:relative;display:inline-grid;place-items:center;flex:none;width:var(--s);height:var(--s);border-radius:50%;background:var(--pbg)}
+.pet .pa{font-size:calc(var(--s)*.62);line-height:1;display:grid;place-items:center}.pet .pa svg{width:calc(var(--s)*.9);height:calc(var(--s)*.9)}
+.pet .ph{position:absolute;top:calc(var(--s)*-.2);left:50%;transform:translateX(-50%) rotate(-10deg);font-size:calc(var(--s)*.42);line-height:1}
+.pet .pf{position:absolute;top:30%;left:50%;transform:translateX(-50%);font-size:calc(var(--s)*.34);line-height:1}
+.brand .pet{margin-top:8px}
+.petstage{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:10px 0 6px}.petstage .pet{margin-top:30px}.tro{font-size:1.4rem;margin:0}
+.pshop{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.pitem{display:grid;justify-items:center;gap:2px;padding:10px 6px;border-radius:16px;border:2px solid var(--line);background:var(--surface);cursor:pointer;font:inherit}
+.pitem .pic{font-size:2rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center}.pitem small{font-weight:800;color:var(--mut)}
+.pitem.own small{color:var(--ok)}.pitem.on{border-color:var(--ok);box-shadow:0 0 0 2px var(--ok) inset}.pitem:disabled{opacity:.45;cursor:not-allowed}
+.dlrw{display:grid;justify-items:center;gap:4px;margin:6px 0}.dlrw p{margin:0;font-size:1.1rem}.trow{font-size:1.4rem!important;font-weight:900;color:#C98A00}
+.cta.hero1 small span{font-size:inherit}

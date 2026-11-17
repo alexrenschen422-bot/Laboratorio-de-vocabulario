@@ -54,6 +54,7 @@ function dlBody(){const st=dlState(),c=st.cur,L=DAILY[c.li],n=L.w.length;
  else{const w=c.wok.length,r=c.ans.filter(x=>x===0).length;
   h+=`<div class="qcard done"><p class="qw">🏆 ¡Lección terminada!</p><p class="qk">Hoy has aprendido ${n} palabras nuevas. ${tEn(`You learned ${n} new words today.`)}</p>
   <p class="dlscore"><span>✏️ Escribir: <b>${w}/${n}</b> a la primera</span>${c.lok?`<span>🎧 Escuchar: <b>${c.lok.length}/10</b></span>`:''}<span>📖 Lectura: <b>${r}/${L.q.length}</b></span><span>${dlTime(c.sec||0)}</span></p>
+  ${c.rw?`<div class="dlrw">${c.rw.t?`<p class="trow">🏆 +${c.rw.t} ${c.rw.t==1?'trofeo':'trofeos'}</p>`:''}<p>🔥 <b>${c.rw.s}</b> ${c.rw.s==1?'día seguido':'días seguidos'}</p>${weekDots()}<button class="btn ghost" data-view="animal">🐾 Mi animal (${troph()} 🏆)</button></div>`:''}
   <p class="sub">Mañana tienes ${n} palabras nuevas. ${tEn(`Tomorrow you get ${n} new words.`)}</p>
   <div class="row"><button class="btn ghost" data-dl="again">🔁 Repasar estas palabras<small>Practice these again</small></button><button class="btn pri" data-dl="more">➕ Otra lección ahora<small>Another lesson now</small></button></div></div>
   <div class="dlwords">${L.w.map(x=>`<span><b>${esc(x[0])}</b> <small>${esc(x[1])}</small></span>`).join('')}</div>`}
@@ -64,7 +65,7 @@ const dlTime=s=>`⏱️ ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
 /* 10-minute timer: counts only while the session is on screen */
 setInterval(()=>{const t=$('#dltimer');if(!t||document.hidden)return;const st=dlLoad(),c=st.cur;if(!c||c.ph=='done')return;c.sec=(c.sec||0)+1;dlSave(st);const left=Math.max(0,600-c.sec);
  t.textContent=left?dlTime(left):'⏰ ¡10 min! Termina la lección';t.classList.toggle('over',!left);if(c.sec==600)toast('⏰ ¡Ya llevas 10 minutos! Puedes terminar o seguir. <span class="en">(10 minutes done!)</span>',3200)},1000);
-BL['rev-today']={label:'Sesión de hoy',noUnit:1,render(){return {t:'Tu sesión de hoy · 10 minutos',en:"Today's 10-minute session: 20 new words",icon:'⏱️',noCheck:1,noBank:1,noNew:1,body:`<div id="dl">${dlBody()}</div>`}},after(){const i=$('#dl input.dlin');if(i)i.focus({preventScroll:true})}};
+BL['rev-today']={label:'Repaso de hoy',noUnit:1,render(){return {t:'Repaso de hoy · 10 min',en:"Today's 10-minute review: 20 new words",icon:'⏱️',noCheck:1,noBank:1,noNew:1,body:`<div id="dl">${dlBody()}</div>`}},after(){const i=$('#dl input.dlin');if(i)i.focus({preventScroll:true})}};
 
 /* ---------- actions ---------- */
 function dlCheck(){const st=dlLoad(),c=st.cur,L=DAILY[c.li];if(c.ph!='write'||c.wa)return;const el=$('#dl input.dlin');if(!el||!el.value.trim())return;
@@ -91,7 +92,7 @@ document.addEventListener('click',e=>{const dw=e.target.closest('.dw');if(dw){dw
  if(a=='next'){if(!c.wa)return;c.wq.shift();c.wt=0;c.wa=false;if(!c.wq.length){if(S.nolisten){c.ph='read';toast('📖 ¡Muy bien! Ahora, a leer. <span class="en">(Now read.)</span>',2400)}else{c.ph='listen';c.lq=shuf(range(L.w.length)).slice(0,10);c.la=false;c.lok=[];toast('🎧 ¡Muy bien! Ahora, a escuchar. <span class="en">(Now listen.)</span>',2400)}addStars(3)}dlSave(st);dlDraw(true);if(c.ph!='write')window.scrollTo({top:0});return}
  if(a=='lcheck'){dlLCheck();return}
  if(a=='lnext'){if(!c.la)return;c.lq.shift();c.la=false;if(!c.lq.length){c.ph='read';toast('📖 ¡Muy bien! Ahora, a leer. <span class="en">(Now read.)</span>',2400);addStars(3)}dlSave(st);dlDraw(true);if(c.ph=='read')window.scrollTo({top:0});return}
- if(a=='finish'){c.ph='done';if(!st.done.includes(c.li))st.done.push(c.li);dlSave(st);addStars(10);markDay();confetti();toast('🏆 ¡Lección terminada! +10 ⭐',2600);dlDraw();window.scrollTo({top:0});dueBadges&&dueBadges();DIRTY.add('inicio');return}
+ if(a=='finish'){c.rw=dayReward();c.ph='done';if(!st.done.includes(c.li))st.done.push(c.li);dlSave(st);addStars(10);markDay();confetti();toast('🏆 ¡Lección terminada! +10 ⭐',2600);dlDraw();petRefresh();const sb=$('.sessbtn');if(sb)sb.textContent='✅ Repaso de hoy: ¡hecho!';window.scrollTo({top:0});dueBadges&&dueBadges();DIRTY.add('inicio');return}
  if(a=='again'){const n=L.w.length;Object.assign(c,{ph:'cards',sec:0,lq:null,la:false,lok:null,q:shuf(range(n)),show:false,wq:shuf(range(n)),wt:0,wa:false,wok:[],wmiss:[],ans:L.q.map(()=>null),qord:L.q.map(()=>shuf([0,1,2]))});dlSave(st);dlDraw(true);window.scrollTo({top:0});return}
  if(a=='more'){dlNew(st);dlDraw(true);window.scrollTo({top:0});return}});
 document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.target.closest&&e.target.closest('input.dlin');if(!i)return;e.preventDefault();const st=dlLoad(),c=st.cur;if(!c)return;if(c.ph=='listen'){if(c.la){const n=$('#dlnx');if(n)n.click()}else dlLCheck();return}if(c.wa){const n=$('#dlnx');if(n)n.click()}else dlCheck()});

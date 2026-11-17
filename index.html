@@ -375,6 +375,27 @@ input.almost,textarea.almost,input.try,textarea.try{box-shadow:0 0 0 2px var(--a
 .dltimer{font-weight:900;font-variant-numeric:tabular-nums;padding:6px 12px;border-radius:999px;background:var(--surface2);border:2px solid var(--pri);color:var(--pri)}
 .dltimer.over{border-color:var(--ok);color:var(--ok)}
 .sessbtn[aria-current="page"]{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--pri)}
+/* daily habit: streak, week dots, my animal */
+.hsub{display:flex;gap:14px;flex-wrap:wrap;font-size:1.05rem}.hsub .fire b{color:#E8672C}.hsub .fire.off{opacity:.6}
+.wdots{list-style:none;display:flex;gap:8px;padding:0;margin:4px 0 14px}
+.wdots li{display:grid;justify-items:center;gap:3px}.wdots li span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--surface2);border:2px solid var(--line);font-weight:900;color:#fff}
+.wdots li.on span{background:var(--ok);border-color:var(--ok)}.wdots li.today span{border-color:var(--pri);border-width:3px}.wdots li.fut span{opacity:.45}
+.wdots li small{font-size:.75rem;font-weight:800;color:var(--mut)}.wdots li.today small{color:var(--pri)}
+.cta.hero1.hdone{background:var(--surface2);border:2px solid var(--ok);box-shadow:none}.cta.hero1.hdone b{color:var(--ok)}
+button.howl{border:0;background:none;cursor:pointer;display:grid;justify-items:center;gap:6px;padding:0;font:inherit}button.howl small{font-weight:800;color:var(--mut)}
+@media(max-width:640px){.hello{flex-wrap:wrap}button.howl{display:grid;order:-1;width:100%}.hello .pet{--s:96px!important}}
+.pet{position:relative;display:inline-grid;place-items:center;flex:none;width:var(--s);height:var(--s);border-radius:50%;background:var(--pbg)}
+.pet .pa{font-size:calc(var(--s)*.62);line-height:1;display:grid;place-items:center}.pet .pa svg{width:calc(var(--s)*.9);height:calc(var(--s)*.9)}
+.pet .ph{position:absolute;top:calc(var(--s)*-.2);left:50%;transform:translateX(-50%) rotate(-10deg);font-size:calc(var(--s)*.42);line-height:1}
+.pet .pf{position:absolute;top:30%;left:50%;transform:translateX(-50%);font-size:calc(var(--s)*.34);line-height:1}
+.brand .pet{margin-top:8px}
+.petstage{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:10px 0 6px}.petstage .pet{margin-top:30px}.tro{font-size:1.4rem;margin:0}
+.pshop{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.pitem{display:grid;justify-items:center;gap:2px;padding:10px 6px;border-radius:16px;border:2px solid var(--line);background:var(--surface);cursor:pointer;font:inherit}
+.pitem .pic{font-size:2rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center}.pitem small{font-weight:800;color:var(--mut)}
+.pitem.own small{color:var(--ok)}.pitem.on{border-color:var(--ok);box-shadow:0 0 0 2px var(--ok) inset}.pitem:disabled{opacity:.45;cursor:not-allowed}
+.dlrw{display:grid;justify-items:center;gap:4px;margin:6px 0}.dlrw p{margin:0;font-size:1.1rem}.trow{font-size:1.4rem!important;font-weight:900;color:#C98A00}
+.cta.hero1 small span{font-size:inherit}
 
 </style>
 </head><body>
@@ -2494,6 +2515,7 @@ function dlBody(){const st=dlState(),c=st.cur,L=DAILY[c.li],n=L.w.length;
  else{const w=c.wok.length,r=c.ans.filter(x=>x===0).length;
   h+=`<div class="qcard done"><p class="qw">🏆 ¡Lección terminada!</p><p class="qk">Hoy has aprendido ${n} palabras nuevas. ${tEn(`You learned ${n} new words today.`)}</p>
   <p class="dlscore"><span>✏️ Escribir: <b>${w}/${n}</b> a la primera</span>${c.lok?`<span>🎧 Escuchar: <b>${c.lok.length}/10</b></span>`:''}<span>📖 Lectura: <b>${r}/${L.q.length}</b></span><span>${dlTime(c.sec||0)}</span></p>
+  ${c.rw?`<div class="dlrw">${c.rw.t?`<p class="trow">🏆 +${c.rw.t} ${c.rw.t==1?'trofeo':'trofeos'}</p>`:''}<p>🔥 <b>${c.rw.s}</b> ${c.rw.s==1?'día seguido':'días seguidos'}</p>${weekDots()}<button class="btn ghost" data-view="animal">🐾 Mi animal (${troph()} 🏆)</button></div>`:''}
   <p class="sub">Mañana tienes ${n} palabras nuevas. ${tEn(`Tomorrow you get ${n} new words.`)}</p>
   <div class="row"><button class="btn ghost" data-dl="again">🔁 Repasar estas palabras<small>Practice these again</small></button><button class="btn pri" data-dl="more">➕ Otra lección ahora<small>Another lesson now</small></button></div></div>
   <div class="dlwords">${L.w.map(x=>`<span><b>${esc(x[0])}</b> <small>${esc(x[1])}</small></span>`).join('')}</div>`}
@@ -2504,7 +2526,7 @@ const dlTime=s=>`⏱️ ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
 /* 10-minute timer: counts only while the session is on screen */
 setInterval(()=>{const t=$('#dltimer');if(!t||document.hidden)return;const st=dlLoad(),c=st.cur;if(!c||c.ph=='done')return;c.sec=(c.sec||0)+1;dlSave(st);const left=Math.max(0,600-c.sec);
  t.textContent=left?dlTime(left):'⏰ ¡10 min! Termina la lección';t.classList.toggle('over',!left);if(c.sec==600)toast('⏰ ¡Ya llevas 10 minutos! Puedes terminar o seguir. <span class="en">(10 minutes done!)</span>',3200)},1000);
-BL['rev-today']={label:'Sesión de hoy',noUnit:1,render(){return {t:'Tu sesión de hoy · 10 minutos',en:"Today's 10-minute session: 20 new words",icon:'⏱️',noCheck:1,noBank:1,noNew:1,body:`<div id="dl">${dlBody()}</div>`}},after(){const i=$('#dl input.dlin');if(i)i.focus({preventScroll:true})}};
+BL['rev-today']={label:'Repaso de hoy',noUnit:1,render(){return {t:'Repaso de hoy · 10 min',en:"Today's 10-minute review: 20 new words",icon:'⏱️',noCheck:1,noBank:1,noNew:1,body:`<div id="dl">${dlBody()}</div>`}},after(){const i=$('#dl input.dlin');if(i)i.focus({preventScroll:true})}};
 
 /* ---------- actions ---------- */
 function dlCheck(){const st=dlLoad(),c=st.cur,L=DAILY[c.li];if(c.ph!='write'||c.wa)return;const el=$('#dl input.dlin');if(!el||!el.value.trim())return;
@@ -2531,26 +2553,60 @@ document.addEventListener('click',e=>{const dw=e.target.closest('.dw');if(dw){dw
  if(a=='next'){if(!c.wa)return;c.wq.shift();c.wt=0;c.wa=false;if(!c.wq.length){if(S.nolisten){c.ph='read';toast('📖 ¡Muy bien! Ahora, a leer. <span class="en">(Now read.)</span>',2400)}else{c.ph='listen';c.lq=shuf(range(L.w.length)).slice(0,10);c.la=false;c.lok=[];toast('🎧 ¡Muy bien! Ahora, a escuchar. <span class="en">(Now listen.)</span>',2400)}addStars(3)}dlSave(st);dlDraw(true);if(c.ph!='write')window.scrollTo({top:0});return}
  if(a=='lcheck'){dlLCheck();return}
  if(a=='lnext'){if(!c.la)return;c.lq.shift();c.la=false;if(!c.lq.length){c.ph='read';toast('📖 ¡Muy bien! Ahora, a leer. <span class="en">(Now read.)</span>',2400);addStars(3)}dlSave(st);dlDraw(true);if(c.ph=='read')window.scrollTo({top:0});return}
- if(a=='finish'){c.ph='done';if(!st.done.includes(c.li))st.done.push(c.li);dlSave(st);addStars(10);markDay();confetti();toast('🏆 ¡Lección terminada! +10 ⭐',2600);dlDraw();window.scrollTo({top:0});dueBadges&&dueBadges();DIRTY.add('inicio');return}
+ if(a=='finish'){c.rw=dayReward();c.ph='done';if(!st.done.includes(c.li))st.done.push(c.li);dlSave(st);addStars(10);markDay();confetti();toast('🏆 ¡Lección terminada! +10 ⭐',2600);dlDraw();petRefresh();const sb=$('.sessbtn');if(sb)sb.textContent='✅ Repaso de hoy: ¡hecho!';window.scrollTo({top:0});dueBadges&&dueBadges();DIRTY.add('inicio');return}
  if(a=='again'){const n=L.w.length;Object.assign(c,{ph:'cards',sec:0,lq:null,la:false,lok:null,q:shuf(range(n)),show:false,wq:shuf(range(n)),wt:0,wa:false,wok:[],wmiss:[],ans:L.q.map(()=>null),qord:L.q.map(()=>shuf([0,1,2]))});dlSave(st);dlDraw(true);window.scrollTo({top:0});return}
  if(a=='more'){dlNew(st);dlDraw(true);window.scrollTo({top:0});return}});
 document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const i=e.target.closest&&e.target.closest('input.dlin');if(!i)return;e.preventDefault();const st=dlLoad(),c=st.cur;if(!c)return;if(c.ph=='listen'){if(c.la){const n=$('#dlnx');if(n)n.click()}else dlLCheck();return}if(c.wa){const n=$('#dlnx');if(n)n.click()}else dlCheck()});
 
+/* ==== pet.js ==== */
+/* pet.js: daily habit = streak, weekly dots, "done today" check, trophies,
+   and "Mi animal": spend trophies to unlock animals, hats, glasses and backgrounds. */
+const PETS=[['owl','🦉','Búho',0],['cat','🐱','Gato',1],['dog','🐶','Perro',1],['frog','🐸','Rana',2],['fox','🦊','Zorro',2],['panda','🐼','Panda',3],['penguin','🐧','Pingüino',3],['koala','🐨','Koala',4],['lion','🦁','León',5],['tiger','🐯','Tigre',5],['unicorn','🦄','Unicornio',8],['dragon','🐲','Dragón',10]];
+const HATS=[['','✖️','Nada',0],['bow','🎀','Lazo',1],['cap','🧢','Gorra',1],['tophat','🎩','Sombrero',2],['grad','🎓','Birrete',3],['crown','👑','Corona',6]];
+const FACES=[['','✖️','Nada',0],['glasses','👓','Gafas',1],['sun','🕶️','Gafas de sol',2]];
+const BGS=[['','#E3F2EE','Menta',0],['sky','#DCEAFB','Cielo',1],['sun','#FFF0C2','Sol',1],['rose','#FBDDE5','Rosa',2],['lila','#E9E1FA','Lila',2],['night','#24344F','Noche',4]];
+const PSHOP={a:PETS,h:HATS,f:FACES,bg:BGS};
+const petLoad=()=>Object.assign({a:'owl',h:'',f:'',bg:'',own:['a:owl','h:','f:','bg:']},jget('pet',{}));
+const petSave=p=>store.set('pet',JSON.stringify(p));
+const troph=()=>+store.get('troph')||0;
+const dlDays=()=>jget('dldays',[]);
+const doneToday=()=>dlDays().includes(today());
+/* streak = days in a row the daily review was finished (today, or up to yesterday if not done yet) */
+function dStreak(){const d=new Set(dlDays());const k=x=>x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate();const x=new Date();if(!d.has(k(x)))x.setDate(x.getDate()-1);let n=0;while(d.has(k(x))){n++;x.setDate(x.getDate()-1)}return n}
+function weekDots(){const d=new Set(dlDays()),now=new Date(),k=x=>x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate();const mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7));
+ return `<ol class="wdots" aria-label="Esta semana (this week)">${['L','M','X','J','V','S','D'].map((l,i)=>{const x=new Date(mon);x.setDate(mon.getDate()+i);const key=k(x),isT=key==k(now),fut=x>now&&!isT;
+  return `<li class="${d.has(key)?'on':''}${isT?' today':''}${fut?' fut':''}"><span>${d.has(key)?'✓':''}</span><small>${l}</small></li>`}).join('')}</ol>`}
+/* called once when the daily review is finished: +1 trophy per day, +2 extra every 7 days in a row */
+function dayReward(){const d=dlDays();if(d.includes(today()))return {t:0,s:dStreak()};d.push(today());store.set('dldays',JSON.stringify(d.slice(-400)));
+ const s=dStreak(),t=1+(s%7==0?2:0);store.set('troph',troph()+t);return {t,s}}
+function petHTML(size){const p=petLoad(),a=PETS.find(x=>x[0]==p.a)||PETS[0],h=HATS.find(x=>x[0]==p.h),f=FACES.find(x=>x[0]==p.f),bg=(BGS.find(x=>x[0]==p.bg)||BGS[0])[1];
+ return `<span class="pet" data-ps="${size}" style="--s:${size}px;--pbg:${bg}" aria-hidden="true"><span class="pa">${a[0]=='owl'?owl(size):a[1]}</span>${h&&h[0]?`<span class="ph">${h[1]}</span>`:''}${f&&f[0]?`<span class="pf">${f[1]}</span>`:''}</span>`}
+function petRefresh(){$$('.pet[data-ps]').forEach(e=>{e.outerHTML=petHTML(+e.dataset.ps)})}
+BL['pet']={label:'Mi animal',noUnit:1,render(){const p=petLoad(),t=troph();
+ const sec=(k,title,en)=>`<h4 class="sec">${title} ${tEn(en)}</h4><div class="pshop">${PSHOP[k].map(([id,ic,nm,cost])=>{const key=k+':'+id,own=p.own.includes(key)||!cost,on=p[k]==id;
+  return `<button class="pitem${on?' on':''}${own?' own':''}" data-pet="${key}"${!own&&cost>t?' disabled':''}><span class="pic"${k=='bg'?` style="background:${ic}"`:''}>${k=='bg'?'':ic}</span><b>${nm}</b><small>${on?'✓ Puesto':own?'Tuyo':`🏆 ${cost}`}</small></button>`}).join('')}</div>`;
+ return {t:'Mi animal',en:'My animal',icon:'🐾',noCheck:1,noBank:1,noNew:1,body:`<div class="petstage">${petHTML(170)}<div><p class="tro">🏆 <b>${t}</b> ${t==1?'trofeo':'trofeos'}</p>
+  <p class="sub">Ganas 1 trofeo cada día que terminas el repaso de hoy, y 2 más cada 7 días seguidos. ${tEn('You get 1 trophy each day you finish today\'s review, and 2 more every 7 days in a row.')}</p>${weekDots()}</div></div>
+  ${sec('a','Animales','animals')}${sec('h','Sombreros','hats')}${sec('f','Gafas','glasses')}${sec('bg','Fondo','background')}`}}};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-pet]');if(!b||b.disabled)return;const [k,id]=b.dataset.pet.split(':'),it=PSHOP[k].find(x=>x[0]==id),p=petLoad(),key=k+':'+id;
+ if(!p.own.includes(key)&&it[3]){if(troph()<it[3])return;store.set('troph',troph()-it[3]);p.own.push(key);toast(`🎉 ¡Nuevo! ${k=="bg"?"🎨":it[1]} ${it[2]} <span class="en">(-${it[3]} 🏆)</span>`,2200);confetti&&confetti()}
+ p[k]=id;petSave(p);mount('pet');petRefresh();DIRTY.add('inicio')});
+
 /* ==== shell.js ==== */
 /* shell.js: layout (sidebar / bottom bar), views with one activity at a time, home, settings, boot */
 const ACT=jget('act',{});
-const TABIC={'rev-today':'📅','rev-srs':'🧠','fam-tree':'🌳','fam-yo':'🧒','fam-what':'🤔','rop-scene':'👗','rop-dress':'🧥','rop-bag':'🧳','rop-swatch':'🎨','rop-parts':'🚪','rop-words':'✍️','com-market':'🛒','com-class':'🧺','com-cats':'🧠','com-words':'✍️','cue-out':'🧍','cue-in':'🫀','cue-words':'✍️','ciu-map':'🗺️','ciu-street':'🚦','ciu-defs':'🔎','ciu-words':'✍️','viv-plan':'🏠','viv-room':'🛋️','viv-defs':'🔎','viv-words':'✍️','rev-new':'✨','rev-listen':'🎧','rev-gender':'⚖️'};const saveAct=()=>store.set('act',JSON.stringify(ACT));
-const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Sesión de hoy',en:"Today's session",ic:'⏱️',g:'hoy',blocks:['rev-today'],desc:'10 minutos: tarjetas, escribir, escuchar y leer'},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
+const TABIC={'rev-today':'⏱️','pet':'🐾','rev-srs':'🧠','fam-tree':'🌳','fam-yo':'🧒','fam-what':'🤔','rop-scene':'👗','rop-dress':'🧥','rop-bag':'🧳','rop-swatch':'🎨','rop-parts':'🚪','rop-words':'✍️','com-market':'🛒','com-class':'🧺','com-cats':'🧠','com-words':'✍️','cue-out':'🧍','cue-in':'🫀','cue-words':'✍️','ciu-map':'🗺️','ciu-street':'🚦','ciu-defs':'🔎','ciu-words':'✍️','viv-plan':'🏠','viv-room':'🛋️','viv-defs':'🔎','viv-words':'✍️','rev-new':'✨','rev-listen':'🎧','rev-gender':'⚖️'};const saveAct=()=>store.set('act',JSON.stringify(ACT));
+const VIEWDEF=()=>[{id:'inicio',t:'Inicio',en:'Home',ic:'🏡',g:'hoy'},{id:'repaso',t:'Repaso de hoy',en:"Today's review",ic:'⏱️',g:'hoy',blocks:['rev-today']},{id:'animal',t:'Mi animal',en:'My animal',ic:'🐾',g:'hoy',blocks:['pet']},{id:'progreso',t:'Mi progreso',en:'My progress',ic:'📈',g:'hoy',blocks:['prog']},
  ...VIEWS.map(v=>({...v,g:'uni'})),{id:'unidades',t:'Unidades',en:'Units',ic:'📚',g:'hub'},{id:'practicar',t:'Practicar',en:'Practice',ic:'🎯',g:'hub'},
- {id:'repasos',t:'Mis repasos',en:'Review',ic:'🧠',g:'pra',blocks:S.nolisten?['rev-srs','rev-new']:['rev-srs','rev-new','rev-listen'],desc:'Tu memoria: repasa las palabras que fallas'},{id:'expresiones',t:'Expresiones',en:'Idioms',ic:'💬',g:'pra',blocks:['expr']},{id:'examen',t:'Examen',en:'Practice test',ic:'📝',g:'pra',blocks:['exam']},{id:'tarjetas',t:'Tarjetas',en:'Flashcards',ic:'🃏',g:'pra',blocks:['fcards']},{id:'lista',t:'Lista de palabras',en:'Word list',ic:'📖',g:'pra',blocks:['wlist']},...GVIEWS()];
+ {id:'repasos',t:'Mis repasos',en:'Review',ic:'🧠',g:'pra',blocks:['rev-srs']},{id:'nuevas',t:'Palabras nuevas',en:'New words',ic:'✨',g:'pra',blocks:['rev-new']},...(S.nolisten?[]:[{id:'oyes',t:'¿Qué oyes?',en:'Listening',ic:'🎧',g:'pra',blocks:['rev-listen']}]),{id:'expresiones',t:'Expresiones',en:'Idioms',ic:'💬',g:'pra',blocks:['expr']},{id:'examen',t:'Examen',en:'Practice test',ic:'📝',g:'pra',blocks:['exam']},{id:'tarjetas',t:'Tarjetas',en:'Flashcards',ic:'🃏',g:'pra',blocks:['fcards']},{id:'lista',t:'Lista de palabras',en:'Word list',ic:'📖',g:'pra',blocks:['wlist']},...GVIEWS()];
 let CUR='inicio';const DIRTY=new Set();
 const lvlSeg=()=>`<div class="lvseg" role="group" aria-label="Nivel (level)">${[1,2,3].map(l=>`<button data-set="lvl" data-v="${l}" aria-pressed="${S.lvl==l}"><span>${['','🌱','🌿','🌳'][l]}</span>${LV[l]}</button>`).join('')}</div>`;
 function sideHTML(){const nav=g=>VIEWDEF().filter(v=>v.g==g&&v.id!='gramatica'&&v.id!='repaso').map(v=>`<button class="nv${v.th?' '+v.th:''}" data-view="${v.id}"><span class="ni">${v.ic}</span><span class="nt">${v.t}</span>${v.id=='repasos'?`<span class="badge" data-due></span>`:''}</button>`).join('');
-return `<a class="brand" href="#inicio">${owl(42)}<span><b>Laboratorio</b><small>de vocabulario</small></span></a>
-<button class="sessbtn" data-view="repaso">⏱️ Sesión de hoy · 10 min</button>
+return `<a class="brand" href="#inicio">${petHTML(42)}<span><b>Laboratorio</b><small>de vocabulario</small></span></a>
+<button class="sessbtn" data-view="repaso">${doneToday()?'✅ Repaso de hoy: ¡hecho!':'⏱️ Repaso de hoy · 10 min'}</button>
 <nav aria-label="Menú"><p class="ng">Hoy</p>${nav('hoy')}<p class="ng">Unidades</p>${nav('uni')}<button class="ng gramh" data-view="gramatica">📐 Gramática <span>⭐</span></button><div class="gside">${nav('gra')}</div><p class="ng">Practicar</p>${nav('pra')}</nav>
 <div class="sidefoot"><p class="ng">Nivel ${tEn('level')}</p>${lvlSeg()}<div class="sfrow"><span class="starbox">⭐ <span class="starsn">${+store.get('stars')||0}</span></span><button class="btn ghost" data-cfg>⚙️ Ajustes</button></div></div>`}
-function mtopHTML(){return `<a class="brand" href="#inicio">${owl(34)}<b>Laboratorio</b></a><button class="lvpill" data-cfg>${['','🌱','🌿','🌳'][S.lvl]} ${LV[S.lvl]}</button><span class="starbox">⭐ <span class="starsn">${+store.get('stars')||0}</span></span><button class="iconb" data-cfg aria-label="Ajustes (settings)">⚙️</button>`}
+function mtopHTML(){return `<a class="brand" href="#inicio">${petHTML(34)}<b>Laboratorio</b></a><button class="lvpill" data-cfg>${['','🌱','🌿','🌳'][S.lvl]} ${LV[S.lvl]}</button><span class="starbox">⭐ <span class="starsn">${+store.get('stars')||0}</span></span><button class="iconb" data-cfg aria-label="Ajustes (settings)">⚙️</button>`}
 function bnavHTML(){return [['inicio','🏡','Inicio'],['repaso','⏱️','Hoy'],['unidades','📚','Unidades'],['practicar','🎯','Practicar'],['gramatica','📐','Gramática']].map(([v,i,t])=>`<button data-view="${v}"><span>${i}</span>${t}${v=='repaso'?'<span class="badge" data-due></span>':''}</button>`).join('')}
 function cfgHTML(){const opt=(k,v,t,e)=>`<button data-set="${k}" data-v="${v}" aria-pressed="${String(S[k])==String(v)}">${t}${e?`<small>${e}</small>`:''}</button>`;
  const tg=(k,t,d)=>`<div class="crow"><div><b>${t}</b><p>${d}</p></div><button class="tog" data-tog="${k}" aria-pressed="${!!S[k]}" aria-label="${t}"><span class="sw"></span></button></div>`;
@@ -2599,10 +2655,11 @@ const unitPct=v=>{const ws=ALL.filter(c=>c.u==v.u&&c.lvl==S.lvl);return ws.lengt
 function unitGrid(){return `<div class="ugrid">${VIEWS.map(v=>{const p=unitPct(v);return `<button class="ucard" data-view="${v.id}"><span class="ui" aria-hidden="true">${v.ic}</span><b>${v.t}</b><small><span class="en">${v.en} · </span>${v.desc||''}</small><span class="pbar sm"><span class="pm" style="width:${p}%"></span></span><small>${p}% dominado ${tEn('mastered')}</small></button>`}).join('')}</div>`}
 function practiceGrid(){const it=[['rev-srs','🧠','Mis repasos','Spaced review'],['rev-new','✨','Palabras nuevas','New words'],...(S.nolisten?[]:[['rev-listen','🎧','¿Qué oyes?','Listening']]),['rev-gender','⚖️','¿El o la?','Articles'],['exam','📝','Examen','Practice test'],['fcards','🃏','Tarjetas','Flashcards'],['expr','💬','Expresiones','Idioms'],['wlist','📖','Lista de palabras','Word list']];
  return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b><small class="en">${e}</small></button>`).join('')}</div>`}
-function home(){const nm=S.name?`, ${esc(S.name)}`:'';const due=dueList().length,st=streak();
-return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p class="hsub">${st?`🔥 ${st} ${st==1?'día':'días'} seguidos · `:''}⭐ <span class="starsn">${+store.get('stars')||0}</span> estrellas · Nivel ${LV[S.lvl]}</p>
-<button class="cta pri hero1" data-view="repaso"><span>⏱️</span><b>Empieza aquí: tu sesión de hoy (10 min)</b><small>${dlStatus()} · tarjetas, escribir${S.nolisten?'':', escuchar'} y leer</small></button></div>
-<div class="howl">${owl(150)}</div></section>
+function home(){const nm=S.name?`, ${esc(S.name)}`:'';const st=dStreak(),dn=doneToday();
+return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p class="hsub"><span class="fire${st?'':' off'}">🔥 <b>${st}</b> ${st==1?'día seguido':'días seguidos'}</span><span>🏆 <b>${troph()}</b></span></p>${weekDots()}
+${dn?`<button class="cta hero1 hdone" data-view="repaso"><span>✅</span><b>¡Hecho hoy! Vuelve mañana</b><small>Puedes repasar otra vez si quieres ${tEn('you can practice again if you want')}</small></button>`
+:`<button class="cta pri hero1" data-view="repaso"><span>⏱️</span><b>Repaso de hoy · 10 min</b><small>${dlStatus()}</small></button>`}</div>
+<button class="howl" data-view="animal" aria-label="Mi animal (my animal)">${petHTML(150)}<small>🐾 Mi animal</small></button></section>
 <h3 class="sec">Unidades ${tEn('units')}</h3>${unitGrid()}
 <h3 class="sec">Practicar ${tEn('practice')}</h3>${practiceGrid()}
 <h3 class="sec">📐 Gramática ${tEn('grammar')}</h3><div class="ggrid"><button class="gcard verb" data-view="verbos"><span>🔤</span><b>Verbos</b><small>12 tiempos ${tEn('12 tenses')}</small></button><button class="gcard prac" data-view="gram"><span>🧩</span><b>Práctica de gramática</b><small>${GTOP.length+1} temas ${tEn('topics')}</small></button><button class="gcard list" data-view="vlista"><span>📋</span><b>Lista de verbos</b><small>${verbList().all.length} verbos</small></button></div>`}
