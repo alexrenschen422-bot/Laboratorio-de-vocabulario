@@ -45,3 +45,9 @@ BL['med-words']={unit:'Medio',label:'Frases',render:wordsBlock('Medio',MSENT,MGR
 Object.assign(TABIC,{'med-class':'🗂️','med-cats':'🧠','med-defs':'🔎','med-anto':'↔️','med-words':'✍️'});
 VIEWS.push({id:'medio',u:'Medio',t:'El medio ambiente',en:'Environment',ic:'🌍',desc:'págs. 89-91',blocks:['med-class','med-cats','med-defs','med-anto','med-words']});
 addXS('Medio',MSENT);addXG('Medio',MGRP);
+/* ---------- order units by book chapter; the card description is just the chapter ---------- */
+(function(){const CH={comida:1,ciudad:3,cuerpo:4,medio:11,ropa:15,vivienda:22};
+VIEWS.forEach(v=>{v.desc=CH[v.id]?'Capítulo '+CH[v.id]:'Capítulo ?'});
+VIEWS.sort((a,b)=>(CH[a.id]||999)-(CH[b.id]||999));
+const U={};VIEWS.forEach(v=>{if(UNAMES[v.u])U[v.u]=UNAMES[v.u]});Object.keys(UNAMES).forEach(k=>{if(!U[k])U[k]=UNAMES[k]});
+Object.keys(UNAMES).forEach(k=>delete UNAMES[k]);Object.assign(UNAMES,U);})();
