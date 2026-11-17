@@ -62,7 +62,7 @@ function practiceGrid(){const it=[['rev-today','📅','Repaso de hoy','20 new wo
  return `<div class="pgrid">${it.map(([b,i,t,e])=>`<button class="pcard" data-act-go="${b}"><span>${i}</span><b>${t}</b><small class="en">${e}</small></button>`).join('')}</div>`}
 function home(){const nm=S.name?`, ${esc(S.name)}`:'';const due=dueList().length,st=streak();
 return `<section class="hello"><div class="hmain"><h2>¡Hola${nm}! 👋</h2><p class="hsub">${st?`🔥 ${st} ${st==1?'día':'días'} seguidos · `:''}⭐ <span class="starsn">${+store.get('stars')||0}</span> estrellas · Nivel ${LV[S.lvl]}</p>
-<div class="ctas"><button class="cta pri" data-sess><span>⏱️</span><b>Mi sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas${S.nolisten?'':' y escuchar'}</small></button><button class="cta" data-act-go="rev-today"><span>📅</span><b>Repaso de hoy</b><small>${dlStatus()}</small></button>${due?`<button class="cta" data-act-go="rev-srs"><span>🧠</span><b>Mis repasos</b><small>${due} palabras te esperan</small></button>`:''}</div></div>
+<button class="cta pri hero1" data-sess><span>⏱️</span><b>Empieza aquí: tu sesión de 10 minutos</b><small>Repaso, un dibujo, palabras nuevas${S.nolisten?'':' y escuchar'}</small></button></div>
 <div class="howl">${owl(150)}</div></section>
 <h3 class="sec">Unidades ${tEn('units')}</h3>${unitGrid()}
 <h3 class="sec">Practicar ${tEn('practice')}</h3>${practiceGrid()}

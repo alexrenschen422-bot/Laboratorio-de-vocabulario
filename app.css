@@ -361,3 +361,5 @@ input.almost,textarea.almost,input.try,textarea.try{box-shadow:0 0 0 2px var(--a
 .vconj{padding:0 12px 12px}
 @media (max-width:720px){.gxv{font-size:1.4rem}.gxs,.gmq{font-size:1.1rem}.gmo{min-width:90px}}
 .side .gside .nv{width:100%;display:flex}
+
+.cta.hero1{width:100%;margin-top:6px;padding:20px 22px;box-shadow:0 8px 22px -10px var(--pri)}.cta.hero1 span{font-size:2.6rem}.cta.hero1 b{font-size:1.45rem}@media(max-width:600px){.cta.hero1 b{font-size:1.2rem}}
